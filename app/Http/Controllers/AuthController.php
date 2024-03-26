@@ -1,0 +1,319 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Cabinet;
+use App\Models\Candidat;
+use App\Models\Entreprise;
+use App\Models\Interlocuteur;
+use App\Models\User;
+use App\Notifications\NotificationMail;
+use App\Notifications\RegisteredNotification;
+use Exception;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
+
+class AuthController extends Controller
+{
+     //register admin
+     public function registeradmin()
+     {
+         return view('auth/registeradmin');
+     }
+     public function registerSaveadmin(Request $request)
+     {
+         $user = new User();
+         $user->name = $request->name;
+         $user->email = $request->email;
+         $user->role = 'Admin';
+         $user->telephone = $request->telephone;
+         $user->alma = 1;
+         $user->status = 1;
+         $user->posteuser = $request->posteuser;
+         $user->password = Hash::make($request->password);
+         $user->save();
+
+         return redirect()->back()->with('success', 'l utilisateur  a été ajouté avec succès');
+        }
+     //register Superadmin
+     public function registerSuperadmin()
+     {
+         return view('auth/registersuperadmin');
+     }
+     public function registerSaveSuperadmin(Request $request)
+     {
+         $user = new User();
+         $user->name = $request->name;
+         $user->email = $request->email;
+         $user->role = 'SuperAdmin';
+         $user->telephone = $request->telephone;
+         $user->alma = 1;
+         $user->status = 1;
+         $user->password = Hash::make($request->password);
+         $user->save();
+
+         return redirect()->back()->with('success', 'l utilisateur  a été ajouté avec succès');
+     }
+     //register entreprise
+    public function register()
+    {
+        return view('auth/registerentreprise');
+    }
+    public function registerSave(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = 'Entreprise';
+        $user->telephone = $request->telephone;
+        $user->alma = 0;
+        $user->status = 0;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        $nineaName = null;
+        $rcName = null;
+        if ($request->hasFile('ninea')) {
+            $nineaName = time().'.'.$request->ninea->extension();
+            $request->ninea->move(public_path('uploads'), $nineaName);
+        }
+            if ($request->hasFile('rc')) {
+            $rcName = time().'.'.$request->rc->extension();
+            $request->rc->move(public_path('uploads'), $rcName);
+        }
+        $ese = new Entreprise();
+        $ese->rc = $rcName;
+        $ese->ninea = $nineaName;
+        $ese->secteuractivite =  $request->secteuractivite;;
+        $ese->situation = $request->situation;
+        $ese->user_id = $user->id;
+        $ese->save();
+
+        $ese->user->notify(new RegisteredNotification());
+        // envoi mail a l'admin
+        $admin = User::where('role', 'Admin')->first();
+        $details = [
+            'title' => 'Nouvelle inscription entreprise',
+            'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme.'
+        ];
+        $admin->notify(new NotificationMail($admin));
+        
+           // $details = [
+             //   'title' => 'Nouvelle inscription entreprise',
+             //   'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme'
+            //];
+           // Mail::to($admin->email)->send(new NotificationMail($details));
+            //Mail::send('email.creationcompte', ['details' => $details], function($message) use($admin) {
+            //    $message->to($admin->email);
+           //     $message->subject('Création de compte');
+           // });
+           
+           
+
+        return redirect()->route('login');
+    }
+
+    //register candidatvip
+    public function registercandidat()
+    {
+        return view('auth/registercandidatvip');
+    }
+    public function registerSavecandidatvip(Request $request)
+    {
+        $request->validate([
+            'birthday' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
+        ],  [
+                'birthday.before_or_equal' => 'Vous devez avoir au moins 18 ans pour vous inscrire.',
+         
+        ]); 
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = 'CandidatVIP';
+        $user->telephone = $request->telephone;
+        $user->alma = 0;
+        $user->status = 1;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+       
+
+        $cvName = null;
+        if ($request->hasFile('cv')) {
+            $cvName = time().'.'.$request->cv->extension();
+            $request->cv->move(public_path('uploads'), $cvName);
+        }
+        $candidat = new Candidat();
+        $candidat->nationnalite = $request->nationnalite;
+        $candidat->genre = $request->genre;
+        $candidat->disponibilite = $request->disponibilite;
+        $candidat->birthday =  $request->birthday;
+        $candidat->user_id = $user->id;
+        $candidat->cv = $cvName;
+        $candidat->save();
+  
+        return redirect()->route('login');
+    }
+
+    //register cabinet
+    public function registercabinet()
+    {
+        return view('auth/registercabinet');
+    }
+    public function registerSavecabinet(Request $request)
+    {
+        
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Cabinet',
+                'telephone' => $request->telephone,
+                'alma' => 0,
+                'status' => 0,
+                'password' => Hash::make($request->password),
+            ]);
+            $nineacabinetName = null;
+            $rccabinetName = null;
+            if ($request->hasFile('nineacabinet')) {
+                $nineacabinetName = time().'.'.$request->nineacabinet->extension();
+                $request->nineacabinet->move(public_path('uploads'), $nineacabinetName);
+            }
+                if ($request->hasFile('rccabinet')) {
+                $rccabinetName = time().'.'.$request->rccabinet->extension();
+                $request->rccabinet->move(public_path('uploads'), $rccabinetName);
+            }
+            Int::create([
+                'secteuractivitecabinet' => $request->secteuractivitecabinet,
+                'situationcabinet' => $request->situationcabinet,
+                'user_id' => $user->id,
+                'nineacabinet' => $nineacabinetName,
+                'rccabinet' => $rccabinetName,
+            ]);
+            
+            return redirect()->route('login')->with('success', 'Votre compte cabinet a été créé avec succès.');   
+        
+    }
+  
+    public function login()
+    {
+        return view('auth/login');
+    }
+    public function loginAction(Request $request)
+    {
+        Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ])->validate();
+  
+        $credentials = $request->only('email', 'password');
+
+        // Ajouter la vérification du statut ici
+        $credentials['status'] = 1;
+
+        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
+            throw ValidationException::withMessages([
+                'email' => trans('auth.failed')
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+// Récupérer l'utilisateur authentifié
+$user = Auth::user();
+
+// Rediriger l'utilisateur en fonction de son rôle
+switch ($user->role) {
+    case 'Admin':
+        return redirect()->route('dashboardadmin');
+        break;
+    case 'SuperAdmin':
+            return redirect()->route('dashboardSuperAdmin');
+            break;
+    case 'CandidatVIP':
+        return redirect()->route('dashboardcandidatvip');
+        break;
+    case 'Entreprise':
+        return redirect()->route('dashboard');
+        break;
+    case 'Cabinet':
+        return redirect()->route('dashboardcabinet');
+        break;
+    default:
+        // Redirection par défaut au cas où le rôle n'est pas reconnu
+        return redirect()->route('intrus');
+        break;
+}
+}
+        //    return redirect()->route('dashboard');
+        
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+  
+        $request->session()->invalidate();
+  
+        return redirect('/');
+    }
+ 
+    public function profile()
+    {
+        return view('profile');
+    }
+
+    public function dashboard()
+    {
+        
+        return view('entreprises/dashboard');
+    }
+    public function dashboardadmin()
+    {
+        return view('admin/dashboardadmin');
+    }
+    public function dashboardSuperadmin()
+    {
+        return view('admin/dashboardsuper');
+    }
+    public function dashboardcandidatvip()
+    {
+       
+       
+        return view('candidatvip/dashboard',);
+    }
+    public function dashboardcabinet()
+    {
+        return view('cabinets/dashboard');
+    }
+    public function intrus()
+    {
+        return view('auth/intrus');
+    }
+    public function interlocuteurentreprise(Request $request)
+    {
+        $connecte = Auth::user();
+        $entreprise = Entreprise::where('user_id', $connecte->id)->first();
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'role' => 'Entreprise',
+                'telephone' => $request->telephone,
+                'alma' => 0,
+                'status' => 1,
+                'password' => Hash::make($request->password),
+            ]);
+          
+            Interlocuteur::create([
+                'entreprise_id' => $entreprise->id,
+                'fonction' => $request->fonction,
+                'user_id' => $user->id,
+               
+            ]);
+            
+            return redirect()->route('login')->with('success', 'Votre compte cabinet a été créé avec succès.');   
+        
+    }
+}
