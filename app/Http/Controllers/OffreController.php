@@ -46,9 +46,9 @@ class OffreController extends Controller
 
 
         $candidatures = Candidature::whereIn('offre_id', $offres->pluck('id'))->whereNotNull('heurecandidature')->count();
-        $recrutes = Candidature::whereIn('offre_id', $offres->pluck('id'))->where('recrute', 1)->count();
+        $recrutes = Candidature::whereIn('offre_id', $offres->pluck('id'))->where('reponese', "Recruté")->count();
         $proposition = Proposition::whereIn('offre_id', $offres->pluck('id'))->whereNotNull('selectionproposition')->count();
-        $recrutesproposition = Proposition::whereIn('offre_id', $offres->pluck('id'))->where('recruteproposition', 1)->count();
+        $recrutesproposition = Proposition::whereIn('offre_id', $offres->pluck('id'))->where('reponseseproposition', "Recruté")->count();
 
         // $request->session()->put('candidatureCount', $candidatures);
          return view('entreprises.dashboard', compact('offre', 'encours' , 'expires', 'candidatures', 'recrutes', 'proposition', 'recrutesproposition'));
@@ -103,7 +103,12 @@ class OffreController extends Controller
         $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->get();
-        return view('offres.show', compact('offre', 'candidats', 'candidatures'));
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+        $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+        $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+
+        return view('offres.show', compact('offre', 'candidats', 'candidatures', 'candidaturescount', 'candidatrecrutecount', 'candidatrefusecount', 'propositionscount'));
     }
 //liste des propositions  d'une offre pour l'entreprise
 public function indexproposition($id)
@@ -112,7 +117,12 @@ public function indexproposition($id)
     $entreprise = Entreprise::where('user_id', $user->id)->first();
     $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
     $propositions = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->get();
-    return view('offres.getcandidat', compact('propositions', 'offre'));
+    $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+    $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+    $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+    $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+
+    return view('offres.getcandidat', compact('propositions', 'offre', 'propositionscount', 'propositionsrecrutecount', 'propositionsrefusecount', 'candidaturescount'));
 }
 //ajout dans la table candidature: entreprise
 public function getcandidatstore(Request $request)
@@ -126,8 +136,8 @@ public function getcandidatstore(Request $request)
         'offre_id' => $request->offre_id,
         'candidat_id' => $request->candidat_id,
         'selection' => 1,
-        'recrute' => 0,
-        'decline' => 0,
+        'reponese' => "En Cours",
+       
     ]);
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 }
@@ -171,7 +181,7 @@ public function propositionstoreshow(Request $request)
         'offre_id' => $request->offre_id,
         'candidat_id' => $candidat->id,
         'selectionproposition' => 1,
-        'recruteproposition' => 0,
+        'reponseseproposition' => "En Cours",
 
     ]);
 
@@ -189,7 +199,7 @@ public function propositionstore(Request $request)
         'offre_id' => $request->offre_id,
         'candidat_id' => $request->candidat_id,
         'selectionproposition' => 1,
-        'recruteproposition' => 0,
+        'reponseseproposition' => "En Cours",
 
     ]);
     $proposition->offre->entreprise->user->notify(new PropositionCandidatureNotification($proposition->offre->entreprise->user));
@@ -204,6 +214,10 @@ public function updatecandidature(Request $request, $id)
 {
     $candidature = Candidature::findOrFail($id);
     $candidature->heurecandidature = $request->input('heurecandidature');
+    $candidature->confirmerv = 0;
+    $candidature->commentaireviprv = null;
+    $candidature->commentaireese = null;
+    $candidature->reponese = "En Cours";
     $candidature->save();
     
     $candidature->candidat->user->notify(new SelectionCandidatureNotification($candidature->candidat->user));
@@ -249,10 +263,10 @@ public function updatepropositionlieu(Request $request, $id)
 
 }
 //changer le status de la proposition recrute ou non  :entreprise
-public function updatepropositioncrute( $id)
+public function updatepropositioncrute(Request $request, $id)
 {
     $proposition = Proposition::findOrFail($id);
-    $proposition->recruteproposition = !$proposition->recruteproposition;
+    $proposition->reponseseproposition = $request->reponseseproposition;
     $proposition->save();
 
     $proposition->candidat->cabinet->user->notify(new RecruteCandidatureNotification($proposition->candidat->cabinet->user));
@@ -311,7 +325,11 @@ public function search(Request $request, $id)
         });
     
     $candidats = $query->get();
-   
+    $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+    $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+    $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+    $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+    
     //return $candidats;
     //return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 
@@ -319,6 +337,10 @@ public function search(Request $request, $id)
      return view('offres.show', [
         'offre' => $offre,
         'candidatures' => $candidatures,
+        'candidaturescount' => $candidaturescount,
+        'propositionscount' => $propositionscount,
+        'candidatrecrutecount' => $candidatrecrutecount,
+        'candidatrefusecount' => $candidatrefusecount,
         'candidats' => $candidats,
           'search' => [
              'disponibilite' => $disponibilite,
@@ -332,11 +354,13 @@ public function search(Request $request, $id)
       ]);
 }
  //changer le status de la candidature recrute ou non :entreprise
- public function updatecandidaturecrute( $id)
+ public function updatecandidaturecrute( $id , Request $request)
  {
 
      $candidature = Candidature::findOrFail($id);
-     $candidature->recrute = !$candidature->recrute;
+     $candidature->reponese = $request->reponese;
+     $candidature->confirmerv = 0;
+     $candidature->commentaireviprv = null;
      $candidature->save();
 
      $candidature->candidat->user->notify(new RecruteCandidatureNotification($candidature->candidat->user));
@@ -384,7 +408,62 @@ public function offreexpireentreprise()
         $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->get();
         return view('cabinets.candidatoffre', compact('offre', 'candidats', 'propositions'));
     }
+    //show l'ensemble des candidats selectionés recrutés : entreprise
+    public function candidatrecrute($id)
+    {
+        $user = Auth::user();
+        $entreprise = Entreprise::where('user_id', $user->id)->first();
+        $offre = Offre::findOrFail($id);
+        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->get();
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+        $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+        $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+
+        return view('entreprises.candidatrecrute', compact('candidatures', 'offre', 'candidatrecrutecount', 'candidaturescount', 'candidatrefusecount', 'propositionscount'));
+    }
+    //show l'ensemble des candidats  selectonnés refusé ou décliné : entreprise 
+    public function candidatrefuse($id)
+    {
+        $user = Auth::user();
+        $entreprise = Entreprise::where('user_id', $user->id)->first();
+        $offre = Offre::findOrFail($id);
+        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->get();
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+        $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+        $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+
+        return view('entreprises.candidatrefuse', compact('candidatures', 'offre', 'candidatrecrutecount', 'candidaturescount', 'candidatrefusecount', 'propositionscount'));
+    }
+    //show l'ensemble des candidats proposés recrutés : entreprise
+    public function proposerecrute($id)
+    {
+        $user = Auth::user();
+        $entreprise = Entreprise::where('user_id', $user->id)->first();
+        $offre = Offre::findOrFail($id);
+        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->get();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+        $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+        $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
     
+        return view('entreprises.proposerecrute', compact('propositions', 'offre', 'propositionscount', 'propositionsrecrutecount', 'propositionsrefusecount', 'candidaturescount'));
+    }
+    //show l'ensemble des candidats  proposésrefusé ou décliné : entreprise
+    public function proposerefuse($id)
+    {
+        $user = Auth::user();
+        $entreprise = Entreprise::where('user_id', $user->id)->first();
+        $offre = Offre::findOrFail($id);
+        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->get();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+        $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+        $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+    
+        return view('entreprises.proposerefuse', compact('propositions', 'offre', 'propositionscount', 'propositionsrecrutecount', 'propositionsrefusecount', 'candidaturescount'));
+    }
     
     //show l'ensemble des offres pour le candidat
     public function showcandidat()
@@ -410,8 +489,8 @@ public function offreexpireentreprise()
        $user = Auth::user();
         $candidat = Candidat::where('user_id', $user->id)->first();
         $encours = Candidature::with('offre.entreprise.user')
-    ->where('candidat_id', $candidat->id)->where('recrute', 0)
-    ->where('decline', 0)
+    ->where('candidat_id', $candidat->id)
+    ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
             $query->where('statusoffre', 0);
             })->get();
@@ -426,7 +505,7 @@ public function offredecline()
     $candidat = Candidat::where('user_id', $user->id)->first();
     $declines = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
-->where('decline', 1)->get();
+->where('reponese', "Décliné")->get();
 
     return view('candidatvip.offredecline', compact('declines'));
 }
@@ -438,7 +517,7 @@ public function offrerecrute()
     $candidat = Candidat::where('user_id', $user->id)->first();
     $recrutes = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
-->where('recrute', 1)->get();
+->where('reponese', "Recruté")->get();
 
     return view('candidatvip.offrerecrute', compact('recrutes'));
 }
@@ -464,12 +543,55 @@ public function offrerecrute()
     {
 
         $candidature = Candidature::findOrFail($id);
-        $candidature->decline = 1;
+        $candidature->reponese = "Décliné";
         $candidature->save();
         return redirect()->back()->with('success', 'le status a été modifié avec succes');
         
     }
-    
+    //confirmation d'un canndidat pour un rv
+    public function candidatureconfirmerv( $id)
+    {
+
+        $candidature = Candidature::findOrFail($id);
+        $candidature->confirmerv = 1;
+        $candidature->commentaireviprv = null;
+        $candidature->save();
+        return redirect()->back()->with('success', 'le status a été modifié avec succes');
+        
+    }
+    //commentair d'une ese pour un candidat vip: entreprise
+    public function commentaireese(Request $request, $id)
+    {
+        $candidature = Candidature::findOrFail($id);
+        
+        $candidature->commentaireese = $request->input('commentaireese');
+        
+        $candidature->save();
+        return redirect()->back()->with('success', 'Le commentaire a été envoyé ');
+        
+    }
+    //commentair d'une ese pour un candidat d'un cabinet: entreprise
+    public function commentaireeseproposition(Request $request, $id)
+    {
+        $proposition = Proposition::findOrFail($id);
+        
+        $proposition->commentaireeseproposition = $request->input('commentaireeseproposition');
+        
+        $proposition->save();
+        return redirect()->back()->with('success', 'Le commentaire a été envoyé ');
+        
+    }
+    //refus d'un canndidat pour une rv
+    public function candidaturecommentairerv(Request $request, $id)
+    {
+        $candidature = Candidature::findOrFail($id);
+        $candidature->confirmerv = 0;
+        $candidature->commentaireviprv = $request->input('commentaireviprv');
+        
+        $candidature->save();
+        return redirect()->back()->with('success', 'Le commentaire a été envoyé ');
+        
+    }
      //refus d'un cabinet pour une offre
     public function updatepropositiondecline( $id)
     {
@@ -566,8 +688,15 @@ public function offrerecrute()
     }
 
     
-    
-    
+    public function duplicate(Offre $offre)
+    {
+        $newoffre = $offre->replicate();
+        $newoffre->statusoffre = 0;
+        $newoffre->statuscabinet = 0;
+        $newoffre->save();
+        
+        return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
+    }     
 
 //recherche de candidat pour le cabinet
     public function searchWithCabinet(Request $request, $id)
@@ -606,8 +735,59 @@ public function offrerecrute()
         $offre = Offre::findOrFail($id);
         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->get();
-        return view('admin.showoffre', compact('offre', 'candidats', 'candidatures'));
+        $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+        $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+        $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+        $candidatdeclinecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->count();
+        $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+
+        return view('admin.showoffre', compact('offre', 'candidats', 'candidatures', 'candidaturescount', 'propositionscount', 'candidatrecrutecount', 'candidatrefusecount', 'candidatdeclinecount'));
     }
+     // afficher les candidats sélectionnés recrutés  pour un admin 
+     public function showoffrerecruteadmin(string $id)
+     {
+        
+         $offre = Offre::findOrFail($id);
+         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->get();
+         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+         $candidatdeclinecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->count();
+         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+ 
+         return view('admin.candidatrecrute', compact('offre', 'candidats', 'candidatures', 'candidaturescount', 'propositionscount', 'candidatrecrutecount', 'candidatrefusecount', 'candidatdeclinecount'));
+     }
+     // afficher les candidats sélectionnés refusés  pour un admin 
+     public function showoffrerefuseadmin(string $id)
+     {
+        
+         $offre = Offre::findOrFail($id);
+         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->get();
+         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+         $candidatdeclinecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->count();
+         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+ 
+         return view('admin.candidatrefuse', compact('offre', 'candidats', 'candidatures', 'candidaturescount', 'propositionscount', 'candidatrecrutecount', 'candidatrefusecount', 'candidatdeclinecount'));
+     }
+     // afficher les candidats sélectionnés declinés  pour un admin 
+     public function showoffredeclineadmin(string $id)
+     {
+        
+         $offre = Offre::findOrFail($id);
+         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->get();
+         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
+         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
+         $candidatdeclinecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->count();
+         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+ 
+         return view('admin.candidatdecline', compact('offre', 'candidats', 'candidatures', 'candidaturescount', 'propositionscount', 'candidatrecrutecount', 'candidatrefusecount', 'candidatdeclinecount'));
+     }
      // afficher un offre selection partie: proposition pour un admin 
      public function showoffrepropadmin(string $id)
      {
@@ -615,10 +795,41 @@ public function offrerecrute()
          $offre = Offre::findOrFail($id);
          $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
          $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->get();
-        
-         return view('admin.showoffreprop', compact('offre', 'candidats', 'propositions'));
+         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+         $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+         $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+         
+         return view('admin.showoffreprop', compact('offre', 'candidats', 'propositions', 'candidaturescount', 'propositionscount','propositionsrecrutecount','propositionsrefusecount'  ));
      }
-
+// afficher un offre selection partie: proposition  recruté pour un admin 
+public function showoffrerecrutepropadmin(string $id)
+{
+   
+    $offre = Offre::findOrFail($id);
+    $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
+    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->get();
+    $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+    $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+    $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+    $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+    
+    return view('admin.showoffrerecruteprop', compact('offre', 'candidats', 'propositions', 'candidaturescount', 'propositionscount','propositionsrecrutecount','propositionsrefusecount'  ));
+}
+// afficher un offre selection partie: proposition  recruté pour un admin 
+public function showoffrerefusepropadmin(string $id)
+{
+   
+    $offre = Offre::findOrFail($id);
+    $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
+    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->get();
+    $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
+    $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
+    $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
+    $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
+    
+    return view('admin.showoffrerefuseprop', compact('offre', 'candidats', 'propositions', 'candidaturescount', 'propositionscount','propositionsrecrutecount','propositionsrefusecount'  ));
+}
      // afficher un cv detaille candidat : pour pour un admin 
      public function showcvdetaille(string $id)
      {

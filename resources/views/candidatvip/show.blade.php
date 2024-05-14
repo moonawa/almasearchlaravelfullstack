@@ -55,7 +55,7 @@
               <h5>CV<br> <a href="/uploads/{{ $can->cv }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
             <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
-              <h5>Motivation<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
+              <h5>Fichier<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
 
           </div>
@@ -79,7 +79,7 @@
           <label for="cv"> CV</label>
           <input id="cv" type="file" class="form-control @error('cv') is-invalid @enderror" name="cv" autocomplete="cv">
 
-          <label for="motivation">Lettre de motivation </label>
+          <label for="motivation">Fichier </label>
           <input id="motivation" type="file" class="form-control @error('motivation') is-invalid @enderror" name="motivation" autocomplete="motivation">
 
           <button type="submit" class="btn btn-round" style="background-color: #325fa6;">
@@ -123,7 +123,7 @@
             <div class="col-md-5 pl-1">
               <div class="form-group">
                 <label for="exampleInputEmail1">Email </label>
-                <input type="email" class="form-control" disabled="" value="{{ $can->user->email }}">
+                <input type="email" class="form-control"  name="email" value="{{ $can->user->email }}">
               </div>
             </div>
           </div>
@@ -165,7 +165,6 @@
                   <option value="Négociable">Négociable</option>
                   <option value="Dans un mois">Dans un mois</option>
                   <option value="Dans trois mois">Dans trois mois</option>
-
                 </select>
               </div>
             </div>
@@ -177,11 +176,50 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6 pr-1">
               <div class="form-group">
                 <label>Lieu de Mobilité</label>
                 <input type="text" class="form-control" placeholder=" Dakar, Saint-louis, France" name="lieudemobilite" value="{{ $can->lieudemobilite }}">
               </div>
+            </div>
+            <div class="col-md-6 px-1">
+              <div class="form-group">
+                <label>Secteur D'activité</label>
+                <input type="text" class="form-control" placeholder="Informatique" name="secteuractivitecandidat" value="{{ $can->secteuractivitecandidat }}">
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Tranche Salariale</label>
+                <select name="tranchesalariale" class="form-control">
+                  <option value="{{ $can->tranchesalariale }}">{{ $can->tranchesalariale }}</option>
+                  <option value="Moins de 100 milles">Moins de 100 milles</option>
+                  <option value="[100.000 - 250.000]">[100.000 - 250.000]</option>
+                  <option value="[250.000 - 500.000]">[250.000 - 500.000]</option>
+                  <option value="[500.000 - 750.000]">[500.000 - 750.000]</option>
+                  <option value="[750.000 - 1.000.000]">[750.000 - 1.000.000]</option>
+                  <option value="[1.000.000 - 1.500.000]">[1.000.000 - 1.500.000]</option>
+                  <option value="[1.500.000 - 2.000.000]">[1.500.000 - 2.000.000]</option>
+                  <option value="[2.000.000 - 2.500.000]">[2.000.000 - 2.500.000]</option>
+                  <option value="[2.500.000 - 3.000.000]">[2.500.000 - 3.000.000]</option>
+                  <option value="Plus de 3 Millions">Plus de 3 Millions</option>
+                </select>
+                            </div>
+            </div>
+            <div class="col-md-6 px-1">
+              <div class="form-group">
+                <label>Tranche d' Année D'expérience</label>
+                <select name="trancheanneeexpeience" class="form-control">
+                  <option value="{{ $can->trancheanneeexpeience }}">{{ $can->trancheanneeexpeience }}</option>
+                  <option value="[0 - 3ans]">[0 - 3ans]</option>
+                  <option value="[3ans - 5ans]">[3ans - 5ans]</option>
+                  <option value="[5ans - 10ans]">[5ans - 10ans]</option>
+                  <option value="Plus de 10ans">Plus de 10ans</option>
+                  <option value="Plus de 20ans">Plus de 20ans</option>
+                </select>   
+                       </div>
             </div>
           </div>
           <div class="row">

@@ -28,7 +28,12 @@ class CabinetController extends Controller
         $user = Auth::user();
         $cabinet = Cabinet::where('user_id', $user->id)->first();
         $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
-        return view('cabinets.candidatlist', compact('candidat'));
+        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
+        $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
+        $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
+
+        return view('cabinets.candidatlist', compact('candidat', 'candidatcount', 'propositioncount', 'selectioncount', 'recrutecount'));
     }
     public function proposition()
     {     
@@ -36,8 +41,12 @@ class CabinetController extends Controller
         $cabinet = Cabinet::where('user_id', $user->id)->first();
         $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
         $proposition = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->get();
+        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
+        $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
+        $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
 
-        return view('cabinets.proposition', compact('proposition'));
+        return view('cabinets.proposition', compact('proposition', 'candidatcount', 'propositioncount', 'selectioncount', 'recrutecount'));
     }
     public function selec()
     {     
@@ -45,7 +54,12 @@ class CabinetController extends Controller
         $cabinet = Cabinet::where('user_id', $user->id)->first();
         $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
         $selection = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->get();
-        return view('cabinets.selection', compact('selection'));
+        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
+        $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
+        $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
+
+        return view('cabinets.selection', compact('selection', 'candidatcount', 'propositioncount', 'selectioncount', 'recrutecount'));
     }
     public function recru()
     {     
@@ -53,7 +67,12 @@ class CabinetController extends Controller
         $cabinet = Cabinet::where('user_id', $user->id)->first();
         $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
         $recrute = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->get();
-        return view('cabinets.recrute', compact('recrute'));
+        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
+        $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
+        $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
+
+        return view('cabinets.recrute', compact('recrute', 'candidatcount', 'propositioncount', 'selectioncount', 'recrutecount'));
     }
     public function candidatcount()
     {

@@ -80,8 +80,8 @@ height: 100%;
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Vous n'avez pas de compte? <a href="#"
-                class="link-danger">Accueil</a></p>
+            <p class="small fw-bold mt-2 pt-1 mb-0">Vous n'avez pas de compte? <a href="#services "
+                class="link-danger">S' inscrire</a></p>
           </div>
 
         </form>

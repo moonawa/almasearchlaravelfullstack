@@ -5,12 +5,22 @@
   <div class="row">
     <div class="col-md-12">
     <div class="card">
-    <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('showcandidat') }}" style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencourscandidat') }}" style=" color:black; text-decoration: none;">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offrerecrutecandidat') }}" style=" color:black; text-decoration: none;">Recrutés</a></div>
-    <div class="col-md-2"> <a href="{{ route('offredeclinecandidat') }}" style=" color:black; text-decoration: none;">Déclinés</a></div>
-    <div class="col-md-2"> </div>
+    <div class=" p-4" >
+    <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('showcandidat') }}" style="color:#325fa6;">Toutes Les Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreencourscandidat') }}" style="color:black;">Offres En Cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offrerecrutecandidat') }}" style="color:black;">Offres Recrutées</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('offredeclinecandidat') }}"  style="color:black;">Offres Déclinées</a>
+  </li>
+</ul>
+  
   
 </div>
              
@@ -75,11 +85,12 @@
                           {{ $rs->offre->competenceoffre  }}
                         </td>
                         <td>
-                        @if($rs->decline || $rs->recrute || $rs->offre->statusoffre)
+                        @if($rs->reponese=="Recruté" || $rs->reponese=="Décliné" || $rs->reponese=="Refusé" || $rs->offre->statusoffre)
                        
                        <p style="color: red">Terminée</p>
-                       @elseif(!$rs->decline || !$rs->recrute || !$rs->offre->statusoffre )
-                       <p style="color: green">Encours</p>
+
+                       @elseif($rs->reponese=="En Cours" && $rs->offre->statusoffre==0 )
+                       <p style="color: green">En cours</p>
                        @endif
                           </td>
                           <td class="text-right">

@@ -25,6 +25,9 @@ class Candidat extends Model
         'motivation',
         'user_id',
         'cabinet_id',
+        'secteuractivitecandidat',
+        'trancheanneeexpeience',
+        'tranchesalariale'
     ];
 
     public function user() {

@@ -99,6 +99,7 @@ Route::controller(OffreController::class)->prefix('offres')->group(function () {
     Route::post('propositionstoreshow', 'propositionstoreshow')->name('offres.propositionstoreshow');
 
     Route::put('update-offre-status/{id}', 'updateOffreStatus')->name('update-offre-status');
+    Route::post('/offres/{offre}/duplicate', 'duplicate')->name('offres.duplicate');
 
 });
 Route::get('indexproposition/{id}', [OffreController::class, 'indexproposition'])->name('indexproposition');
@@ -111,6 +112,9 @@ Route::put('update-date/{id}', [OffreController::class, 'updatecandidature'])->n
 Route::put('update-lieu/{id}', [OffreController::class, 'updatecandidaturelieu'])->name('updateLieu');
 Route::put('update-recrute/{id}', [OffreController::class, 'updatecandidaturecrute'])->name('updateRecrute');
 Route::put('update-decline/{id}', [OffreController::class, 'updatecandidaturedecline'])->name('updateDecline');
+Route::put('commentaire/{id}', [OffreController::class, 'candidaturecommentairerv'])->name('commentaireVipRv');
+Route::put('confirmerv/{id}', [OffreController::class, 'candidatureconfirmerv'])->name('confirmeVipRv');
+
 Route::get('candidats/{id}',[OffreController::class, 'search'])->name('search');
 Route::get('showcabinet/{id}', [OffreController::class, 'showcabinet'])->name('showcabinet');
 Route::get('cabinetoffre/{id}',[OffreController::class, 'searchWithCabinet'])->name('searchWithCabinet');
@@ -126,8 +130,15 @@ Route::get('offrerecrutecandidat', [OffreController::class, 'offrerecrute'])->na
 Route::get('cvdetaillecandidat/{id}', [CandidatController::class, 'showcvdetaille'])->name('cvdetaillecandidat');
 
 //admin 
+
 Route::get('showoffreadmin/{id}', [OffreController::class, 'showoffreadmin'])->name('showoffreadmin');
+Route::get('showoffredeclineadmin/{id}', [OffreController::class, 'showoffredeclineadmin'])->name('showoffredeclineadmin');
+Route::get('showoffrerecruteadmin/{id}', [OffreController::class, 'showoffrerecruteadmin'])->name('showoffrerecruteadmin');
+Route::get('showoffrerefuseadmin/{id}', [OffreController::class, 'showoffrerefuseadmin'])->name('showoffrerefuseadmin');
 Route::get('showoffrepropadmin/{id}', [OffreController::class, 'showoffrepropadmin'])->name('showoffrepropadmin');
+Route::get('showoffrerecrutepropadmin/{id}', [OffreController::class, 'showoffrerecrutepropadmin'])->name('showoffrerecrutepropadmin');
+Route::get('showoffrerefusepropadmin/{id}', [OffreController::class, 'showoffrerefusepropadmin'])->name('showoffrerefusepropadmin');
+
 Route::get('cvdetaille/{id}', [OffreController::class, 'showcvdetaille'])->name('cvdetaille');
 Route::get('cvdetailleese/{id}', [OffreController::class, 'showcvdetailleese'])->name('cvdetailleese');
 Route::get('offreencoursadmin', [OffreController::class, 'offreencoursadmin'])->name('offreencoursadmin');
@@ -136,6 +147,13 @@ Route::get('offreexpireadmin', [OffreController::class, 'offreexpireadmin'])->na
 //entreprise
 Route::get('offreencoursentreprise', [OffreController::class, 'offreencoursentreprise'])->name('offreencoursentreprise');
 Route::get('offreexpireentreprise', [OffreController::class, 'offreexpireentreprise'])->name('offreexpireentreprise');
+Route::get('candidatrecrute/{id}', [OffreController::class, 'candidatrecrute'])->name('candidatrecrute');
+Route::get('candidatrefuse/{id}', [OffreController::class, 'candidatrefuse'])->name('candidatrefuse');
+Route::put('commentaireese/{id}', [OffreController::class, 'commentaireese'])->name('commentaireese');
+Route::get('proposerecrute/{id}', [OffreController::class, 'proposerecrute'])->name('proposerecrute');
+Route::get('proposerefuse/{id}', [OffreController::class, 'proposerefuse'])->name('proposerefuse');
+Route::put('commentaireeseproposition/{id}', [OffreController::class, 'commentaireeseproposition'])->name('commentaireeseproposition');
+
 
 //cabinet
 Route::get('offreencourscabinet', [OffreController::class, 'offreencourscabinet'])->name('offreencourscabinet');

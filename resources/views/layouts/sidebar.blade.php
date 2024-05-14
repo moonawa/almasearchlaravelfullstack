@@ -28,7 +28,7 @@
           <li>
             <a href="{{ route( 'offres') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-money-coins"></i>
-              <p style="font-weight: bold;">Offres</p>
+              <p style="font-weight: bold;"> Toutes les Offres</p>
             </a>
           </li>
      <li>

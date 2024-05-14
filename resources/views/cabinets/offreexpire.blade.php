@@ -5,11 +5,18 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-  <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('indexcabinet') }}" style="color:black; text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencourscabinet') }}" style="color:black; text-decoration: none;  ">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreexpirecabinet') }}" style="  background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Expirés</a></div>
-   
+  <div class=" p-4" >
+  <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('indexcabinet') }}" style="color:black;">Toutes les Offres</a>
+  </li>
+  <li class="nav-item ">
+    <a class="nav-link " href="{{ route('offreencourscabinet') }}" style="color:black;">Offres En cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('offreexpirecabinet') }}" style="color:#325fa6;">Offres Expirées</a>
+  </li>
+  </ul>
 </div>
            
               <div class="card-header">
@@ -74,17 +81,15 @@
                         <td>
                         {{ $rs->datecloture  }}
                         </td>
-                        <td>
-                          @if($rs->statusoffre)
+                        <td style="color: red">
+                     
                        
-                          <p style="color: red">Expirée</p>
-                          @else
-                          <p style="color: green" >Encours</p>
-                          @endif
+                          Expirée
+                        
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showcabinet', $rs->id)}}" style="margin:5px;"><button style="border: none; background:white;"><i class="fa fa-eye"></i></button></a>
+                        <a href="{{ route('showcabinet', $rs->id)}}" style="color: #325fa6;">Voir</a>
 
                                
                             </div>
@@ -93,7 +98,7 @@
                       @endforeach
                       @else
                 <tr>
-                    <td class="text-center" colspan="5">La liste des offres est vide</td>
+                    <td class="text-center" colspan="5">La liste des offres Expirées est vide</td>
                 </tr>
             @endif
                      

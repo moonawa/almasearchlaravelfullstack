@@ -80,15 +80,15 @@
   <div class="card card-user">
       <div class="card-header row p-4">
       <div class="col-md-9">  <h5 class="card-title">Liste des candidats Proposés</h5>   </div>
-        <div class="col-md-3"><a style="background-color: #ef882b; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModal">Ajouter</a> </div>
+        <div class="col-md-3"><a style="background-color: #ef882b; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModalr">Ajouter</a> </div>
 
       </div>
        <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalr" tabindex="-1" role="dialog" aria-labelledby="exampleModalrLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ajouter un Candidat à la proposition</h5>
+        <h5 class="modal-title" id="exampleModalrLabel">Ajouter un Candidat à la proposition</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -100,38 +100,38 @@
                     <input type="hidden" name="offre_id" value="{{ $offre->id }}">
  <label>Nom </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="name" placeholder="Nom">
+                        <input type="text" class="form-control" name="name" required placeholder="Nom">
                     </div>
                    
                     <label>Genre </label>
                     <div class="form-group">
-                    <select name="genre" id="genre" class="form-control">
+                    <select name="genre" id="genre" class="form-control" required>
                             <option value="Homme">Homme</option>
                             <option value="Femme"> Femme</option>
                     </select>
                     </div>
                     <label>Date de naissance </label>
                     <div class="form-group">
-                        <input type="date" class="form-control" name="birthday" placeholder="12-12-1998">
+                        <input type="date" class="form-control" name="birthday" placeholder="12-12-1998" required>
                     </div>
                     <label>Mail </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="email" placeholder="awandiayesene7@gmail.com">
+                        <input type="text" class="form-control" name="email" placeholder="awandiayesene7@gmail.com" required>
                     </div>
                   
                     <label>Téléphone </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="telephone" placeholder="+221771301409">
+                        <input type="text" class="form-control" name="telephone" placeholder="+221771301409" required>
                     </div>
                    
                     <label>Fonction </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="fonction" placeholder="fonction">
+                        <input type="text" class="form-control" name="fonction" placeholder="fonction" required>
                     </div>
                     
                     <label>Disponibilité </label>
                     <div class="form-group">
-                    <select name="disponibilite" id="disponibilite" class="form-control">
+                    <select name="disponibilite" id="disponibilite" class="form-control" required>
                             <option value="Immédaite">Immédaite</option>
                             <option value="Dans un mois">Dans un mois</option>
                             <option value="Négociable">Négociable</option>
@@ -140,7 +140,7 @@
                    </div>
                    <label>Nationnalité </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="nationnalite" placeholder="nationnalite">
+                        <input type="text" class="form-control" name="nationnalite" placeholder="nationnalite" required>
                     </div>
                    <label>CV </label>
                     <input id="cv" type="file" required class="form-control " name="cv"   autocomplete="cv" />
@@ -171,7 +171,7 @@
                Lieu
               </th>
               <th style="color:black">
-                Recruté
+                Processus
               </th>
              
             </thead>
@@ -185,6 +185,8 @@
                 </td>
                 <td>
                   {{ $proposition->candidat->user->name }}
+                  <a href="/uploads/{{ $proposition->candidat->cv }}" style="color: #325fa6;"><i class="fa fa-eye"></i></a>
+
                 </td>
                 
                 <td>
@@ -196,7 +198,7 @@
                 {{ $date }} à  {{ $heure }}
                
                 @else
-                Encours
+               --
                 @endif
                 </td>
       
@@ -208,17 +210,23 @@
                 --
                 @endif
                 </td>
-                <td>
-              
-                     @if($proposition->recruteproposition)
-                     <p>Recruté</p>
-                     @else
-                  <p>Encours</p>
-              
+                @if($proposition->reponseseproposition == "Recruté" )
+                <td style="color:green;">
+               
+                     Recruté 
+                     </td>
+                     
+                    
+                     @elseif($proposition->reponseseproposition == "Refusé")
+                     <td style="color:red">Refusé</td>
+                  
+                  @elseif($proposition->reponseseproposition == "En Cours")
+                  <td style="color:orange">En Cours</td>
+                  
                           @endif
                         
                  
-                </td>
+               
               
               </tr>
 

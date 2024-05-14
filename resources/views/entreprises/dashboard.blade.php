@@ -50,7 +50,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                 <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a>
+                 <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a>
                 </div>
               </div>
             </div>

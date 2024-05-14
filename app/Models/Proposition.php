@@ -12,11 +12,13 @@ class Proposition extends Model
     protected $fillable = [
         'selectionproposition',
         'rendezvousproposition',
-        'recruteproposition',
+        'recruteproposition', // plus utlisé
         'offre_id',
         'candidat_id',
         'heureproposition',
         'lieuproposition',
+        'reponseseproposition',
+        'commentaireeseproposition'
     ];
 
     public function candidat()

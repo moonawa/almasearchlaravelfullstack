@@ -49,8 +49,11 @@ class CandidatController extends Controller
        // $candidat->update($request->all());
         $user = Auth::user();
         $can = Candidat::where('user_id', $user->id)->findOrFail($id);
-        $can->update($request->all());
-      
+        if ($can) {
+            $can->user->email = $request->email;
+            $can->user->save();
+        }
+            $can->update($request->all());
 
     // Enregistrer les modifications
     $can->save();

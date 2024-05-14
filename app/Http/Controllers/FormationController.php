@@ -36,11 +36,11 @@ class FormationController extends Controller
         $nombreexperience = Experience::where('candidat_id', $candidat->id)->count(); 
         $nombrelangue = Langue::where('candidat_id', $candidat->id)->count(); 
         $candidatures = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->whereNotNull('heurecandidature')->count();
-        $recrute = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->where('recrute', 1)->count();
-        $decline = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->where('decline', 1)->count();
+        $recrute = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->where('reponese', "Recruté")->count();
+        $decline = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->where('reponese', "Décliné")->count();
         $encours = Candidature::with('offre.entreprise.user')
-    ->where('candidat_id', $candidat->id)->where('recrute', 0)
-    ->where('decline', 0)
+    ->where('candidat_id', $candidat->id)
+    ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
             $query->where('statusoffre', 0);
             })->count();

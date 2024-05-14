@@ -5,10 +5,19 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-  <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('indexcabinet') }}" style=" background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencourscabinet') }}" style="color:black; text-decoration: none;  ">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreexpirecabinet') }}" style=" color:black; text-decoration: none; ">Expirés</a></div>
+  <div class=" p-4" >
+  <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('indexcabinet') }}" style="color:#325fa6;">Toutes les Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreencourscabinet') }}" style="color:black;">Offres En cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreexpirecabinet') }}" style="color:black;">Offres Expirées</a>
+  </li>
+ 
+</ul>
    
 </div>
            
@@ -78,17 +87,16 @@
                       <td>
                         {{ $rs->datecloture  }}
                         </td>
-                        <td>
-                          @if($rs->statusoffre)
-                       
-                          <p style="color: red">Expirée</p>
+                        @if($rs->statusoffre)
+                        <td style="color: red">
+                         Expirée
                           @else
-                          <p style="color: green" >Encours</p>
+                          <td style="color: green" >Encours</td>
                           @endif
                       </td>
                       <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showcabinet', $rs->id)}}" style="margin:5px; color: #325fa6">Voir</a>
+                        <a href="{{ route('showcabinet', $rs->id)}}" style=" color: #325fa6">Voir</a>
                        
                       </div>
                       </tr>

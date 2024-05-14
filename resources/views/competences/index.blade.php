@@ -6,15 +6,31 @@
   <div class="col-md-12">
     <div class="card">
       <div class="row p-4">
-        <div class="col-md-2"><a href="{{ route('formations') }}" style=" color:black; text-decoration: none;">Formations</a></div>
-        <div class="col-md-2"><a href="{{ route('experiences') }}" style=" color:black; text-decoration: none;">Expériences</a></div>
-        <div class="col-md-2"><a href="{{ route('competences') }}" style="background-color: #ef882b; color:white; padding-left: 12px; padding-right: 12px; padding-top: 5px; padding-bottom: 5px;  border-radius:20px; text-decoration: none;">Compétences</a> </div>
-        <div class="col-md-2"> <a href="{{ route('references') }}" style=" color:black; text-decoration: none;">Références</a></div>
-        <div class="col-md-2"> <a href="{{ route('langues') }}" style=" color:black; text-decoration: none;">Langues</a></div>
-        <div class="col-md-2"><a  style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModal">Ajouter</a>
-        <br><br>
-      <a  style="background-color: #ef882b; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}">CV </a>
-      </div>
+      <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('formations') }}" style="color:black;">Formations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('experiences') }}" style="color:black ;">Expériences</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('competences') }}" style="color:#325fa6;">Compétences</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('references') }}" style="color:black;" >Références</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link " href="{{ route('langues') }}" style="color:black;" >Langues</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+  </li>
+  <li class="nav-item">
+  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Compétence</button> 
+
+  </li>
+  
+</ul>
 
       </div>
       <!-- Modal -->

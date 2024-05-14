@@ -87,10 +87,29 @@
   <div class="col-md-8">
   <div class="card card-user">
       <div class="card-header">
-        <div class="row">
-            <div class="col-md-3"><a href="{{ route('showoffreadmin', $offre->id) }}" style=" background-color: #ef882b; color:white; padding-left: 15px; padding-right: 15px; padding-top:5px; padding-bottom: 5px;border-radius:20px; text-decoration: none;">Sélectionnés</a></div>
-            <div class="col-md-3"><a href="{{ route('showoffrepropadmin', $offre->id) }}" style=" background-color: #325fa6; color:white; padding-left: 15px; padding-right: 15px; padding-top:5px; padding-bottom: 5px;border-radius:20px; text-decoration: none;">Proposés</a></div>
-        </div>
+      <div class="p-2">
+      <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link " href="{{ route('showoffreadmin', $offre->id) }} " style=" color:#ef882b; ">Candidats Sélectionnés ({{$candidaturescount}})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="{{ route('showoffrepropadmin', $offre->id)}}" style="background: #325fa6;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
+      </li>
+
+    </ul><br><br>
+        <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('showoffrepropadmin', $offre->id) }}"  style="color:#325fa6;">Proposés ({{$propositionscount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('showoffrerecrutepropadmin', $offre->id)}}" style="color:black;">Recrutés ({{$propositionsrecrutecount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('showoffrerefusepropadmin', $offre->id)}}" style="color:black;">Refusés ({{$propositionsrefusecount}})</a>
+  </li>
+ 
+</ul>
+    </div>
         <br>
       </div>
       
@@ -99,21 +118,21 @@
           <table class="table">
             <thead class=" text-primary">
               <th style="color:black">
-                #
+                
               </th>
               <th style="color:black">
                 Nom 
               </th>
-             
+              <th style="color:black">
+                CV 
+              </th>
               <th style="color:black">
                 Rendez-vous
               </th>
               <th style="color:black">
                 Lieu
               </th>
-              <th style="color:black">
-                Recruté
-              </th>
+             
               <th style="color:black">
                 Réponse
               </th>
@@ -128,10 +147,12 @@
                 </td>
                 <td>
                   {{ $prop->candidat->user->name }} <br>
-                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
 
                 </td>
-              
+                <td>
+                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #ef882b;"></i></a>
+
+                </td>
                
                 <td>
                
@@ -154,28 +175,17 @@
                 --
                 @endif
                 </td>
-                <td>
-              
-                     
-                          <div class="form-check">
-                          <label class="form-check-label">
-                          <input class="form-check-input status-checkbox" disabled type="checkbox" id="flexSwitchCheck{{$prop->id}}"   {{ $prop->recruteproposition == 1  ? 'checked' : '' }} >
-                          <span class="form-check-sign"></span>
-                          </label>
-                          </div>
-                      
-                 
-                </td>
-                <td>
-                @if($prop->recruteproposition && !$prop->declineproposition)
-                  <p>Recruté  </p>
-                @elseif(!$prop->recruteproposition  && $prop->declineproposition == 1)
-                <p> Décliné  </p>
-                @elseif(!$prop->recruteproposition  && !$prop->declineproposition)
-                <p>Encours </p>
+                @if($prop->reponseseproposition  == "Recruté" )
+
+                <td style="color: green;">
+                 Recruté  </td>
+                @elseif($prop->reponseseproposition == "Refusé" )
+                <td style="color: red;"> Refusé  </td>
+                @elseif($prop->reponseseproposition == "En Cours" )
+                <td>En Cours </td>
                
                 @endif           
-               </td>
+            
               </tr>
 
               @endforeach

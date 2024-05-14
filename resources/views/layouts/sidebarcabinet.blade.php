@@ -38,9 +38,9 @@
             </a>
           </li>
           <li>
-            <a href="{{ route( 'indexcabinet') }}"  style=" line-height: 1rem; ">
+            <a href="{{ route( 'offreencourscabinet') }}"  style=" line-height: 1rem; ">
               <i class="nc-icon nc-tile-56"></i>
-              <p style="font-weight: bold;">Offres </p>
+              <p style="font-weight: bold;">Offres En Cours</p>
             </a>
           </li>
      

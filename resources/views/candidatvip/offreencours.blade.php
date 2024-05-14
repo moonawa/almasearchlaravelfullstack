@@ -5,12 +5,21 @@
   <div class="row">
     <div class="col-md-12">
     <div class="card">
-    <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('showcandidat') }}" style="color:black; text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencourscandidat') }}" style=" background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offrerecrutecandidat') }}" style=" color:black; text-decoration: none;">Recrutés</a></div>
-    <div class="col-md-2"> <a href="{{ route('offredeclinecandidat') }}" style=" color:black; text-decoration: none;">Déclinés</a></div>
-    <div class="col-md-2"> </div>
+    <div class=" p-4" >
+    <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('showcandidat') }}" style="color:black;">Toutes Les Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('offreencourscandidat') }}" style="color:#325fa6;">Offres En Cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offrerecrutecandidat') }}" style="color:black;">Offres Recrutées</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('offredeclinecandidat') }}"  style="color:black;">Offres Déclinées</a>
+  </li>
+</ul>
   
 </div>
       
@@ -95,7 +104,7 @@
                         @endforeach
                         @else
                   <tr>
-                      <td class="text-center" colspan="5">La liste des offres encours est vide</td>
+                      <td class="text-center" colspan="5">La liste des offres En cours est vide</td>
                   </tr>
               @endif
                        

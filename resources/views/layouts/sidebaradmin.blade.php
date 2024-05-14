@@ -60,7 +60,7 @@
             </a>
           </li>
           <li>
-            <a href="{{ route( 'admin.listoffreadmin') }}" style="line-height: 1rem; ">
+            <a href="{{ route( 'offreencoursadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-paper"></i>
               <strong >Offres </strong>
             </a>

@@ -2,18 +2,28 @@
   
   
 @section('contents')
-<div class="row">
-  <div class="col-md-12">
-  <div class="card">
-   <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('offres') }}" style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencoursentreprise') }}" style=" color:black; text-decoration: none;">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreexpireentreprise') }}" style=" color:black; text-decoration: none;">Expirés</a></div>
-    <div class="col-md-2"> </div>
-    <div class="col-md-2"> </div>
-    <div class="col-md-2"><a   style="background-color: #ef882b; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModal">Ajouter</a>  </div>
+<div class="row ">
+  <div class=" col-md-12 ">
+  <div class="card ">
+    <div class="row p-4">
+    <div class="col-md-10">
+    <ul class="nav nav-tabs ">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('offres') }}" style="color:#325fa6;">Toutes les Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreencoursentreprise') }}" style="color:black;">Offres En Cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreexpireentreprise') }}" style="color:black;">Offres Expirées</a>
+  </li>
+</ul>
+    </div>
+  <div class="col-md-2">
+    <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+  </div>
+  </div>
   
-</div>
             <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -37,7 +47,7 @@
                     <div class="col-md-6 px-1">
                     <label>Nombre de poste </label>
                     <div class="form-group">
-                        <input type="number" class="form-control" name="nombredeposte" placeholder="5">
+                        <input type="number" class="form-control" required name="nombredeposte" placeholder="5">
                     </div>
                     </div>
                     </div>
@@ -57,21 +67,19 @@
                     <label>Année d'expérience </label>
                     <div class="form-group">
                         <select name="annexperience" id="annexperience" class="form-control" required>
-                        <option value="Pas d'expérience requise">Pas d'expérience requise</option>
-                            <option value="-1an">-1an</option>
-                            <option value="+1ans">+1an</option>
-                            <option value="+2ans">+2ans</option>
-                            <option value="+3ans">+3ans</option>
-                            <option value="+4ans">+4ans</option>
-                            <option value="+5ans">+5ans</option>
-                            <option value="+10ans">+10ans</option>
+                            <option value="0 à 3 ans">	0 à 3 ans</option>
+                            <option value="3 à 5 ans">3 à 5 ans</option>
+                            <option value="5 à 10 ans">5 à 10 ans</option>
+                            <option value="+ de 10 ans">+ de 10 ans</option>
+                            <option value="+ de 20 ans">+ de 20 ans</option>
+                           
                         </select>
                     </div>
                     </div>
                     <div class="col-md-6 pr-1">
                     <label>Salaire  </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="salaire" placeholder="500000">
+                        <input type="text" class="form-control" name="salaire" required placeholder="500000">
                     </div>
                     </div>
                     </div>
@@ -91,7 +99,7 @@
                     <div class="col-md-6 pr-1">
                     <label>Date Clôture  </label>
                     <div class="form-group">
-                        <input type="date" class="form-control" required name="datecloture" >
+                        <input type="date" class="form-control"  name="datecloture" >
                         @error('datecloture')
               <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -118,6 +126,18 @@
                     </div>
                     </div>
                     </div>
+             
+                     <div class="row">
+                <div class="col-md-6 pr-1">
+                    <label>Avantage </label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="typeoffre" placeholder="13eme mois">
+                    </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                   
+                    </div>
+                    </div>
                     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
@@ -128,18 +148,8 @@
   </div>
   </div>
 
-              <div class="card-header">
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
 
-                </div>
-              </div>
-
-              </div>
-
-              <br><br>
+              <br>
               <div class="card-body">
               @if ($errors->any())
     <div class="alert alert-danger">
@@ -160,10 +170,10 @@
                         Nom 
                       </th>
                       <th style="color:black">
-                        Nombre de Poste
+                       Poste
                       </th>
                       <th style="color:black">
-                        Type de Contrat
+                      Contrat
                       </th>
                       <th style="color:black">
                         Date de Cloture
@@ -199,25 +209,30 @@
                           @csrf
 
                           @method('PUT')
-                     
-                          <div class="form-check">
-                          <label class="form-check-label">
-                          <input class="form-check-input status-checkbox" type="checkbox" id="flexSwitchCheck{{$rs->id}}"   {{ $rs->statusoffre == 1  ? 'checked' : '' }} >
-                          <span class="form-check-sign"></span>
-                          </label>
-                          </div>
+                          @if($rs->statusoffre)
+                          <p style="color:red;">Expirée</p>
+                          @else
+                          <div  class="form-group">
+                     <select name="statusoffre" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
+
+                      <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->statusoffre}}" {{ $rs->statusoffre == 0  ? 'selected' : '' }} >En cours</option>
+                      <option id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->statusoffre == 1  ? 'selected' : '' }}>Expirée</option>
+
+                      @endif
+                     </select>
+                     </div>
                           </form>
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="margin:5px;"><button style="background: white; border:none;"><i class="fa fa-eye"></i></button></a>
-
-                                <a href="{{ route('offres.edit', $rs->id)}}" style="margin:5px;"><button style="background: white; border:none;"><i class="fa fa-pencil"></i></button></a>
-                                <form action="{{ route('offres.destroy', $rs->id) }}" method="POST" type="button"  onsubmit="return confirm('Delete?')">
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #ef882b; text-decoration:none;">Détails</a>
+                        &nbsp;|
+                                <a href="{{ route('offres.edit', $rs->id)}}" ><button style="background: white; border:none;  color:#325fa6;">Éditer</button></a>
+                             <!--   <form action="{{ route('offres.destroy', $rs->id) }}" method="POST" type="button"  onsubmit="return confirm('Delete?')">
                                     @csrf
                                     @method('DELETE')
                                     <button class="" style="margin:5px; background: white; border:none;"><i class="fa fa-trash" style="color: red; "></i></button>
-                                </form>
+                                </form> -->
                             </div>
                         </td>
                       </tr>

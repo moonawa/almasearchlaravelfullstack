@@ -12,12 +12,16 @@ class Candidature extends Model
     protected $fillable = [
         'selection',
         'rendezvous',
-        'recrute',
+        'recrute', //plus utlisé reponse est utilisé a la place
         'offre_id',
         'candidat_id',
-        'decline',
+        'decline', //plus utlisé reponse est utilisé a la place
         'heurecandidature',
         'lieu',
+        'confirmerv',
+        'commentaireviprv',
+        'commentaireese',
+        'reponese'
     ];
     public function candidat()
     {

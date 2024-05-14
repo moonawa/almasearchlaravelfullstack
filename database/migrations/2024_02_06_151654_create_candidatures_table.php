@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->boolean('selection')->default(0);
             $table->date('rendezvous')->nullable();
-            $table->boolean('recrute')->default(0);
+            $table->boolean('recrute')->default(0); //plus utlisé reponse est utilisé a la place
             $table->unsignedBigInteger('candidat_id');
             $table->foreign('candidat_id')->references('id')->on('candidats');
             $table->unsignedBigInteger('offre_id');

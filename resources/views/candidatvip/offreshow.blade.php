@@ -49,9 +49,6 @@
             Année d'expérience: {{ $candidature->offre->annexperience }}
           </p>
           <p>
-            Salaire: {{ $candidature->offre->salaire }}
-          </p>
-          <p>
             Date début: {{ $candidature->offre->datedebut }}
           </p>
           <p>
@@ -109,29 +106,87 @@
                         <input type="text" disabled class="form-control"  value="{{ $candidature->offre->entreprise->user->telephone }}">
                     </div>
                     @endif
-                    <label>Recruté</label>
-                        @if ($candidature->recrute == 1)
+                    <label>Processus</label>
+                        @if ($candidature->reponese == "Recruté")
                         <div class="form-group">
-                            <input type="text" disabled class="form-control"  value="Vous êtes recruté Félicitations">
+                            <input type="text" disabled class="form-control"  value="Vous êtes recruté Félicitations!!!">
                         </div>
-                        @else 
+                        @elseif($candidature->reponese == "En Cours" ) 
                         <div class="form-group">
-                            <input type="text" disabled class="form-control"  value="Pas Encore recruté">
+                            <input type="text" disabled class="form-control"  value="Processus En cours">
+                        </div>
+                        @elseif($candidature->reponese == "Refusé" ) 
+                        <div class="form-group">
+                            <input type="text" disabled class="form-control"  value="Vous n'avez pas été retenu. Bon Courage!!!">
+                        </div>
+                        @elseif($candidature->reponese == "Décliné" ) 
+                        <div class="form-group">
+                            <input type="text" disabled class="form-control"  value="Vous avez Décliné l'offre.">
                         </div>
                         @endif
                         </form>
                     
-                    <div class="card-footer "> 
-                    <form class="statusForm" method="post" action="{{ route('updateDecline', ['id' => $candidature->id]) }}">
+                    <div class="card-footer row"> 
+                    @if(!$candidature->confirmerv && $candidature->reponese == "En Cours") 
+                   <div class="col-md-4">
+                <button type="button" class="btn btn-round " data-toggle="modal" data-target="#exampleModalv" style="background-color: #ef882b;" >Décliner Le RV</button>
+                <div class="modal fade" id="exampleModalv" tabindex="-1" role="dialog" aria-labelledby="exampleModalvLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalvLabel">Pourquoi Vous décliner le Rendez-vous?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"> 
+        <form method="post" action="{{route('commentaireVipRv', ['id' => $candidature->id]) }}">
+        @csrf
+        @method('PUT')
+<textarea class="form-control" name="commentaireviprv" id="" placeholder="la date ne m'arrange pas..." required>{{ $candidature->commentaireviprv}}</textarea>
+        
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-round" style="background: #325fa6;">Commenter</button>
+      </div>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+@endif
+@if($candidature->reponese == "En Cours") 
+                   <div class="col-md-4">
+                <form class="statusForm" method="post" action="{{ route('confirmeVipRv', ['id' => $candidature->id]) }}">
+                          @csrf
+                          @method('PUT')
+                <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">Confirmer le Rv </button>
+                </form>
+                </div>
+                @endif
+                @if(!$candidature->confirmerv) 
+                   <div class="col-md-4">
+                <form class="statusForm" method="post" action="{{ route('updateDecline', ['id' => $candidature->id]) }}">
                           @csrf
 
                           @method('PUT')
-                <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">Décliner L'offre</button>
+                <button type="submit" class="btn  btn-round" style="background-color: #ff3333;">Décliner L'offre</button>
                 </form>
+                </div>
+                @endif
             </div>
-            @if ($candidature->decline)
-      <hr>
-<p>Vous avez décliné l'offre</p>
+            @if ($candidature->confirmerv)
+              <hr>
+        <p>Le Rendez-vous a été confirmé</p>
+        @endif     
+                  @if ($candidature->commentaireviprv)
+              <hr>
+        <p>Rendez-vous Décliné: {{ $candidature->commentaireviprv}}</p>
+                  @endif
+                    @if ($candidature->reponese=="Décliné")
+              <hr>
+        <p>Vous avez décliné l'offre</p>
           @endif
         </div>
       </div>

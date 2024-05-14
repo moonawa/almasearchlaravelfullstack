@@ -5,11 +5,20 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-  <div class="row p-4" >
-    <div class="col-md-2"> <a  href="{{ route('admin.listoffreadmin') }}" style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;">Offres</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreencoursadmin') }}" style=" color:black; text-decoration: none;">Encours</a></div>
-    <div class="col-md-2"> <a href="{{ route('offreexpireadmin') }}" style=" color:black; text-decoration: none;">Expirés</a></div>
-  
+  <div class=" p-4" >
+  <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('admin.listoffreadmin') }}" style="color: #325fa6;">Toutes les Offres</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreencoursadmin') }}" style="color:black">Offres En Cours</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offreexpireadmin') }}" style="color:black">Offre Expirées</a>
+  </li>
+ 
+</ul>
+   
 </div>
            
               <div class="card-header">

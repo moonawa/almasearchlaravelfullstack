@@ -5,13 +5,25 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-   <div class="row p-4" >
-   <div class="col-md-2"> <a href="{{ route('candidatcabinet') }}" style=" background-color: #ef882b; color:white; padding-left: 15px; padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;">Viviers</a></div>
-   <div class="col-md-2"> <a href="{{ route('proposition') }}" style=" color:black; text-decoration: none;">Proposés</a></div>
-   <div class="col-md-2"> <a href="{{ route('selec') }}" style=" color:black; text-decoration: none;">Sélectionnés</a></div>
-   <div class="col-md-2"> <a href="{{ route('recru') }}" style=" color:black; text-decoration: none;">Recrutés</a></div>
-   <div class="col-md-2"> </div>
-    <div class="col-md-2"><a  href="{{ route('cabinets.candidatcreate') }}" style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;"  data-toggle="modal" data-target="#exampleModal">Ajouter</a>  </div>
+   <div class=" p-4" >
+   <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="{{ route('candidatcabinet') }}" style="color:#325FA6;">Viviers ({{$candidatcount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('proposition') }}" style="color:black;">Proposés ({{$propositioncount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('selec') }}" style="color:black;">Sélectionnés ({{$selectioncount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " href="{{ route('recru') }}"  style="color:black;">Recrutés ({{$recrutecount}})</a>
+  </li>
+  <li class="nav-item">
+  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter un vivier</button> 
+
+  </li>
+</ul>
   
 </div>
   <!-- Modal -->
