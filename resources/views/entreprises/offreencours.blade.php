@@ -9,13 +9,13 @@
    <div class="col-md-10">
     <ul class="nav nav-tabs ">
   <li class="nav-item">
-    <a class="nav-link "  href="{{ route('offres') }}"style="color:black;" >Toutes les Offres</a>
+    <a class="nav-link "  href="{{ route('offres') }}"style="color:black;" >Toutes les Offres  ({{$offrecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreencoursentreprise') }}" style="color:#325fa6;">Offres En Cours</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreencoursentreprise') }}" style="color:#325fa6;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offreexpireentreprise') }}" style="color:black;">Offres Expirées</a>
+    <a class="nav-link" href="{{ route('offreexpireentreprise') }}" style="color:black;">Offres Expirées ({{$expirescount}})</a>
   </li>
 </ul>
     </div>
@@ -34,7 +34,7 @@
         </button>
       </div>
       <div class="modal-body">
-             <form method="POST" action="{{ route('offres.store') }}">
+             <form method="POST" action="{{ route('offres.store') }}"  id="myForm">
                 @csrf
                 <div class="row">
                 <div class="col-md-6 pr-1">
@@ -130,8 +130,15 @@
                 <div class="col-md-6 pr-1">
                     <label>Avantage </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="typeoffre" placeholder="13eme mois">
+                      <select name="typeoffre" id="typeoffre" required class="form-control">
+                        <option value="13ième mois">13ième mois</option>
+                        <option value="Couverture médicale">Couverture médicale</option>
+                        <option value="Primes annuelles">Primes annuelles</option>
+                        <option value="Véhicule + carburant">Véhicule + carburant</option>
+                        <option value="Autres ">Autres </option>
+                      </select>
                     </div>
+                  
                     </div>
                     <div class="col-md-6 pr-1">
                    
@@ -140,24 +147,24 @@
                     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button id="submitButton" type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
       </div>
       </form>
     </div>
   </div>
   </div>
            
-              <div class="card-header">
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-
-                </div>
-              </div>
-
-              </div>
-              <br><br>
+              <br>
+              <div class="card-body">
+              @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
@@ -236,6 +243,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$encours->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>
@@ -243,7 +251,38 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    var form = event.target;
+    var submitButton = document.getElementById('submitButton');
+    
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+    } else {
+        // Désactiver le bouton et afficher un indicateur de chargement
+        submitButton.disabled = true;
+        submitButton.classList.add('btn-loading');
 
+        // Permettre au formulaire de se soumettre normalement
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  $('#exampleModal').on('hidden.bs.modal', function (e) {
+        if ($('#exampleModal .is-invalid').length > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    $('.status-checkbox').change(function () {
+        $(this).closest('form').submit();
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('.status-checkbox').change(function () {

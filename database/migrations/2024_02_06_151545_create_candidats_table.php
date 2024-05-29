@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('accroche')->nullable();
             $table->string('disponibilite')->nullable();
             $table->string('nationnalite')->nullable();
-            $table->string('lieudemobilite')->nullable();
+            $table->string('lieudemobilite')->nullable(); //Pays de Résidence
             $table->string('cv')->nullable();
             $table->string('motivation')->nullable();
             

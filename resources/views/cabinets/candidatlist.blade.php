@@ -185,7 +185,7 @@
                         {{ $rs->disponibilite  }}
                         </td>
                         <td>
-                        <a href="/uploads/{{ $rs->cv }}" style="color: #325fa6;">Voir</a>
+                        <a href="/uploads/{{ $rs->cv }}" style="color: #ef882b;">Voir</a>
                         </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
@@ -203,6 +203,8 @@
                     </tbody>
                   </table>
                 </div>
+                {{$candidat->links('vendor.pagination.custom')}}
+
               </div>
             </div>
           </div>

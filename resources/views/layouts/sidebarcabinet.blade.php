@@ -17,8 +17,8 @@
             </a>
           </li>
           <li>
-          @if (auth()->user()->cabinet)
-            <a href="{{ route('cabinets.show', auth()->user()->cabinet->id) }}"  style=" line-height: 1rem; ">
+          @if (auth()->user()->interlocuteurcbt)
+            <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
               <i class="nc-icon nc-diamond"></i>
               <p style="font-weight: bold;">Profil</p>
@@ -26,7 +26,7 @@
             @endif
           </li>
           <li>
-            <a href="{{ route( 'candidatcabinet') }}"  style=" line-height: 1rem; ">
+            <a href="{{ route( 'indexintercbt') }}"  style=" line-height: 1rem; ">
               <i class="nc-icon nc-single-02"></i>
               <p style="font-weight: bold;">Interlocuteurs </p>
             </a>

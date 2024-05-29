@@ -15,9 +15,12 @@ class Entreprise extends Model
         'rc',
         'datecreation',
         'situation',
-        'user_id',
+     
         'secteuractivite',
-        'des'
+        'des',
+        'tel',
+        'email',
+        'nomentreprise'
         
     ];
     public function user() {
@@ -25,6 +28,10 @@ class Entreprise extends Model
     }
     public function offres()
     {
-        return $this->hasMany(Offre::class,'offre_id');
+        return $this->hasMany(Offre::class);
+    }
+    public function interlocuteureses()
+    {
+        return $this->hasMany(Interlocuteurese::class);
     }
 }

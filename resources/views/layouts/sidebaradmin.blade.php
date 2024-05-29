@@ -49,20 +49,20 @@
           <li>
             <a href="{{ route( 'admin.listcandidatadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-circle-10"></i>
-              <strong >Candidats VIP </strong>
+              <strong >Candidats  </strong>
             </a>
           </li>
           
           <li>
             <a href="{{ route( 'admin.listcandidatnonadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-circle-10"></i>
-              <strong >Candidats </strong>
+              <strong >Viviers </strong>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencoursadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-paper"></i>
-              <strong >Offres </strong>
+              <strong >Offres En Cours</strong>
             </a>
           </li>
         </ul>

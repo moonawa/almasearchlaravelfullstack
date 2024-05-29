@@ -67,15 +67,7 @@
     </div>
   </div>
 </div><br>
-              <div class="card-header">
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-              
-              </div>
-
-              </div>
-              <br><br>
+        
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
@@ -173,6 +165,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$langue->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

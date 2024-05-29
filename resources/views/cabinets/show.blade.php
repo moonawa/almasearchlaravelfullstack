@@ -28,7 +28,7 @@
                   
 
                     <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">
-                                    {{ __('Télécharger') }}
+                                    {{ __('Photo de Profil') }}
                                 </button>
                   </form>
                 

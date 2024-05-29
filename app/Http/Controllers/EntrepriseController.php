@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Entreprise;
+use App\Models\Interlocuteurese;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,14 +14,18 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        $entreprise = Entreprise::orderBy('created_at', 'DESC')->get();
+        $entreprise = Entreprise::orderBy('created_at', 'DESC')->painate(10);
         return view('entreprises.index', compact('entreprise'));
     }
 
     public function show(string $id)
     {
-        $user = Auth::user();
-        $entreprise = Entreprise::where('user_id', $user->id)->findOrFail($id);
+        $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+    $entreprise = Interlocuteurese::where('user_id', $auth->id)->findOrFail($id);
+
+    //$entreprise = $inter->entreprise->findOrFail($id); // Obtenir l'entreprise associée
+
+      
         return view('entreprises.show', compact('entreprise'));
     }
   

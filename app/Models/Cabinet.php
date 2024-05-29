@@ -13,9 +13,12 @@ class Cabinet extends Model
         'rccabinet',
         'datecreationcabinet',
         'situationcabinet',
-        'user_id',
+ 
         'secteuractivitecabinet',
-        'descabinet'
+        'descabinet',
+        'telcbt',
+        'emailcbt',
+        'nomcabinet'
     ];
     public function user() {
         return $this->belongsTo(User::class,'user_id'); 
@@ -23,6 +26,10 @@ class Cabinet extends Model
   
     public function candidats()
     {
-        return $this->hasMany(Candidat::class,'candidat_id');
+        return $this->hasMany(Candidat::class);
+    }
+    public function interlocuteurcbts()
+    {
+        return $this->hasMany(Interlocuteurcbt::class);
     }
 }

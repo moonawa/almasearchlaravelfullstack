@@ -22,7 +22,7 @@ class FormationController extends Controller
      {
          $user = Auth::user();
          $candidat = Candidat::where('user_id', $user->id)->first();
-         $formation = Formation::where('candidat_id', $candidat->id)->get();   
+         $formation = Formation::where('candidat_id', $candidat->id)->paginate(5);   
          return view('formations.index', compact('formation'));
      }
 
@@ -44,8 +44,11 @@ class FormationController extends Controller
     ->whereHas('offre', function ($query) {
             $query->where('statusoffre', 0);
             })->count();
-
-        return view('candidatvip.dashboard', compact('nombreformation', 'nombrereference', 'nombrecompetence', 'nombreexperience', 'nombrelangue', 'candidatures', 'recrute', 'decline', 'encours'));
+            if (!$candidat->isCvComplete()) {
+                // Définissez un message flash pour avertir que le CV n'est pas complet
+                session()->flash('warning', 'Votre CV n\'est pas complet. Veuillez le remplir.');
+            }
+        return view('candidatvip.dashboard', compact('candidat' , 'nombreformation', 'nombrereference', 'nombrecompetence', 'nombreexperience', 'nombrelangue', 'candidatures', 'recrute', 'decline', 'encours'));
      }
    
      /**

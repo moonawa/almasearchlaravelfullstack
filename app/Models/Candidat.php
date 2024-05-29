@@ -20,14 +20,16 @@ class Candidat extends Model
         'accroche',
         'disponibilite',
         'nationnalite',
-        'lieudemobilite',
+        'lieudemobilite', //Pays de Résidence
         'cv',
         'motivation',
         'user_id',
         'cabinet_id',
         'secteuractivitecandidat',
         'trancheanneeexpeience',
-        'tranchesalariale'
+        'tranchesalariale',
+        'vip',
+        'motcle'
     ];
 
     public function user() {
@@ -60,10 +62,24 @@ class Candidat extends Model
     }
     public function candidatures()
     {
-        return $this->hasMany(Candidature::class,'candidature_id');
+        return $this->hasMany(Candidature::class);
     }
     public function propositions()
     {
-        return $this->hasMany(Proposition::class,'proposition_id');
+        return $this->hasMany(Proposition::class);
+    }
+    public function isCvComplete()
+    {
+        
+
+        // Vérifiez qu'il y a au moins une expérience, une compétence, une langue et une formation
+        if ($this->experiences()->count() == 0 || 
+            $this->competences()->count() == 0 || 
+            $this->langues()->count() == 0 || 
+            $this->formations()->count() == 0) {
+            return false;
+        }
+
+        return true;
     }
 }

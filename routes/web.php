@@ -9,6 +9,8 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\InterlocuteurcbtController;
+use App\Http\Controllers\InterlocuteureseController;
 use App\Http\Controllers\LangueController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ReferenceController;
@@ -52,9 +54,14 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
     Route::get('listentrepriseadmin', 'listentrepriseadmin')->name('admin.listentrepriseadmin');
     Route::get('listcabinetadmin', 'listcabinetadmin')->name('admin.listcabinetadmin');
     Route::get('listcandidatadmin', 'listcandidatadmin')->name('admin.listcandidatadmin');
+    Route::get('listvipadmin', 'listvipadmin')->name('admin.listvipadmin');
+    Route::get('listnonvipadmin', 'listnonvipadmin')->name('admin.listnonvipadmin');
     Route::get('listcandidatnonadmin', 'listcandidatnonadmin')->name('admin.listcandidatnonadmin');
     Route::get('show', 'show')->name('admin.show');
     Route::get('admin', 'admin')->name('admin.admin');
+    Route::get('listinterentrepriseadmin/{id}', 'listinterentrepriseadmin')->name('admin.listinterentrepriseadmin');
+    Route::get('listintercabinetadmin/{id}', 'listintercabinetadmin')->name('admin.listintercabinetadmin');
+    Route::put('updatevip/{id}',  'updatevip')->name('admin.updatevip');
 
 });
 Route::put('updateStatusentreprise/{id}', [AdminController::class, 'updateStatusEntreprise'])->name('updateStatusentreprise');
@@ -72,6 +79,10 @@ Route::get('register', [AuthController::class, 'register'])->name('register');
 Route::post('register', [AuthController::class, 'registerSave'])->name('register.save'); 
 Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 Route::get('dashboard', [OffreController::class, 'indexcount'])->name('dashboard');
+//Interlocuteur
+Route::get('indexinter', [InterlocuteureseController::class, 'index'])->name('indexinter');
+Route::post('registerInterlo', [InterlocuteureseController::class, 'registerInterlo'])->name('registerInterlo');
+
 
 Route::controller(EntrepriseController::class)->prefix('entreprises')->group(function () {
     Route::get('', 'index')->name('entreprises');
@@ -158,6 +169,9 @@ Route::put('commentaireeseproposition/{id}', [OffreController::class, 'commentai
 //cabinet
 Route::get('offreencourscabinet', [OffreController::class, 'offreencourscabinet'])->name('offreencourscabinet');
 Route::get('offreexpirecabinet', [OffreController::class, 'offreexpirecabinet'])->name('offreexpirecabinet');
+//cabinet - Interlocuteur
+Route::get('indexintercbt', [InterlocuteurcbtController::class, 'index'])->name('indexintercbt');
+Route::post('registerInterlocbt', [InterlocuteurcbtController::class, 'registerInterlocbt'])->name('registerInterlocbt');
 
 //candidatvip
 Route::get('registercandidat', [AuthController::class, 'registercandidat'])->name('registercandidat');
@@ -174,6 +188,9 @@ Route::controller(CandidatController::class)->prefix('candidatvip')->group(funct
     Route::delete('destroy/{id}', 'destroy')->name('candidatvip.destroy');
     Route::post('show', [CandidatController::class, 'storeavatar'])->name('candidatvip.shows');
     Route::post('cv', [CandidatController::class, 'storefile'])->name('candidatvip.cvs');
+    Route::get('/cv/{id}/download',[CandidatController::class, 'download'] )->name('candidatvip.cv.download');
+    Route::get('generate-pdf/{id}', [CandidatController::class, 'generatePDF'])->name('candidatvip.cvPdf');
+
 
 });
 

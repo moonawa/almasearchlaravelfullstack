@@ -116,7 +116,7 @@
                       </div>
                     </div>
                   </div>
-                <form action="{{ route('entreprises.update') }}" method="POST"> 
+                <form action="{{ route('cabinets.update') }}" method="POST"> 
                 @csrf
         @method('PUT')
                

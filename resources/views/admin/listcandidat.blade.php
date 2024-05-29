@@ -8,17 +8,10 @@
   
            
               <div class="card-header">
-                <h5 class="card-title">Liste des Candidats des Cabinets</h5>
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-
-                </div>
-              </div>
+                <h5 class="card-title">Liste des Candidats des Cabinets ({{$candidatscount}})</h5>
 
               </div>
-              <br><br>
+             <br>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
@@ -61,13 +54,13 @@
                       {{ $loop->iteration }}
                         </td>
                         <td>
-                        @if (!$rs->cabinet->user->avatar)
+                        @if (!$rs->cabinet->logocbt)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
 
-                        @else ( $rs->cabinet->user->avatar)
-                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->cabinet->user->avatar }}">
+                        @else ( $rs->cabinet->logocbt)
+                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->cabinet->logocbt }}">
                         @endif
-                        {{ $rs->cabinet->user->name }}
+                        {{ $rs->cabinet->nomcabinet }}
                         </td>
                         <td>
                         {{ $rs->user->name }}
@@ -107,7 +100,7 @@
                       </td>
                      
                         <td >
-                        <a href="/uploads/{{ $rs->cv }}" style="color: #325fa6">Voir</i></a>
+                        <a href="/uploads/{{ $rs->cv }}" style="color: #325fa6;">Voir</i></a>
                         </td>
                       </tr>
                       @endforeach
@@ -120,6 +113,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$candidats->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

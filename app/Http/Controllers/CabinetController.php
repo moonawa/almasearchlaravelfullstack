@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cabinet;
 use App\Models\Candidat;
+use App\Models\Interlocuteurcbt;
 use App\Models\Offre;
 use App\Models\Proposition;
 use App\Models\User;
@@ -26,9 +27,10 @@ class CabinetController extends Controller
     public function candidat()
     {     
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
-        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats()->paginate(10); 
+        $candidatcount = $cabinet->candidats()->count(); 
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -38,10 +40,11 @@ class CabinetController extends Controller
     public function proposition()
     {     
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
-        $proposition = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->get();
-        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats; 
+        $candidatcount = $cabinet->candidats()->count(); 
+        $proposition = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->paginate(10);       
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -51,10 +54,11 @@ class CabinetController extends Controller
     public function selec()
     {     
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
-        $selection = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->get();
-        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats; 
+        $candidatcount = $cabinet->candidats()->count();
+        $selection = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->paginate(10);
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -64,10 +68,11 @@ class CabinetController extends Controller
     public function recru()
     {     
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->get();
-        $recrute = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->get();
-        $candidatcount = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats; 
+        $candidatcount = $cabinet->candidats()->count();
+        $recrute = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->paginate(10);
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -77,8 +82,9 @@ class CabinetController extends Controller
     public function candidatcount()
     {
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->count();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats()->paginate(10); 
         $offre = Offre::where('statuscabinet', 1)->count();
         $offreencours = Offre::where('statuscabinet', 1)->where('statusoffre', 0)->count();
         $offreexpire = Offre::where('statuscabinet', 1)->where('statusoffre', 1)->count();
@@ -101,7 +107,8 @@ class CabinetController extends Controller
          
         ]); 
         $auth = Auth::user();
-        $cabinet = Cabinet::where('user_id', $auth->id)->first();
+        $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
+        $cabinet = $inter->cabinet;
 
         $user = User::create([
             'name' => $request->name,
@@ -110,7 +117,7 @@ class CabinetController extends Controller
             'telephone' => $request->telephone,
             'alma' => 0,
             'status' => 0,
-            'password' => Hash::make("passer123"),
+            'password' => Hash::make("passer123#"),
         ]);
         $cvName = null;
         if ($request->hasFile('cv')) {
@@ -134,7 +141,8 @@ class CabinetController extends Controller
     public function show(string $id)
     {
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->findOrFail($id);
+        $cabinet = Interlocuteurcbt::where('user_id', $user->id)->findOrFail($id);
+        
         return view('cabinets.show', compact('cabinet'));
     }
   
@@ -185,9 +193,10 @@ class CabinetController extends Controller
     public function destroycandidat(string $id)
     {
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
-        $candidat = Candidat::with('user')->where('cabinet_id', $cabinet->id)->findOrFail($id);
-        $candidat->delete();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet;
+        $candidat = $cabinet->candidats()->findOrFail($id);
+$candidat->delete();
         return redirect()->route('candidatcabinet')->with('success', 'Le candidat a été supprimé');
     }
     
@@ -243,7 +252,8 @@ class CabinetController extends Controller
         $request->rccabinet->move(public_path('uploads'), $rccabinetName);
         }
         $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->firstOrFail();
+        $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
+        $cabinet = $inter->cabinet()->firstOrFail();
         $updateData = [];
         if (isset($nineacabinetName)) {
             $updateData['nineacabinet'] = $nineacabinetName;

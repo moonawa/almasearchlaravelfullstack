@@ -17,7 +17,7 @@ class CompetenceController extends Controller
      {
          $user = Auth::user();
          $candidat = Candidat::where('user_id', $user->id)->first();
-         $competence = Competence::where('candidat_id', $candidat->id)->get();   
+         $competence = Competence::where('candidat_id', $candidat->id)->paginate(5);   
          return view('competences.index', compact('competence'));
      }
      public function indexcount()

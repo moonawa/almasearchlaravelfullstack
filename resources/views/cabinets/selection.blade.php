@@ -84,14 +84,14 @@
                         {{ $rs->candidat->fonction  }}
                         </td>
                         <td>
-                        <a href="/uploads/{{ $rs->candidat->cv }}" style="color: #325fa6;">Voir</a>
+                        <a href="/uploads/{{ $rs->candidat->cv }}" style="color: #ef882b;">Voir</a>
                         </td>
                        
                         <td >
                         {{ $rs->offre->nomposte  }}
                         </td>
                         <td >
-                        {{ $rs->offre->entreprise->user->name  }}
+                        {{ $rs->offre->entreprise->nomentreprise  }}
                         </td>
                       </tr>
                       @endforeach
@@ -104,6 +104,8 @@
                     </tbody>
                   </table>
                 </div>
+                {{$selection->links('vendor.pagination.custom')}}
+
               </div>
             </div>
           </div>

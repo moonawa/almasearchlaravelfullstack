@@ -30,28 +30,29 @@
               <p style="font-weight: bold;"> CV détaillé</p>
             </a>
           </li>
-          <li>
-            <a href="{{ route( 'showcandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-paper"></i>
-              <p style="font-weight: bold;">Offre Sélectionnée</p>
-            </a>
-          </li>
+          
           <li>
             <a href="{{ route( 'offreencourscandidat') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;"> Offre Encours</p>
+              <p style="font-weight: bold;"> Offre En cours</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offrerecrutecandidat') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-satisfied" ></i>
-              <p style="font-weight: bold;"> Offre Recrutée</p>
+              <p style="font-weight: bold;"> Offres Recrutées</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offredeclinecandidat') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-simple-remove"></i>
-              <p style="font-weight: bold;"> Offre Déclinée</p>
+              <p style="font-weight: bold;"> Offres Déclinées</p>
+            </a>
+          </li>
+          <li>
+            <a href="{{ route( 'showcandidat') }}" style=" line-height: 1rem; ">
+              <i class="nc-icon nc-paper"></i>
+              <p style="font-weight: bold;">Toutes les Offres </p>
             </a>
           </li>
         </ul>

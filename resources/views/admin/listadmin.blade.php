@@ -11,10 +11,11 @@
                 
               <div class="row">
                 <div class="col-md-10">
-                <h5 class="card-title">Liste des Membres</h5>
+                <h5 class="card-title">Liste des Membres ({{$admincount}})</h5>
                 </div>
                 <div class="col-md-2">
-               <a  style="background-color: #325fa6; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModal">Ajouter</a> 
+                <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+
 
                 </div>
                   <!-- Modal -->
@@ -22,7 +23,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ajouter un membre</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Ajouter un Membre</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -64,6 +65,11 @@
               </div>
               <br><br>
               <div class="card-body">
+              @if (session('success'))
+            <div class="alert alert-success" role="alert">
+              {{ session('success') }}
+            </div>
+            @endif
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
@@ -129,13 +135,16 @@
                           @csrf
 
                           @method('PUT')
-                     
-                          <div class="form-check">
-                          <label class="form-check-label">
-                          <input class="form-check-input status-checkbox" type="checkbox" id="flexSwitchCheck{{$rs->id}}"   {{ $rs->status == 1  ? 'checked' : '' }} >
-                          <span class="form-check-sign"></span>
-                          </label>
-                          </div>
+                          <div  class="form-group">
+                     <select name="status" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
+
+                      <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->status}}" {{ $rs->status == 1  ? 'selected' : '' }} >Activé</option>
+                      <option id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->status == 0  ? 'selected' : '' }}>Bloqué</option>
+
+                    
+                     </select>
+                     </div>
+                         
                           </form>
 
         </td>
@@ -152,6 +161,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$admin->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

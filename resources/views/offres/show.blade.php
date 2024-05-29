@@ -51,18 +51,18 @@
 
         <hr>
         <div class="button-container">
-        <form id="statusForm" method="post" action="{{ route('updateStatuscabinet', $offre->id) }}">
-          @csrf
-          @method('PUT')
-          <button type="submit" class="btn  btn-round  status-button" style="background-color: #325fa6;">
-            {{ __('Faire appel aux cabinets') }}
-          </button>
+          <form id="statusForm" method="post" action="{{ route('updateStatuscabinet', $offre->id) }}">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn  btn-round  status-button" style="background-color: #325fa6;">
+              {{ __('Faire appel aux cabinets') }}
+            </button>
           </form>
           @if ($offre->statuscabinet)
-<p>Vous avez fait appel aux cabinets, vous ne pourrez plus sélectionner de candidat pour cette offre</p>
+          <p>Vous avez fait appel aux cabinets, vous ne pourrez plus sélectionner de candidat pour cette offre</p>
           @endif
-       
-          
+
+
         </div>
       </div>
     </div>
@@ -112,7 +112,7 @@
             Date du RV
           </th>
           <th style="color:black">
-          Adresse du RV
+            Adresse du RV
           </th>
           <th style="color:black">
             Processus
@@ -132,10 +132,8 @@
             <td>
               {{ $candidature->candidat->user->name }}
 
-             </td>
+            </td>
             <td>
-        
-
               <a href="{{ route('cvdetailleese', $candidature->candidat->id)}}"><i class="fa fa-eye" style="color: #ef882b;"></i></a>
 
               <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
@@ -145,7 +143,7 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <input type="datetime-local" class="form-control datePicker" name="heurecandidature" value="{{ $candidature->heurecandidature }}">
+                  <input type="datetime-local" class="form-control datePicker " name="heurecandidature" value="{{ $candidature->heurecandidature }}">
                 </div>
               </form>
             </td>
@@ -154,7 +152,7 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <input type="text" class="form-control datePicker" name="lieu" value="{{ $candidature->lieu }}">
+                  <input type="text" class="form-control datePicker " name="lieu" value="{{ $candidature->lieu }}" >
                 </div>
               </form>
             </td>
@@ -163,54 +161,55 @@
                 @csrf
                 @method('PUT')
                 @if($candidature->reponese == "Recruté")
-                          <p style="color:green;">Recruté</p>
-                          @elseif($candidature->reponese == "Refusé")
-                          <p style="color:red;">Refusé</p>
-                          @elseif($candidature->reponese == "Décliné")
-                          <p style="color:Orange;">Décliné</p>
-                          @else
+                <p style="color:green;">Recruté</p>
+                @elseif($candidature->reponese == "Refusé")
+                <p style="color:red;">Refusé</p>
+                @elseif($candidature->reponese == "Décliné")
+                <p style="color:Orange;">Décliné</p>
+                @else
 
                 <div class="form-group ">
                   <select name="reponese" class="status-checkbox form-control" id="status-select" data-offre-id="{{ $candidature->id }}">
-                    <option id="flexSwitchCheck{{$candidature->id}}" value="{{ $candidature->reponese}}" {{ $candidature->reponese == "En Cours"  ? 'selected' : '' }}>En cours</option>
+                    <option id="flexSwitchCheck{{$candidature->id}}" value="En Cours" {{ $candidature->reponese == "En Cours"  ? 'selected' : '' }} >En Cours</option>
                     <option id="flexSwitchCheck{{$candidature->id}}" value="Recruté" {{ $candidature->reponese == "Recruté"  ? 'selected' : '' }}>Recruté</option>
                     <option id="flexSwitchCheck{{$candidature->id}}" value="Refusé" {{ $candidature->reponese == "Refusé"  ? 'selected' : '' }}>Refusé</option>
                   </select>
                 </div>
                 @endif
-</form>
+              </form>
 
-</td>
-<td>
-  @if($candidature->commentaireviprv  )
-Commentaire du candidat: {{$candidature->commentaireviprv}}
-  @elseif($candidature->confirmerv == 1 )
-  Le rendez-vous a été confirmé par le candidat
-  @elseif($candidature->reponese=="Recruté" )
- Le candidat a été recruté pour ce poste. 
-  @elseif($candidature->reponese=="Refusé" )
- Le candidat n'a pas été retenu pour ce poste.
-  @elseif($candidature->reponese == "Décliné")
- Le candidat a décliné l'offre. 
-  @elseif($candidature->reponese=="En Cours"  )
-  En cours </p>
+            </td>
+            <td>
+              @if($candidature->commentaireviprv )
+              Commentaire du candidat: {{$candidature->commentaireviprv}}
+              @elseif($candidature->confirmerv == 1 )
+              Le rendez-vous a été confirmé par le candidat
+              @elseif($candidature->reponese=="Recruté" )
+              Le candidat a été recruté pour ce poste.
+              @elseif($candidature->reponese=="Refusé" )
+              Le candidat n'a pas été retenu pour ce poste.
+              @elseif($candidature->reponese == "Décliné")
+              Le candidat a décliné l'offre.
+              @elseif($candidature->reponese=="En Cours" )
+              En cours </p>
 
 
-  @endif
+              @endif
 
-</td>
-</tr>
+            </td>
+          </tr>
 
-@endforeach
-@else
-<tr>
-  <td class="text-center" colspan="5">La liste des candidats sélectionnés est vide</td>
-</tr>
-@endif
-</tbody>
-</table>
-</div>
-</div>
+          @endforeach
+          @else
+          <tr>
+            <td class="text-center" colspan="5">La liste des candidats sélectionnés est vide</td>
+          </tr>
+          @endif
+        </tbody>
+      </table>
+    </div>
+    {{$candidatures->links('vendor.pagination.custom')}}
+  </div>
 </div>
 
 @if (!$offre->statuscabinet)
@@ -266,7 +265,7 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
           <th style="color:black">
             Nom
           </th>
-          
+
           <th style="color:black">
             Compétences
           </th>
@@ -325,7 +324,7 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
 
 
             <td>
-              <a href="{{ route('cvdetailleese', $rs->id)}}"><i class="fa fa-eye" style="color: #ef882b;"></i></a>
+              <a href="{{ route('cvdetailleese', $rs->id)}}"><i class="fa fa-eye" style="color: #ef882b;" ></i></a>
 
               <a href="/uploads/{{ $rs->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
 
@@ -333,11 +332,11 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
 
             <td class="text-right">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <form action="{{ route('offres.getcandidatstore') }}" method="POST">
+                <form action="{{ route('offres.getcandidatstore') }}" method="POST" id="myForm">
                   @csrf
                   <input type="hidden" name="offre_id" value="{{ $offre->id }}">
                   <input type="hidden" name="candidat_id" value="{{ $rs->id }}">
-                  <button type="submit" style="margin:5px; background:white; border:none; color: #ef882b">Selectionner</button>
+                  <button id="submitButton" type="submit" class="btn btn-round" style=" background:white; border:none; color: #ef882b">Selectionner</button>
                 </form>
 
 
@@ -354,6 +353,8 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
         </tbody>
       </table>
     </div>
+    {{$candidats->links('vendor.pagination.custom')}}
+
   </div>
 </div>
 
@@ -364,7 +365,9 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
 
 </div>
 @endif
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
   $(document).ready(function() {
     $('.status-button').change(function() {
@@ -376,6 +379,7 @@ Commentaire du candidat: {{$candidature->commentaireviprv}}
   $(document).ready(function() {
     $('.datePicker').change(function() {
       $(this).closest('form').submit();
+     
     });
   });
 </script>

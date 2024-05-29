@@ -9,13 +9,13 @@
 
   <ul class="nav nav-tabs ">
   <li class="nav-item">
-    <a class="nav-link "  href="{{ route('offres') }}"style="color:black;" >Toutes les Offres</a>
+    <a class="nav-link "  href="{{ route('offres') }}"style="color:black;" >Toutes les Offres  ({{$offrecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link "  href="{{ route('offreencoursentreprise') }}" style="color:black;">Offres En Cours</a>
+    <a class="nav-link "  href="{{ route('offreencoursentreprise') }}" style="color:black;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireentreprise') }}" style="color:#325fa6;">Offres Expirées</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireentreprise') }}" style="color:#325fa6;">Offres Expirées ({{$expirescount}})</a>
   </li>
 </ul>
   
@@ -92,6 +92,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$expires->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

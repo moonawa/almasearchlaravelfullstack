@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidat;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -143,6 +144,17 @@ public function showcvdetaille(string $id)
    $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->where('user_id', $user->id)->findOrFail($id);
    return view('candidatvip.showcvdetaille', compact('can'));
 }
+public function generatePDF($id)
+    {
+     $user= Auth::user();
+       $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->where('user_id', $user->id)->findOrFail($id);
+       
+        $data = ['can' => $can];
+        $pdf = Pdf::loadView('candidatvip.myCvPDF', $data);
     
+        return $pdf->download('cv.pdf');
+    }
+
+
 
 }

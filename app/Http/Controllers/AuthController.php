@@ -6,6 +6,8 @@ use App\Models\Cabinet;
 use App\Models\Candidat;
 use App\Models\Entreprise;
 use App\Models\Interlocuteur;
+use App\Models\Interlocuteurcbt;
+use App\Models\Interlocuteurese;
 use App\Models\User;
 use App\Notifications\NotificationMail;
 use App\Notifications\RegisteredNotification;
@@ -72,7 +74,7 @@ class AuthController extends Controller
         $user->telephone = $request->telephone;
         $user->alma = 0;
         $user->status = 0;
-        $user->password = Hash::make($request->password);
+        $user->password = Hash::make("A#w!88a32");
         $user->save();
 
         $nineaName = null;
@@ -81,19 +83,24 @@ class AuthController extends Controller
             $nineaName = time().'.'.$request->ninea->extension();
             $request->ninea->move(public_path('uploads'), $nineaName);
         }
-            if ($request->hasFile('rc')) {
+        if ($request->hasFile('rc')) {
             $rcName = time().'.'.$request->rc->extension();
             $request->rc->move(public_path('uploads'), $rcName);
         }
         $ese = new Entreprise();
         $ese->rc = $rcName;
         $ese->ninea = $nineaName;
-        $ese->secteuractivite =  $request->secteuractivite;;
-        $ese->situation = $request->situation;
-        $ese->user_id = $user->id;
+        $ese->secteuractivite =  $request->secteuractivite;
+        $ese->nomentreprise =  $request->nomentreprise;
+        $ese->des =  $request->des;
         $ese->save();
 
-        $ese->user->notify(new RegisteredNotification());
+        $inter = new Interlocuteurese();
+        $inter->fonction = $request->fonction;
+        $inter->user_id = $user->id;
+        $inter->entreprise_id = $ese->id;
+        $inter->save();
+        $inter->user->notify(new RegisteredNotification());
         // envoi mail a l'admin
         $admin = User::where('role', 'Admin')->first();
         $details = [
@@ -174,7 +181,7 @@ class AuthController extends Controller
                 'telephone' => $request->telephone,
                 'alma' => 0,
                 'status' => 0,
-                'password' => Hash::make($request->password),
+                'password' => Hash::make("A#w!88a32"),
             ]);
             $nineacabinetName = null;
             $rccabinetName = null;
@@ -182,17 +189,31 @@ class AuthController extends Controller
                 $nineacabinetName = time().'.'.$request->nineacabinet->extension();
                 $request->nineacabinet->move(public_path('uploads'), $nineacabinetName);
             }
-                if ($request->hasFile('rccabinet')) {
+            if ($request->hasFile('rccabinet')) {
                 $rccabinetName = time().'.'.$request->rccabinet->extension();
                 $request->rccabinet->move(public_path('uploads'), $rccabinetName);
             }
-            Int::create([
+            $cabinet = Cabinet::create([
                 'secteuractivitecabinet' => $request->secteuractivitecabinet,
-                'situationcabinet' => $request->situationcabinet,
-                'user_id' => $user->id,
                 'nineacabinet' => $nineacabinetName,
                 'rccabinet' => $rccabinetName,
+                'telcbt'  =>  $request->telcbt,
+                'nomcabinet'  =>  $request->nomcabinet,
+                'emailcbt'   => $request->emailcbt
             ]);
+            $intercbt =  Interlocuteurcbt::create([
+                'fonctioncbt' => $request->fonctioncbt,
+                'user_id' => $user->id,
+                'cabinet_id' => $cabinet->id,
+               
+            ]);
+            $intercbt->user->notify(new RegisteredNotification());
+            $admin = User::where('role', 'Admin')->first();
+            $details = [
+                'title' => 'Nouvelle inscription entreprise',
+                'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme.'
+            ];
+            $admin->notify(new NotificationMail($admin));
             
             return redirect()->route('login')->with('success', 'Votre compte cabinet a été créé avec succès.');   
         

@@ -58,6 +58,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Entreprise::class,'user_id');
     }
+    public function interlocuteurese()
+    {
+        return $this->hasOne(Interlocuteurese::class,'user_id');
+    }
+    public function interlocuteurcbt()
+    {
+        return $this->hasOne(Interlocuteurcbt::class,'user_id');
+    }
     public function cabinet()
     {
         return $this->hasOne(Cabinet::class, 'user_id');

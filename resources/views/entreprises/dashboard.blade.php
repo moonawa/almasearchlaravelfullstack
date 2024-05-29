@@ -15,7 +15,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category"> Interlocuteurs</p>
-                      <p class="card-title">10<p>
+                      <p class="card-title">{{$interlocuteurcount}}<p>
                     </div>
                   </div>
                 </div>
@@ -24,7 +24,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                 <a href="" style="color: #9A9A9A; text-decoration: none;">Voir</a>
+                 <a href="{{ route('indexinter') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                 <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a>
+                 <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Encours</p> 
+                      <p class="card-category">En Cours</p> 
                       <p class="card-title">{{ $encours }} <p>
                     </div>
                   </div>
@@ -131,7 +131,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                 <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
+                 <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
                 </div>
               </div>
             </div>
@@ -157,7 +157,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                    <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
+                    <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
                 </div>
               </div>
             </div>
@@ -183,7 +183,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
+                <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
                 </div>
               </div>
             </div>
@@ -209,7 +209,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-eye"></i>
-                 <a href="{{ route('offres') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
+                 <a href="{{ route('offreencoursentreprise') }}" style="color: #9A9A9A; text-decoration: none;">Offres</a>
                 </div>
               </div>
             </div>
@@ -217,46 +217,13 @@
         </div>
         <div class="row">
           <div class="col-md-4">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title"> </h5>
-              </div>
-              <div class="card-body ">
-                <canvas id="chartEmail"></canvas>
-              </div>
-              <div class="card-footer ">
-                <div class="legend">
-                  <i class="fa fa-circle text-primary"></i> Opened
-                  <i class="fa fa-circle text-warning"></i> Read
-                  <i class="fa fa-circle text-danger"></i> Deleted
-                  <i class="fa fa-circle text-gray"></i> Unopened
-                </div>
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar"></i> Number of emails sent
-                </div>
-              </div>
-            </div>
+            
           </div>
           <div class="col-md-8">
             <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">NASDAQ: AAPL</h5>
-                <p class="card-category">Line Chart with Points</p>
-              </div>
-              <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
-              </div>
-              <div class="card-footer">
-                <div class="chart-legend">
-                  <i class="fa fa-circle text-info"></i> Tesla Model S
-                  <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                </div>
-                <hr />
-                <div class="card-stats">
-                  <i class="fa fa-check"></i> Data information certified
-                </div>
-              </div>
+              
+           
+            
             </div>
           </div>
         </div>  

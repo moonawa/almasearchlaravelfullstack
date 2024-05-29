@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('salaire')->nullable();
             $table->date('datedebut')->nullable();
             $table->string('lieu')->nullable();
-            $table->string('typecontrat')->nullable();
+            $table->string('typecontrat')->nullable(); 
             $table->date('datecloture')->nullable();
             $table->boolean('statusoffre')->default(0);
             $table->boolean('statuscabinet')->default(0);

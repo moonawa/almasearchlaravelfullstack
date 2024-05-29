@@ -103,7 +103,7 @@
                     </div>
                     <label>Numéro à contacter</label>
                     <div class="form-group">
-                        <input type="text" disabled class="form-control"  value="{{ $candidature->offre->entreprise->user->telephone }}">
+                        <input type="text" disabled class="form-control"  value="{{ $candidature->offre->entreprise->tel }}">
                     </div>
                     @endif
                     <label>Processus</label>
@@ -161,7 +161,7 @@
                 <form class="statusForm" method="post" action="{{ route('confirmeVipRv', ['id' => $candidature->id]) }}">
                           @csrf
                           @method('PUT')
-                <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">Confirmer le Rv </button>
+                <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #325fa6;">Confirmer le Rv </button>
                 </form>
                 </div>
                 @endif
@@ -171,7 +171,7 @@
                           @csrf
 
                           @method('PUT')
-                <button type="submit" class="btn  btn-round" style="background-color: #ff3333;">Décliner L'offre</button>
+                <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #ff3333;">Décliner L'offre</button>
                 </form>
                 </div>
                 @endif
@@ -202,7 +202,73 @@
 
 </div>
 
+<style>
+/* CSS pour le spinner de chargement */
+.btn-loading {
+    position: relative;
+}
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 1rem;
+    margin-top: -0.5rem;
+    margin-left: -0.5rem;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+.was-validated input:invalid {
+    border-color: red;
+}
+.was-validated input:valid {
+    border-color: green;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    var form = event.target;
+    var submitButton = document.getElementById('submitButton');
+    
+    if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation();
+        form.classList.add('was-validated');
+    } else {
+        // Désactiver le bouton et afficher un indicateur de chargement
+        submitButton.disabled = true;
+        submitButton.classList.add('btn-loading');
+
+        // Permettre au formulaire de se soumettre normalement
+    }
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  $('#exampleModal').on('hidden.bs.modal', function (e) {
+        if ($('#exampleModal .is-invalid').length > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    $('.status-checkbox').change(function () {
+        $(this).closest('form').submit();
+    });
+});
+</script>
 <script>
     $(document).ready(function () {
         $('.status-button').change(function () {

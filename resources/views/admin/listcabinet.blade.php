@@ -8,36 +8,31 @@
   
            
               <div class="card-header">
-                <h5 class="card-title">Liste des Cabinets</h5>
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-
-                </div>
-              </div>
+                <h5 class="card-title">Liste des Cabinets ({{$cabinetscount}})</h5>
+           
 
               </div>
-              <br><br>
+              <br>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
                     <th style="color:black">
-                        #
+                        
                       </th>
                     
                       <th style="color:black">
-                        Nom 
+                        Cabinets 
                       </th>
+                     
                       <th style="color:black">
                         Tel/Email 
                       </th>
                       <th style="color:black">
-                        Situation 
+                      Description 
                       </th>
                       <th style="color:black">
-                        S. Activité
+                         Activité
                       </th>
                       <th style="color:black">
                          NINEA
@@ -46,11 +41,13 @@
                         RC
                       </th>
                     
+                     
+                      <th style="color:black">
+                        Détails
+                      </th>
+                    
                       <th style="color:black">
                         Status
-                      </th>
-                      <th class="text-right" style="color:black">
-                        Détails
                       </th>
                     </thead>
                     <tbody>
@@ -61,51 +58,22 @@
                       {{ $loop->iteration }}
                         </td>
                         <td>
-                        @if (!$rs->user->avatar)
+                        @if (!$rs->logocbt)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
 
-                        @else ( $rs->user->avatar)
-                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->user->avatar }}">
+                        @else ( $rs->logocbt)
+                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->logocbt }}">
                         @endif
-                        {{ $rs->user->name }}
+                        {{ $rs->nomcabinet }}
                         </td>
-                       
+                      
                         <td>
                         {{ $rs->user->telephone }} <br>
                         {{ $rs->user->email }}
                         </td>
                         <td>
-                        {{ $rs->situationcabinet  }}
-                        </td>
-                        <td>
-                        {{ $rs->secteuractivitecabinet  }}
-                        </td>
-                        <td>
-                        <a href="/uploads/{{ $rs->nineacabinet }}" style="color: #325fa6">Voir</i></a>
-
-                        </td>
-                        <td>
-                        <a href="/uploads/{{ $rs->rccabinet }}" style="color: #325fa6">Voir</a>
-
-                        </td>
-                      
-                        <td>
-                        <form class="statusForm" method="post" action="{{ route('updateStatusCabinet', $rs->id)}}">
-                          @csrf
-
-                          @method('PUT')
-                     
-                          <div class="form-check">
-                          <label class="form-check-label">
-                          <input class="form-check-input status-checkbox" type="checkbox" id="flexSwitchCheck{{$rs->id}}"   {{ $rs->user->status == 1  ? 'checked' : '' }} >
-                          <span class="form-check-sign"></span>
-                          </label>
-                          </div>
-                          </form>
-                      </td>
-                        <td class="text-right">
-                        <button type="button" style="border: none; background:white;" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">
-                        <i class="fa fa-eye" style=" color:#325fa6;"></i>
+                        <button type="button" style="border: none; background:white; color:#ef882b" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">
+                       Voir
                         </button>
 
                         <!-- Modal -->
@@ -127,8 +95,43 @@
                             </div>
                         </div>
                         </div>
+                        </td>
+                        <td>
+                        {{ $rs->secteuractivitecabinet  }}
+                        </td>
+                        <td>
+                        <a href="/uploads/{{ $rs->nineacabinet }}" style="color: #325fa6">Voir</i></a>
 
                         </td>
+                        <td>
+                        <a href="/uploads/{{ $rs->rccabinet }}" style="color: #325fa6">Voir</a>
+
+                        </td>
+                        <td >
+                        <a href="{{ route('admin.listintercabinetadmin', $rs->id)}}" style="color:#ef882b;">Voir</a>
+
+
+                        </td>
+                       
+                        <td>
+                        <form class="statusForm" method="post" action="{{ route('updateStatusCabinet', $rs->id)}}">
+                          @csrf
+
+                          @method('PUT')
+                          <div  class="form-group">
+                     <select name="status" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
+
+                      <option   id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->interlocuteurcbts->first()->user->status == 1  ? 'selected' : '' }} >Activé</option>
+                      <option id="flexSwitchCheck{{$rs->id}}" value="0" {{ $rs->interlocuteurcbts->first()->user->status == 0  ? 'selected' : '' }}>Bloqué</option>
+
+                    
+                     </select>
+                     </div>
+
+                          
+                          </form>
+                      </td>
+                       
                       </tr>
                       @endforeach
                       @else

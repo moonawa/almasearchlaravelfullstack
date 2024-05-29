@@ -18,75 +18,52 @@
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
+        <div class="card text-black" style="border-radius: 10px;">
+          <div class="card-body p-md-3">
             <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-7 order-2 order-lg-1">
 
-                <p class="text-center h2 fw-bold mb-5 mx-1 mx-md-4 mt-4">Vous êtes une entreprise? S'inscrire</p>
+            <div class="col-md-10 col-lg-6 col-xl-5 mt-4 align-items-center order-2 order-lg-1">
+              <p class="text-center h3 fw-bold " style="color: #325fa6;">Vous êtes une entreprise? Inscrivez Vous</p>
 
-                <form class="mx-1 mx-md-4" method="POST"   action="{{ route('register.save') }}"  class="user" enctype="multipart/form-data">
+              <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
+
+             
+
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2">
+
+
+                <form class="mx-1 mx-md-4 pt-4" method="POST"   action="{{ route('register.save') }}"  class="user" enctype="multipart/form-data">
                 @csrf
-                <div class="row">
+                <p class="text-left h6 fw-bold  ">Information sur l'entreprise</p>
+
+                <div class="row ">
                   <div class="col-md-6  pr-1">
                 
-                    <div class="form-outline form-group">
+                    <div class="form-outline">
                       <label for="">Nom de l'entreprise</label>
-                      <input type="text"  class="form-control" required name="name" placeholder="Nom de l'entreprise " />
-                      @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                      <input type="text"  class="form-control" required name="nomentreprise" placeholder="Nom de l'entreprise " />
+                     
                     </div>
            
                   </div>
-                  <div class="col-md-6 px-1">
+                  <div class="col-md-6 px-1 mb-2">
                
-                    <div class="form-outline form-group">
-                    <label for=""> Téléphone</label>
-                      <input type="text"  required class="form-control" name="telephone" placeholder="Telephone" />
+                    <div class="form-outline ">
+                    <label for=""> Secteur d' activité</label>
+                      <input type="text"  required class="form-control" name="secteuractivite" placeholder="Secteur d'activité" />
               
                     </div>
-                
+            
+           
                   </div>
-                  </div>
-                    <div class="form-outline form-group">
-                    <label for="">Email</label>
-
-                      <input type="email" required  class="form-control" name="email" placeholder="Email" />
-                      @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-              
-                  </div>
-
-                 
-
-
-                  <div class="row">
-                  <div class="col-md-6  pr-1">
-                      <div class="form-outline flex-fill mb-0 form-group">
-                        <label for="">Secteur d' activité</label>
-                        <input type="text" required class="form-control" name="secteuractivite" placeholder="Informatique" />
+                  <div class="d-flex flex-row align-items-center mb-2">
+                      <div class="form-outline flex-fill mb-2">
+                        <label for="">Description</label>
+                        <textarea name="des" id=""  class="form-control" required cols="30" rows="5"></textarea>
                       </div>
                     </div>
-                    <div class="col-md-6  px-1">
-                    <div class="form-outline flex-fill mb-0 form-group">
-                    <label for="">Forme Juridique </label>
-                      <select name="situation" id="situation"  class="form-control">
-                        <option value="Société Anonyme">Société Anonyme</option>
-                        <option value="SUARL">SUARL</option>
-                        <option value="SARL">SARL</option>
-                      </select>
-                 
-                  </div>
-                    </div>
-                    </div>
-                    
-                    <div class="row">
+                  <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline ">
                         <label for="rc">Régistre de Commerce</label>
@@ -101,28 +78,59 @@
                   </div>
                     </div>
                     </div>
-                    <div class="d-flex flex-row align-items-center mb-4">
-                      <div class="form-outline flex-fill mb-0 form-group">
-                        <label for="">Description</label>
-                        <textarea name="des" id=""  class="form-control" required cols="30" rows="10"></textarea>
+                   
+                  </div><br>
+                  <p class="text-left h6 fw-bold  ">Information sur l'interlocuteur</p>
+
+                   
+
+                 
+
+
+                  <div class="row">
+                  <div class="col-md-6  pr-1">
+                      <div class="form-outline flex-fill mb-2">
+                        <label for="">Nom</label>
+                        <input type="text" required class="form-control" name="name" placeholder="Votre Nom" />
                       </div>
                     </div>
+                    <div class="col-md-6  px-1">
+                    <div class="form-outline flex-fill mb-2">
+                    <label for="">Email  </label>
+                     
+                    <input type="email" required  class="form-control" name="email" placeholder="Votre Email" />
+
+                  </div>
+                    </div>
+                    </div>
+                    <div class="row">
+                  <div class="col-md-6  pr-1">
+                      <div class="form-outline flex-fill mb-2">
+                        <label for="">Téléphone</label>
+                        <input type="text" required class="form-control" name="telephone" placeholder="Votre Téléphone" />
+                      </div>
+                    </div>
+                    <div class="col-md-6  px-1">
+                    <div class="form-outline flex-fill mb-2">
+                    <label for="">Fonction  </label>
+                    <input type="text" required  class="form-control" name="fonction" placeholder="Votre Fonction" />
+
+                 
+                  </div>
+                    </div>
+                    </div>
+                   
                  
                   
 
                   <div class="d-flex justify-content-center mx-4  mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-round btn-lg" style="background-color: #325fa6;">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary btn-round " style="background-color: #325fa6;">S'inscrire</button>
                   </div>
 
                 </form>
 
               </div>
-              <div class="col-md-10 col-lg-6 col-xl-5 d-flex align-items-center order-1 order-lg-2">
-              <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
-
-             
-
-              </div>
+              
             </div>
           </div>
         </div>

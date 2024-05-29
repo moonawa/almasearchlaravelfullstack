@@ -97,7 +97,7 @@
         </div>
 
       </div>
-      <br><br>
+     
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
@@ -218,6 +218,7 @@
             </tbody>
           </table>
         </div>
+        {{$formation->links('vendor.pagination.custom')}}
       </div>
     </div>
   </div>

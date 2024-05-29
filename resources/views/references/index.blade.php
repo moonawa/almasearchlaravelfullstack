@@ -77,17 +77,7 @@
     </div>
   </div>
 </div>
-              <div class="card-header">
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-
-                </div>
-              </div>
-
-              </div>
-              <br><br>
+             <br>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
@@ -208,6 +198,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$reference->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

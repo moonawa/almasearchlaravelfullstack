@@ -79,7 +79,7 @@
         </div>
 
       </div>
-      <br><br>
+   
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
@@ -177,6 +177,7 @@
             </tbody>
           </table>
         </div>
+        {{$competence->links('vendor.pagination.custom')}}
       </div>
     </div>
   </div>

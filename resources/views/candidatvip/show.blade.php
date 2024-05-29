@@ -28,7 +28,7 @@
 
 
             <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">
-              {{ __('Télécharger') }}
+              {{ __('Photo de Profil') }}
             </button>
           </form>
 
@@ -178,7 +178,7 @@
           <div class="row">
             <div class="col-md-6 pr-1">
               <div class="form-group">
-                <label>Lieu de Mobilité</label>
+                <label>Pays de Résidence</label>
                 <input type="text" class="form-control" placeholder=" Dakar, Saint-louis, France" name="lieudemobilite" value="{{ $can->lieudemobilite }}">
               </div>
             </div>

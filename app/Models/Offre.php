@@ -24,7 +24,8 @@ class Offre extends Model
         'statuscabinet',
         'entreprise_id',
         'competenceoffre',
-        'typeeoffre'
+        'typeeoffre', //avantage
+        'fiche'
     ];
 
     public function entreprise()

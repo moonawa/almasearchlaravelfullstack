@@ -8,30 +8,19 @@
   <div class=" p-4" >
   <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('admin.listoffreadmin') }}" style="color: black;">Toutes les Offres</a>
+    <a class="nav-link " href="{{ route('admin.listoffreadmin') }}" style="color: black;">Toutes les Offres  ({{$offrescount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('offreencoursadmin') }}" style="color:black;">Offres En Cours</a>
+    <a class="nav-link " href="{{ route('offreencoursadmin') }}" style="color:black;">Offres En Cours ({{$encours}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireadmin') }}" style="color:#325fa6;">Offre Expirées</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireadmin') }}" style="color:#325fa6;">Offre Expirées ({{$expire}})</a>
   </li>
  
 </ul>
    
 </div>
-           
-              <div class="card-header">
-              <div class="row">
-                <div class="col-md-10">
-                </div>
-                <div class="col-md-2">
-
-                </div>
-              </div>
-
-              </div>
-              <br><br>
+           <br>
               <div class="card-body">
                 <div class="table-responsive">
                   <table class="table">
@@ -69,7 +58,7 @@
                       {{ $loop->iteration }}
                         </td>
                         <td>
-                        {{ $rs->entreprise->user->name }}
+                        {{ $rs->entreprise->nomentreprise }}
                         </td>
                         <td>
                         {{ $rs->nomposte }}
@@ -93,7 +82,7 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showoffreadmin', $rs->id)}}" style="margin:5px;"><button style="border: none; background:white;"><i class="fa fa-eye"></i></button></a>
+                        <a href="{{ route('showoffreadmin', $rs->id)}}" style="color: #325fa6;">Voir</a>
 
                                
                             </div>
@@ -109,6 +98,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{$offres->links('vendor.pagination.custom')}}
               </div>
             </div>
           </div>

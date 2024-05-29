@@ -8,33 +8,22 @@
     <div class=" p-4" >
     <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('showcandidat') }}" style="color:#325fa6;">Toutes Les Offres</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('showcandidat') }}" style="color:#325fa6;">Toutes Les Offres ({{$candidaturescount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offreencourscandidat') }}" style="color:black;">Offres En Cours</a>
+    <a class="nav-link" href="{{ route('offreencourscandidat') }}" style="color:black;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offrerecrutecandidat') }}" style="color:black;">Offres Recrutées</a>
+    <a class="nav-link" href="{{ route('offrerecrutecandidat') }}" style="color:black;">Offres Recrutées ({{$recrutescount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('offredeclinecandidat') }}"  style="color:black;">Offres Déclinées</a>
+    <a class="nav-link " href="{{ route('offredeclinecandidat') }}"  style="color:black;">Offres Déclinées  ({{$declinescount}})</a>
   </li>
 </ul>
   
   
 </div>
-             
-                <div class="card-header">
-                <div class="row">
-                  <div class="col-md-10">
-                  </div>
-                  <div class="col-md-2">
-  
-                  </div>
-                </div>
-  
-                </div>
-                <br><br>
+      
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table">
@@ -71,7 +60,7 @@
                         {{ $loop->iteration }}
                           </td>
                           <td>
-                          {{ $rs->offre->entreprise->user->name  }}
+                          {{ $rs->offre->entreprise->nomentreprise  }}
                           </td>
                           <td>
                           {{ $rs->offre->nomposte }}
@@ -110,6 +99,7 @@
                       </tbody>
                     </table>
                   </div>
+                  {{$candidatures->links('vendor.pagination.custom')}}
                 </div>
               </div>
             </div>

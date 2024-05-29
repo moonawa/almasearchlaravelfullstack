@@ -224,10 +224,6 @@
                   <td style="color:orange">En Cours</td>
                   
                           @endif
-                        
-                 
-               
-              
               </tr>
 
               @endforeach
@@ -239,6 +235,8 @@
             </tbody>
           </table>
         </div>
+        {{$propositions->links('vendor.pagination.custom')}}
+
       </div>
     </div>
     </div>
@@ -378,6 +376,8 @@
             </tbody>
           </table>
         </div>
+        {{$candidats->links('vendor.pagination.custom')}}
+
       </div>
     </div>
 

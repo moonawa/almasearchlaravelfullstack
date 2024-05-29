@@ -230,60 +230,193 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-md-4">
+  <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Top 10 des Cabinets <img src="{{ asset('admin/img/top1.png')}}" alt=""></h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled team-members">
+                @if($topcabinets->count() > 0)
+                @foreach($topcabinets as $rs)
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                        @if (!$rs->user->avatar)
+                        <img class="img-circle img-no-padding img-responsive" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="Circle Image">
 
+                        @else ( $rs->user->avatar)
+                        <img class="img-circle img-no-padding img-responsive" width="75px" src="/avatars/{{ $rs->user->avatar }}" alt="Circle Image">
+                        @endif                        </div>
+                      </div>
+                      <div class="col-md-7 col-7">
+                      {{ $rs->user->name }} ({{ $rs->view_count }})
+                        <br/>
+                        <span class="text-muted"><small>Offline</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                 
+                
+                  @endforeach
+                      @else
+                <li>
+                    <td class="text-center" colspan="5">La liste des tops cabinets est vide</td>
+</li>
+                @endif
+                </ul>
+              </div>
+            </div>
+  </div>
+  <div class="col-md-4">
+  <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Top des  Entreprises</h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled team-members">
+              
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                          <img src="../assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-md-7 col-7">
+                     rrr
+                        <br />
+                        <span class="text-muted"><small>Offline</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                          <img src="../assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-md-7 col-7">
+                        Creative Tim
+                        <br />
+                        <span class="text-success"><small>Available</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                          <img src="../assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-ms-7 col-7">
+                        Flume
+                        <br />
+                        <span class="text-danger"><small>Busy</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                 
+                </ul>
+              </div>
+            </div>
+  </div>
+  <div class="col-md-4">
+  <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">VIP Members</h4>
+              </div>
+              <div class="card-body">
+                <ul class="list-unstyled team-members">
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                          <img src="../assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-md-7 col-7">
+                        DJ Khaled
+                        <br />
+                        <span class="text-muted"><small>Offline</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                        @if (!$rs->user->avatar)
+                        <img class="img-circle img-no-padding img-responsive" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="Circle Image">
+
+                        @else ( $rs->user->avatar)
+                        <img class="img-circle img-no-padding img-responsive" width="75px" src="/avatars/{{ $rs->user->avatar }}" alt="Circle Image">
+                        @endif
+                        </div>
+                      </div>
+                      <div class="col-md-7 col-7">
+                        Creative Tim
+                        <br />
+                        <span class="text-success"><small>Available</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="row">
+                      <div class="col-md-2 col-2">
+                        <div class="avatar">
+                          <img src="../assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                        </div>
+                      </div>
+                      <div class="col-ms-7 col-7">
+                        Flume
+                        <br />
+                        <span class="text-danger"><small>Busy</small></span>
+                      </div>
+                      <div class="col-md-3 col-3 text-right">
+                        <btn class="btn btn-sm btn-outline-success btn-round btn-icon"><i class="fa fa-envelope"></i></btn>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+  </div>
+</div>
 <div class="row">
   <div class="col-md-4">
     <div class="card ">
-      <div class="card-header ">
-        <h5 class="card-title"> Statistique </h5>
-      </div>
-      <div class="card-body ">
-        <!--   <canvas id="chartEmail"></canvas> -->
-<div class="col-md-12" >
-  <div class="row" style="display: flex; align-items: flex-end;">
-  
-
-        <div class="bar col-md-2" style=" margin:2px; background-color: #004C50; width: 5px; height: {{ $candidatcount * 5 }}px;"></div>
-        <div class="bar col-md-2" style=" margin:2px; background-color: #00939C; width:  5px; height: {{ $candidatvipcount * 5 }}px;"></div>
-        
-        <div class="bar col-md-2" style="margin:2px; background-color: #10ABB4; width: 5px; height: {{ $cabinetcount * 5 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #9C3E00; width: 5px; height: {{ $entreprisecount * 5 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #502000; width: 5px; height: {{ $offrecount * 5 }}px;"></div>
-        
-      </div>
-      </div>
-      </div>
-      <div class="card-footer ">
-        <div class="legend">
-          <i class="fa fa-circle" style="color:#004C50"></i> Candidats
-          <i class="fa fa-circle" style="color:#00939C"></i> Candidats VIP
-          <i class="fa fa-circle" style="color:#10ABB4"></i> Cabinets
-          <i class="fa fa-circle" style="color:#9C3E00"></i> Entreprises
-          <i class="fa fa-circle" style="color: #502000"></i> Offres
-        </div>
-       
-      </div>
+     
+     
     </div>
   </div>
   <div class="col-md-8">
     <div class="card card-chart">
-      <div class="card-header">
-        <h5 class="card-title">NASDAQ: AAPL</h5>
-        <p class="card-category">Line Chart with Points</p>
-      </div>
-      <div class="card-body">
-        <canvas id="speedChart" width="400" height="100"></canvas>
-      </div>
-      <div class="card-footer">
-        <div class="chart-legend">
-          <i class="fa fa-circle text-info"></i> Tesla Model S
-          <i class="fa fa-circle text-warning"></i> BMW 5 Series
-        </div>
-        <hr />
-        <div class="card-stats">
-          <i class="fa fa-check"></i> Data information certified
-        </div>
-      </div>
+     
+      
+      
     </div>
   </div>
 </div>

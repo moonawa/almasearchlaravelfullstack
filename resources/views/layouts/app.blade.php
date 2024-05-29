@@ -32,6 +32,7 @@ Coded by www.creative-tim.com
     <link href="{{ asset('admin/css/paper-dashboard.css?v=2.0.1') }}" rel="stylesheet">
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('admin/demo/demo.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin/css/moonawa.css') }}" rel="stylesheet">
 
 </head>
 
@@ -62,6 +63,9 @@ Coded by www.creative-tim.com
 
       </div>
       </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script src="{{ asset('admin/js/moonawa.js') }}"></script>
       <script src="{{ asset('admin/js/core/jquery.min.js') }}"></script>
       <script src="{{ asset('admin/js/core/popper.min.js') }}"></script>
       <script src="{{ asset('admin/js/core/bootstrap.min.js') }}"></script>

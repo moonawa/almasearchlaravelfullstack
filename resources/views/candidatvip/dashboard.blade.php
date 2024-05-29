@@ -3,6 +3,35 @@
 
 @section('contents')
 <div class="row">
+
+  <div class="col-md-6">
+<div class="alert alert-info alert-with-icon alert-dismissible fade show" data-notify="container">
+                          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="nc-icon nc-simple-remove"></i>
+                          </button>
+                          <span data-notify="icon" class="nc-icon nc-bell-55"></span>
+                          <span data-notify="message">Votre profil (CV détaillé) a été vu {{ $candidat->views_count }} fois par les entreprises.
+                            Veullez le completer d'avantage.
+                          </span>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                        @if(session('warning'))
+
+                        <div class="alert alert-danger alert-with-icon alert-dismissible fade show" data-notify="container">
+                          <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                            <i class="nc-icon nc-simple-remove"></i>
+                          </button>
+                          <span data-notify="icon" class="nc-icon nc-bell-55"></span>
+                          <span data-notify="message">{{ session('warning') }}
+                          </span>
+                        </div>
+                       
+                        @endif
+                        </div>
+                      
+                        </div>
+<div class="row">
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">
@@ -228,88 +257,13 @@
 <div class="row">
   <div class="col-md-4">
     <div class="card ">
-      <div class="card-header ">
-        <h5 class="card-title"> Statistique CV</h5>
-        <p class="card-category"> Performance</p>
-      </div>
-      <div class="card-body ">
-        <!--   <canvas id="chartEmail"></canvas> -->
-        <div class="col-md-12" >
-  <div class="row" style="display: flex; align-items: flex-end;">
-  
-        <div class="bar col-md-2" style="margin:2px;  background-color: #004C50;; width: 1px; height: {{ $nombreformation * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px;  background-color: #00939C;; width:1px; height: {{ $nombreexperience * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #10ABB4;; width: 1px; height: {{ $nombrecompetence * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #9C3E00;; width: 1px; height: {{ $nombrelangue * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #502000; width: 1px; height: {{ $candidatures * 30 }}px;"></div>
-
-      </div>
-      </div>
-      </div>
-      <div class="card-footer ">
-        <div class="legend">
-          <i class="fa fa-circle" style="color:#004C50"></i> Formations
-          <i class="fa fa-circle" style="color:#00939C"></i> Expériences
-          <i class="fa fa-circle" style="color:#10ABB4"></i> Compétences
-          <i class="fa fa-circle" style="color:#9C3E00"></i> Langues
-          <i class="fa fa-circle" style="color:#502000"></i> Offres
-        </div>
-      
-      </div>
+     
+    
+     
     </div>
   </div>
   <div class="col-md-8">
-    <div class="card card-chart">
-      <div class="card-header">
-        <h5 class="card-title">NASDAQ: AAPL</h5>
-        <p class="card-category">Line Chart with Points</p>
-      </div>
-      <div class="card-body">
-        <canvas id="myChart" width="400" height="200"></canvas>
-        <script>
-          var ctx = document.getElementById('myChart').getContext('2d');
-          var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-              labels: ['Candidatures', 'Encours', 'Déclinés', 'Récrutés'],
-              datasets: [{
-                data: [{{ $candidatures }}, {{ $encours }}, {{ $decline }}, {{ $recrute }}],
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)'
-                ],
-                borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
-            }
-          });
-        </script>
-    </div>
-      <div class="card-footer">
-        <div class="chart-legend">
-          <i class="fa fa-circle text-info"></i> Tesla Model S
-          <i class="fa fa-circle text-warning"></i> BMW 5 Series
-        </div>
-        <hr />
-        <div class="card-stats">
-          <i class="fa fa-check"></i> Data information certified
-        </div>
-      </div>
-    </div>
+    
   </div>
 </div>
 @endsection

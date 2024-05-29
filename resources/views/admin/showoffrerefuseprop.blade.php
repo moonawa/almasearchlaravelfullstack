@@ -165,6 +165,7 @@
               @endif
             </tbody>
           </table>
+          {{$propositions->links('vendor.pagination.custom')}}
         </div>
       </div>
     </div>

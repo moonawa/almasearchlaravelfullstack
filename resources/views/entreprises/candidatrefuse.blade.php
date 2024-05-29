@@ -149,6 +149,7 @@
             </tbody>
           </table>
           </div>
+          {{$candidatures->links('vendor.pagination.custom')}}
       </div>
     </div>
     </div>

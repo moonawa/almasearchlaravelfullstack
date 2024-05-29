@@ -221,55 +221,10 @@
         </div> 
         <div class="row">
           <div class="col-md-4">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title"> Statistiques</h5>
-              </div>
-              <div class="card-body ">
-        <!--   <canvas id="chartEmail"></canvas> -->
-        <div class="col-md-12" >
-  <div class="row" style="display: flex; align-items: flex-end;">
-  
-        <div class="bar col-md-2" style="margin:2px;  background-color: #004C50;; width: 1px; height: {{ $candidat * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px;  background-color: #00939C;; width:1px; height: {{ $offre * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #10ABB4;; width: 1px; height: {{ $candidatureselec * 30 }}px;"></div>
-        <div class="bar col-md-2" style="margin:2px; background-color: #9C3E00;; width: 1px; height: {{ $candidaturerecru * 30 }}px;"></div>
-
-      </div>
-      
-      </div>
-      </div>
-              <div class="card-footer ">
-                <div class="legend">
-                  <i class="fa fa-circle" style="color:#004C50"></i> Candidats
-                  <i class="fa fa-circle" style="color:#00939C"></i> Offres
-                  <i class="fa fa-circle"  style="color:#10ABB4"></i> Candidats Sélectionnés
-                  <i class="fa fa-circle" style="color:#9C3E00"></i> Candidats Recrutés
-                </div>
-                
-              </div>
-            </div>
+           
           </div>
           <div class="col-md-8">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">NASDAQ: AAPL</h5>
-                <p class="card-category">Line Chart with Points</p>
-              </div>
-              <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
-              </div>
-              <div class="card-footer">
-                <div class="chart-legend">
-                  <i class="fa fa-circle text-info"></i> Tesla Model S
-                  <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                </div>
-                <hr />
-                <div class="card-stats">
-                  <i class="fa fa-check"></i> Data information certified
-                </div>
-              </div>
-            </div>
+           
           </div>
         </div>  
 @endsection

@@ -3,6 +3,13 @@
 
 @section('contents')
 <div class="row">
+  <div class="col-md-9"></div>
+  <div class="col-md-3">
+  <a href="{{ route('candidatvip.cvPdf', ['id' => $can->id]) }}" class="btn btn-round" style="background-color: #325fa6;">Télécharger le CV</a>
+
+  </div>
+</div>
+<div class="row">
   <div class="col-md-4">
     <div class="card card-user">
       <div class="image">
@@ -49,7 +56,7 @@
               <h5>CV<br> <a href="/uploads/{{ $can->cv }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
             <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
-              <h5>Motivation<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
+              <h5>Fichier<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
 
           </div>

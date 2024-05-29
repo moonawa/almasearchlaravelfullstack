@@ -8,13 +8,13 @@
   <div class=" p-4" >
   <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('indexcabinet') }}" style="color:black;">Toutes les Offres</a>
+    <a class="nav-link " href="{{ route('indexcabinet') }}" style="color:black;">Toutes les Offres ({{$offrescount }})</a>
   </li>
   <li class="nav-item ">
-    <a class="nav-link " href="{{ route('offreencourscabinet') }}" style="color:black;">Offres En cours</a>
+    <a class="nav-link " href="{{ route('offreencourscabinet') }}" style="color:black;">Offres En cours ({{$offresencours }})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreexpirecabinet') }}" style="color:#325fa6;">Offres Expirées</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreexpirecabinet') }}" style="color:#325fa6;">Offres Expirées ({{$offresexpire }})</a>
   </li>
   </ul>
 </div>
@@ -67,7 +67,7 @@
                       {{ $loop->iteration }}
                         </td>
                         <td>
-                        {{ $rs->entreprise->user->name }}
+                        {{ $rs->entreprise->nomentreprise }}
                         </td>
                         <td>
                         {{ $rs->nomposte }}
@@ -105,6 +105,8 @@
                     </tbody>
                   </table>
                 </div>
+                {{$offres->links('vendor.pagination.custom')}}
+
               </div>
             </div>
           </div>
