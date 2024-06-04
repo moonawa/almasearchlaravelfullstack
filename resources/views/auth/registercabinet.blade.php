@@ -125,6 +125,8 @@
 
                   <div class="d-flex justify-content-center mx-4  mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-round " style="background-color: #325fa6;">S'inscrire</button>
+                    <p class="small fw-bold mt-4 pt-1 ">Vous avez déja un compte? <a href="{{ route('login') }}"
+                class="link-danger">Se connecter</a></p>
                   </div>
 
                 </form>

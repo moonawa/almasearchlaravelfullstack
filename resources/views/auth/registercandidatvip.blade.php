@@ -22,11 +22,11 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-12 col-xl-11">
         <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
+          <div class="card-body p-md-3">
             <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-7 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Vous êtes à la recherche d'emploi ? S'inscrire</p>
+              <div class="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2">
+
                 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -52,7 +52,7 @@
                   </div>
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="email"> Email</label>
+                    <label for="email"> Email <span style="color:red;">*</span></label>
                       <input type="email"  class="form-control" name="email" required placeholder="Votre email" />
                       @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -65,7 +65,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="genre"> Genre</label>
+                    <label for="genre"> Genre <span style="color:red;">*</span></label>
                       <select name="genre" id="genre" class="form-control" required>
                             <option value="Homme">Homme</option>
                             <option value="Femme"> Femme</option>
@@ -76,7 +76,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="birthday"> Date de naissance</label>
+                    <label for="birthday"> Date de naissance <span style="color:red;">*</span></label>
 
                       <input type="date"  class="form-control" name="birthday" required placeholder="Votre date de naissance" />
                     
@@ -89,7 +89,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="password">Mot de Passe</label>
+                    <label for="password">Mot de Passe <span style="color:red;">*</span></label>
                       <input type="password"  class="form-control" name="password" required placeholder="Votre mot de passe"  />
                       @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -102,7 +102,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="telephone"> Téléphone</label>
+                    <label for="telephone"> Téléphone <span style="color:red;">*</span></label>
                       <input type="text" class="form-control" name="telephone" required placeholder="Votre telephone" />
                       @error('telephone')
                                     <span class="invalid-feedback" role="alert">
@@ -117,7 +117,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="nationnalite"> Nationnalité</label>
+                    <label for="nationnalite"> Nationnalité <span style="color:red;">*</span></label>
                       <input type="text"  class="form-control" name="nationnalite" required placeholder="Votre nationnalite"  />
                       
                     </div>
@@ -127,7 +127,7 @@
                   <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="disponibilite"> Disponibilité</label>
+                    <label for="disponibilite"> Disponibilité <span style="color:red;">*</span></label>
                         <select name="disponibilite" id="disponibilite" class="form-control" required>
                             <option value="Immédiate">Immédiate</option>
                             <option value="Négociable">Négociable</option>
@@ -141,19 +141,22 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
                         <label for="cv">CV</label>
-                      <input type="file"  class="form-control" name="cv" id="cv" required  autocomplete="cv"/>
+                      <input type="file"  class="form-control" name="cv" id="cv"   autocomplete="cv"/>
                     </div>
                   </div>
                  
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-round " style="background-color: #325fa6;">S'inscrire</button>
+                    <p class="small fw-bold mt-4 pt-1 ">Vous avez déja un compte? <a href="{{ route('login') }}"
+                class="link-danger">Se connecter</a></p>
                   </div>
 
                 </form>
 
               </div>
-              <div class="col-md-10 col-lg-6 col-xl-5 d-flex align-items-center order-1 order-lg-2">
+              <div class="col-md-10 col-lg-6 col-xl-5 mt-4 align-items-center order-2 order-lg-1">
+              <p class="text-center h3 fw-bold " style="color: #325fa6;">Vous êtes à la recherche d'emploi? Inscrivez Vous</p>
 
               <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
 
