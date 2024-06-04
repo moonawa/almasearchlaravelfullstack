@@ -198,6 +198,7 @@ class AuthController extends Controller
                 'nineacabinet' => $nineacabinetName,
                 'rccabinet' => $rccabinetName,
                 'telcbt'  =>  $request->telcbt,
+                'descabinet'  =>  $request->descabinet,
                 'nomcabinet'  =>  $request->nomcabinet,
                 'emailcbt'   => $request->emailcbt
             ]);

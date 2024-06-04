@@ -27,9 +27,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+              
                    
                       </th>
                       <th style="color:black">
@@ -63,9 +61,7 @@
                     @if($candidats->count() > 0)
                 @foreach($candidats as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         @if (!$rs->user->avatar)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">

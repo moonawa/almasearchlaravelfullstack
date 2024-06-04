@@ -26,9 +26,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        
-                      </th>
+                  
                       <th style="color:black">
                         Nom 
                       </th>
@@ -42,7 +40,7 @@
                         Date de Cloture
                       </th>
                       <th style="color:black">
-                        Status
+                        Salaire
                       </th>
                       <th class="text-right" style="color:black">
                         Action
@@ -52,9 +50,7 @@
                     @if($expires->count() > 0)
                 @foreach($expires as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         {{ $rs->nomposte }}
                         </td>
@@ -67,8 +63,8 @@
                         <td>
                         {{ $rs->datecloture  }}
                         </td>
-                        <td style="color:red;">
-                         Expirée
+                        <td>
+                        {{ $rs->salaire  }}
                         
                       </td>
                         <td class="text-right">

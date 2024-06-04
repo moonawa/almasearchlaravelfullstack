@@ -86,6 +86,23 @@
     </div>
     <div class="card">
       <div class="card-header">
+        <h4 class="card-title">Mot clés</h4>
+      </div>
+
+      <div class="card-body">
+    
+
+      <ul>
+      @foreach($can->mot_cles as $rs)
+       <li> {{ $rs->mot }}</li>    
+       @endforeach
+</ul>
+          
+        
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
         <h4 class="card-title">Références</h4>
       </div>
 
@@ -166,7 +183,7 @@
           @foreach($candidature as $rs)
           <tr>
           <td>
-                        {{ $rs->offre->entreprise->user->name }}
+                        {{ $rs->offre->entreprise->nomentreprise }}
                         </td>
                         <td>
                         {{ $rs->offre->nomposte }}

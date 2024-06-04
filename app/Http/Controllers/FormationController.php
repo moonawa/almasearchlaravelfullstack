@@ -22,7 +22,7 @@ class FormationController extends Controller
      {
          $user = Auth::user();
          $candidat = Candidat::where('user_id', $user->id)->first();
-         $formation = Formation::where('candidat_id', $candidat->id)->paginate(5);   
+         $formation = Formation::where('candidat_id', $candidat->id)->orderBy('anneeacademique', 'desc')->paginate(5);   
          return view('formations.index', compact('formation'));
      }
 

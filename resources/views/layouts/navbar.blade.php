@@ -16,14 +16,7 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
-              <div class="input-group no-border">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                  </div>
-                </div>
-              </div>
-            </form>
+           
             <ul class="navbar-nav">
               
               <li class="nav-item btn-rotate dropdown">

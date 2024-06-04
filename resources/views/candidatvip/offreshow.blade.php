@@ -64,7 +64,11 @@
           Date clôture : {{ $candidature->offre->datecloture }}
           </p>
          
-
+          @if($candidature->offre->fichierjoint)
+        <p>Fichier Joint: 
+        <a href="/uploads/{{ $candidature->offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+</p>
+@endif
         </div>
 
       </div>

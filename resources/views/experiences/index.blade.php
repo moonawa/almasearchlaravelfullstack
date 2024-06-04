@@ -63,7 +63,7 @@
                     </div>
                     <label>Date fin</label>
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="datefinexperience" placeholder="2023 ou  Jusqu'à aujourd'hui">
+                        <input type="text" required class="form-control" name="datefinexperience" placeholder="Ex: 2023 ou  Jusqu'à aujourd'hui">
                     </div>
                    <!--  <div class="card-footer ">
                 <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter</button>
@@ -89,9 +89,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                   
                       <th style="color:black">
                         Entreprise
                       </th>
@@ -115,9 +113,7 @@
                     @if($experience->count() > 0)
                 @foreach($experience as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         {{ $rs->entrepriseexperience }}
                         </td>

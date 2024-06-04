@@ -66,7 +66,11 @@
           Date clôture : {{ $offre->datecloture }}
           </p>
          
-
+          @if($offre->fichierjoint)
+        <p>Fichier Joint: 
+                      <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+</p>
+@endif
         </div>
 
       </div>
@@ -119,9 +123,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                
-              </th>
+           
               <th style="color:black">
                 Nom 
               </th>
@@ -144,9 +146,7 @@
               @if($candidatures->count() > 0)
               @foreach($candidatures as $prop)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+             
                 <td>
                   {{ $prop->candidat->user->name }} 
                 </td>

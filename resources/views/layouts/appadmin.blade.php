@@ -65,6 +65,8 @@ Coded by www.creative-tim.com
 
       </div>
       </div>
+      <script src="{{ asset('admin/js/moonawa.js') }}"></script>
+
       <script src="{{ asset('admin/js/core/jquery.min.js') }}"></script>
       <script src="{{ asset('admin/js/core/popper.min.js') }}"></script>
       <script src="{{ asset('admin/js/core/bootstrap.min.js') }}"></script>

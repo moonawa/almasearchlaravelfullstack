@@ -91,32 +91,11 @@
           <div class="col-md-8">
             <div class="card card-user">
               <div class="card-header">
-                <h5 class="card-title"> Modifier le mot de passe</h5>
+                <h5 class="card-title"> Modifier Votre mot de passe</h5>
               </div>
               <div class="card-body">
              
-<div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Nom du cabinet </label>
-                        <input type="text" class="form-control" disabled="" placeholder="Nom" value="{{ $cabinet->user->name }}">
-                      </div>
-                    </div>
-                    <div class="col-md-2 px-1">
-                      <div class="form-group">
-                        <label>Téléphone</label>
-                       
-                        <input type="text" class="form-control" placeholder="771301409" disabled="" value="{{ $cabinet->user->telephone }}">
-                      </div>
-                    </div>
-                    <div class="col-md-5 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Email </label>
-                        <input type="email" class="form-control" disabled="" value="{{ $cabinet->user->email }}">
-                      </div>
-                    </div>
-                  </div>
-                <form action="{{ route('cabinets.update') }}" method="POST"> 
+                <form action="{{ route('cabinets.update') }}" method="POST" > 
                 @csrf
         @method('PUT')
                
@@ -147,6 +126,81 @@
                       <div class="form-group">
                         <label>Confirmer le nouveau mot de passe</label>
                         <input type="password" class="form-control"  name="password_confirmation" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button class="btn  btn-round" type="submit" style="background-color: #325fa6;">Modifier </button>
+                    </div>
+                  </div>
+                </form>
+               
+              </div>
+            </div>
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title"> Modifier les informations du Cabinet </h5>
+              </div>
+              <div class="card-body">
+             
+                <form action="{{ route('cabinets.updateinfo') }}" method="POST" enctype="multipart/form-data"> 
+                @csrf
+        @method('PUT')
+               
+        @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+                  <div class="row">
+                  <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Nom du cabinet </label>
+                        <input type="text" class="form-control"  placeholder="Nom" value="{{ $cabinet->cabinet->nomcabinet }}" name="nomcabinet">
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email </label>
+                        <input type="email" class="form-control"  value="{{ $cabinet->cabinet->emailcbt }}" name="emailcbt">
+                      </div>
+                    </div>
+                  </div>
+                
+              
+                  <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Téléphone </label>
+                        <input type="text" class="form-control"  value="{{ $cabinet->cabinet->telcbt }}" name="telcbt">
+                      </div>
+                      </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Secteur d'activité </label>
+                        <input type="text" class="form-control"  name="secteuractivitecabinet" value="{{ $cabinet->cabinet->secteuractivitecabinet }}">
+                      </div>
+                      </div>
+                     
+                      </div>
+
+                      <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Description</label>
+                        <textarea type="text" class="form-control"  name="descabinet" > {{ $cabinet->cabinet->descabinet }} </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="logocbt"> Logo</label>
+                        <input id="logocbt" type="file" class="form-control @error('logocbt') is-invalid @enderror" name="logocbt"   autocomplete="logocbt">
+
+
                       </div>
                     </div>
                   </div>

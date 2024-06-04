@@ -95,10 +95,11 @@
                     <label>Disponibilité </label>
                     <div class="form-group">
                     <select name="disponibilite" id="disponibilite" required class="form-control">
-                            <option value="Immédaite">Immédaite</option>
+                            <option value="Immédiate">Immédiate</option>
                             <option value="Dans un mois">Dans un mois</option>
                             <option value="Négociable">Négociable</option>
-                            <option value="Dans deux mois">Dans trois mois</option>
+                            <option value="Dans trois mois">Dans trois mois</option>
+
                         </select>     
                    </div>
                     </div>
@@ -128,7 +129,7 @@
               </div>
 
               </div>
-              <br><br>
+           
               <div class="card-body">
               @if ($errors->any())
     <div class="alert alert-danger">
@@ -142,9 +143,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        
-                      </th>
+                   
                       <th style="color:black">
                         Nom
                       </th>
@@ -168,9 +167,7 @@
                     @if($candidat->count() > 0)
                 @foreach($candidat as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         {{ $rs->user->name }}
                         </td>

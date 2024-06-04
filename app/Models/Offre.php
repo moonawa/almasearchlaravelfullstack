@@ -25,7 +25,7 @@ class Offre extends Model
         'entreprise_id',
         'competenceoffre',
         'typeeoffre', //avantage
-        'fiche'
+        'fichierjoint'
     ];
 
     public function entreprise()

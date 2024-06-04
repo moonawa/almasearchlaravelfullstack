@@ -41,7 +41,7 @@
                   <div class="col-md-6  pr-1">
                 
                     <div class="form-outline">
-                      <label for="">Nom de l'entreprise</label>
+                      <label for="">Nom de l'entreprise <span style="color:red;">*</span></label>
                       <input type="text"  class="form-control" required name="nomentreprise" placeholder="Nom de l'entreprise " />
                      
                     </div>
@@ -50,7 +50,7 @@
                   <div class="col-md-6 px-1 mb-2">
                
                     <div class="form-outline ">
-                    <label for=""> Secteur d' activité</label>
+                    <label for=""> Secteur d' activité <span style="color:red;">*</span></label>
                       <input type="text"  required class="form-control" name="secteuractivite" placeholder="Secteur d'activité" />
               
                     </div>
@@ -59,20 +59,20 @@
                   </div>
                   <div class="d-flex flex-row align-items-center mb-2">
                       <div class="form-outline flex-fill mb-2">
-                        <label for="">Description</label>
+                        <label for="">Description <span style="color:red;">*</span></label>
                         <textarea name="des" id=""  class="form-control" required cols="30" rows="5"></textarea>
                       </div>
                     </div>
                   <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline ">
-                        <label for="rc">Régistre de Commerce</label>
+                        <label for="rc">Régistre de Commerce <span style="color:red;">*</span></label>
                         <input type="file" required class="form-control" name="rc" id="rc" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline  ">
-                    <label for="">NINEA  </label>
+                    <label for="">NINEA <span style="color:red;">*</span> </label>
                     <input type="file"  required class="form-control" name="ninea"  id="ninea" />
                  
                   </div>
@@ -90,13 +90,13 @@
                   <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline flex-fill mb-2">
-                        <label for="">Nom</label>
+                        <label for="">Nom <span style="color:red;">*</span></label>
                         <input type="text" required class="form-control" name="name" placeholder="Votre Nom" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline flex-fill mb-2">
-                    <label for="">Email  </label>
+                    <label for="">Email  <span style="color:red;">*</span></label>
                      
                     <input type="email" required  class="form-control" name="email" placeholder="Votre Email" />
 
@@ -106,13 +106,13 @@
                     <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline flex-fill mb-2">
-                        <label for="">Téléphone</label>
+                        <label for="">Téléphone <span style="color:red;">*</span></label>
                         <input type="text" required class="form-control" name="telephone" placeholder="Votre Téléphone" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline flex-fill mb-2">
-                    <label for="">Fonction  </label>
+                    <label for="">Fonction <span style="color:red;">*</span> </label>
                     <input type="text" required  class="form-control" name="fonction" placeholder="Votre Fonction" />
 
                  

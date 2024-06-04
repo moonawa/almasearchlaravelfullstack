@@ -35,6 +35,10 @@
         </div>
         @endif
         </p>
+        @if($offre->fichierjoint)
+        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+</p>
+@endif
       </div>
       <div class="col-md-4">
         <p> <strong>Nombre de poste: </strong> {{$offre->nombredeposte}} </p>
@@ -99,9 +103,7 @@
     <div class="table-responsive">
       <table class="table">
         <thead class=" text-primary">
-          <th style="color:black">
-            #
-          </th>
+          
           <th style="color:black">
             Nom
           </th>
@@ -126,9 +128,7 @@
           @if($candidatures->count() > 0)
           @foreach($candidatures as $candidature)
           <tr>
-            <td>
-              {{ $loop->iteration }}
-            </td>
+           
             <td>
               {{ $candidature->candidat->user->name }}
 
@@ -145,6 +145,9 @@
                 <div class="form-group">
                   <input type="datetime-local" class="form-control datePicker " name="heurecandidature" value="{{ $candidature->heurecandidature }}">
                 </div>
+                 <div class="spinner-border" role="status" id="loadingSpinner" style="display: none;">
+        <span class="sr-only">Loading...</span>
+    </div>
               </form>
             </td>
             <td>
@@ -153,7 +156,11 @@
                 @method('PUT')
                 <div class="form-group">
                   <input type="text" class="form-control datePicker " name="lieu" value="{{ $candidature->lieu }}" >
-                </div>
+                
+                <div class="spinner-border" role="status" id="loadingSpinner" style="display: none;">
+        <span class="sr-only">Loading...</span>
+    </div>
+    </div>
               </form>
             </td>
             <td>
@@ -244,7 +251,10 @@
           <label for="formations">Formation :</label>
           <input type="text" name="formations" id="formations" class="form-control">
         </div>
-
+        <div class="col-md-3">
+          <label for="mot_cles">Mot Clé :</label>
+          <input type="text" name="mot_cles" id="mot_cles" class="form-control">
+        </div>
 
         <!-- Ajouter des champs pour les autres critères de recherche -->
         <div class="col-md-3 mt-3">
@@ -259,24 +269,20 @@
     <div class="table-responsive">
       <table class="table">
         <thead class=" text-primary">
-          <th style="color:black">
-            #
-          </th>
+        
           <th style="color:black">
             Nom
           </th>
 
+        
           <th style="color:black">
-            Compétences
-          </th>
-          <th style="color:black">
-            Formation
+            Niveau Formation
           </th>
           <th style="color:black">
             Fonction
           </th>
           <th style="color:black">
-            Langues
+            Expérience
           </th>
           <th style="color:black">
             Disponibilité
@@ -293,31 +299,23 @@
           @if($candidats->count() > 0)
           @foreach($candidats as $rs)
           <tr>
-            <td>
-              {{ $loop->iteration }}
-            </td>
+          
             <td>
               {{ $rs->user->name }}
             </td>
+           
             <td>
-              @foreach ($rs->competences as $competence)
-              <li>{{ $competence->nomcompetence }}</li>
-              @endforeach
-            </td>
-            <td>
-              @foreach ($rs->formations as $formation)
-              <li>{{ $formation->niveauformation }}</li>
-              @endforeach
+            @if($rs->latestFormation)
+            {{ $rs->latestFormation->nomformation }} ({{ $rs->latestFormation->anneeacademique }})
+              @else
+                            <p>Aucune formation</p>
+                        @endif
             </td>
             <td>
               {{ $rs->fonction }}</li>
 
             </td>
-            <td>
-              @foreach ($rs->langues as $langue)
-              <li>{{ $langue->nomlangue }}</li>
-              @endforeach
-            </td>
+           <td>{{ $rs->trancheanneeexpeience }}</td>
             <td>
               {{ $rs->disponibilite }}
             </td>
@@ -325,7 +323,6 @@
 
             <td>
               <a href="{{ route('cvdetailleese', $rs->id)}}"><i class="fa fa-eye" style="color: #ef882b;" ></i></a>
-
               <a href="/uploads/{{ $rs->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
 
             </td>
@@ -365,8 +362,45 @@
 
 </div>
 @endif
+<style>
+    .spinner-border {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        vertical-align: text-bottom;
+        border: 0.25em solid currentColor;
+        border-right-color: transparent;
+        border-radius: 50%;
+        -webkit-animation: spinner-border .75s linear infinite;
+        animation: spinner-border .75s linear infinite;
+    }
+
+    .spinner-border {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.datePicker').change(function() {
+            // Show the spinner
+            $('#loadingSpinner').show();
+
+            // Submit the form
+            $(this).closest('form').submit();
+        });
+
+        $('.dateForm').on('submit', function() {
+            // Show the spinner
+            $('#loadingSpinner').show();
+        });
+    });
+</script>
 
 <script>
   $(document).ready(function() {
@@ -375,14 +409,7 @@
     });
   });
 </script>
-<script>
-  $(document).ready(function() {
-    $('.datePicker').change(function() {
-      $(this).closest('form').submit();
-     
-    });
-  });
-</script>
+
 <script>
   $(document).ready(function() {
     $('.status-checkbox').change(function() {

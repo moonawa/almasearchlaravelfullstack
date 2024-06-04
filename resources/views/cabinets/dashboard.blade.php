@@ -15,7 +15,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Interlocuteurs</p>
-                      <p class="card-title">7 <p>
+                      <p class="card-title">{{ $intercount }} <p>
                     </div>
                   </div>
                 </div>
@@ -24,7 +24,7 @@
                 <hr>
                 <div class="stats">
                   <i class="fa fa-refresh"></i>
-                  Voir
+                  <a href="{{ route('indexintercbt') }}" style="color: #9A9A9A; text-decoration: none;">Voir</a> 
                 </div>
               </div>
             </div>

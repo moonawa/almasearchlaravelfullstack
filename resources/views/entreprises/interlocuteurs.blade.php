@@ -11,7 +11,7 @@
                 
               <div class="row">
                 <div class="col-md-10">
-                <h5 class="card-title">Liste des Interlocuteurs</h5>
+                <h5 class="card-title">Liste des Interlocuteurs ({{$interlocuteurcount}})</h5>
                 </div>
                 <div class="col-md-2">
                <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
@@ -67,9 +67,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                  
                      
                       <th style="color:black">
                       
@@ -86,9 +84,7 @@
                       <th style="color:black">
                         Fonction 
                       </th>
-                      <th style="color:black">
-                         Status
-                      </th>
+                 
                       
                    
                     </thead>
@@ -96,15 +92,13 @@
                     @if($interlocuteur->count() > 0)
                 @foreach($interlocuteur as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                   
                         <td>
                         @if (!$rs->user->avatar)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
 
                         @else ( $rs->user->avatar)
-                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->avatar }}">
+                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->user->avatar }}">
                         @endif
                         {{ $rs->user->name }}
                         </td>
@@ -123,25 +117,7 @@
                       
                         </td>
                       
-                        <td>
-
-                        <form class="statusForm" method="post" action="{{ route('updateStatusadmin', $rs->id)}}">
-                          @csrf
-
-                          @method('PUT')
-                          <div  class="form-group">
-                     <select name="status" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
-
-                      <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->status}}" {{ $rs->user->status == 1  ? 'selected' : '' }} >Activé</option>
-                      <option id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->user->status == 0  ? 'selected' : '' }}>Bloqué</option>
-
-                    
-                     </select>
-                     </div>
-                         
-                          </form>
-
-        </td>
+                      
                      
                        
                       </tr>

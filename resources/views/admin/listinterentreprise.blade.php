@@ -13,9 +13,7 @@
       <div class="table-responsive">
       <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        
-                      </th>
+                  
                       <th style="color:black">
                         Nom
                       </th>
@@ -31,9 +29,7 @@
                     @if($inters->count() > 0)
                 @foreach($inters as $rs)
                 <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                      </td>
+                    
                         <td>
                         {{ $rs->user->name }}
                         </td>
@@ -70,9 +66,7 @@
       <div class="table-responsive">
       <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        
-                      </th>
+                  
                       <th style="color:black">
                         Nom
                       </th>
@@ -88,9 +82,7 @@
                     @if($offres->count() > 0)
                 @foreach($offres as $rs)
                 <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                      </td>
+                   
                         <td>
                         {{ $rs->nomposte }}
                         </td>

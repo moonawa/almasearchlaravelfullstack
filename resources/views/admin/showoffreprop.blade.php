@@ -90,7 +90,7 @@
       <div class="p-2">
       <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('showoffreadmin', $offre->id) }} " style=" color:#ef882b; ">Candidats Sélectionnés ({{$candidaturescount}})</a>
+        <a class="nav-link " href="{{ route('showoffreadmin', $offre->id) }} " style=" color:#ef882b; "><strong>Candidats Sélectionnés ({{$candidaturescount}})</strong> </a>
       </li>
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="{{ route('showoffrepropadmin', $offre->id)}}" style="background: #325fa6;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
@@ -117,9 +117,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                
-              </th>
+            
               <th style="color:black">
                 Nom 
               </th>
@@ -142,9 +140,7 @@
               @if($propositions->count() > 0)
               @foreach($propositions as $prop)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+             
                 <td>
                   {{ $prop->candidat->user->name }} <br>
 

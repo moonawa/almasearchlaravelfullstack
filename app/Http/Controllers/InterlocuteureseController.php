@@ -32,8 +32,9 @@ class InterlocuteureseController extends Controller
         $entreprise = $inter->entreprise; 
     if ($entreprise) {
         $interlocuteur = $entreprise->interlocuteureses()->latest()->paginate(10); // Obtenir les interlocuteurs de l'entreprise
-       
-        return view('entreprises.interlocuteurs', compact('interlocuteur')); // Passer les interlocuteurs à la vue
+        $interlocuteurcount = $entreprise->interlocuteureses()->count(); // Obtenir les interlocuteurs de l'entreprise
+
+        return view('entreprises.interlocuteurs', compact('interlocuteur', 'interlocuteurcount')); // Passer les interlocuteurs à la vue
     } else {
         return redirect()->back()->with('error', 'Vous n\'êtes pas associé à une entreprise.');
     }

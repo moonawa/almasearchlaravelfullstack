@@ -141,7 +141,7 @@ class CandidatController extends Controller
 public function showcvdetaille(string $id)
 {
     $user = Auth::user();
-   $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->where('user_id', $user->id)->findOrFail($id);
+   $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->where('user_id', $user->id)->orderBy('created_at', 'desc')->findOrFail($id);
    return view('candidatvip.showcvdetaille', compact('can'));
 }
 public function generatePDF($id)

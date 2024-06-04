@@ -8,16 +8,40 @@
   
            
               <div class="card-header">
+              <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent" style="border:none">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" >Liste des Membres ({{$admincount}})</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <form action="{{ route('admin.admin') }}">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Recherche par nom" name="search" >
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                   <button style="background-color: gray-light; border:none;" type="submit"> <i class="nc-icon nc-zoom-split"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+          </div>
+        </div>
+      </nav><br><br>
+              <div class="row ">
                 
-              <div class="row">
-                <div class="col-md-10">
-                <h5 class="card-title">Liste des Membres ({{$admincount}})</h5>
-                </div>
-                <div class="col-md-2">
-                <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
-
-
-                </div>
                   <!-- Modal -->
       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -73,9 +97,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+               
                      
                       <th style="color:black">
                       
@@ -102,9 +124,7 @@
                     @if($admin->count() > 0)
                 @foreach($admin as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         @if (!$rs->avatar)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
@@ -176,5 +196,11 @@
             $(this).closest('form').submit();
         });
     });
+</script>
+<script>
+  // Initialization for ES Users
+import { Input, Ripple, initMDB } from "mdb-ui-kit";
+
+initMDB({ Input, Ripple });
 </script>
 @endsection

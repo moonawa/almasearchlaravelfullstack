@@ -129,7 +129,7 @@
                     <div class="form-outline flex-fill mb-0">
                     <label for="disponibilite"> Disponibilité</label>
                         <select name="disponibilite" id="disponibilite" class="form-control" required>
-                            <option value="Immédiate">Immédaite</option>
+                            <option value="Immédiate">Immédiate</option>
                             <option value="Négociable">Négociable</option>
                             <option value="Dans un mois">Dans un mois</option>
                             <option value="Dans trois mois">Dans trois mois</option>

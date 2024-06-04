@@ -82,9 +82,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                   
                       <th style="color:black">
                         Nom
                       </th>
@@ -108,9 +106,7 @@
                     @if($reference->count() > 0)
                 @foreach($reference as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                         {{ $rs->nomreferent }}
                         </td>

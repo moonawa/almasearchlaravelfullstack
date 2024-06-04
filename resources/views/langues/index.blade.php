@@ -72,9 +72,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                    
                       <th style="color:black">
                         Nom
                       </th>
@@ -90,9 +88,7 @@
                     @if($langue->count() > 0)
                 @foreach($langue as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                     
                         <td>
                         {{ $rs->nomlangue }}
                         </td>

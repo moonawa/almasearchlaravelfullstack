@@ -84,6 +84,7 @@ class CabinetController extends Controller
         $user = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
         $cabinet = $inter->cabinet;
+        $intercount = $cabinet->interlocuteurcbts->count();
         $candidat = $cabinet->candidats()->paginate(10); 
         $offre = Offre::where('statuscabinet', 1)->count();
         $offreencours = Offre::where('statuscabinet', 1)->where('statusoffre', 0)->count();
@@ -92,7 +93,7 @@ class CabinetController extends Controller
         $candidatureselec = Proposition::whereNotNull('heureproposition')->count();
         $candidaturerecru = Proposition::where('recruteproposition', 1)->count();
 
-        return view('cabinets.dashboard', compact('candidat', 'offre','offreencours', 'offreexpire', 'candidatureselec', 'candidaturerecru', 'candidatureprop'));
+        return view('cabinets.dashboard', compact('intercount', 'candidat', 'offre','offreencours', 'offreexpire', 'candidatureselec', 'candidaturerecru', 'candidatureprop'));
     }
     public function createcandidat()
     {
@@ -180,6 +181,31 @@ class CabinetController extends Controller
        // $cabinet->update($request->all());
        // $cabinet->save();
         return redirect()->back()->with('success', 'le mot de passe a été modifié avec succès');
+     }
+     public function updateinfo(Request $request)
+     {
+   
+        
+         $user = Auth::user();
+         $cabinet = Interlocuteurcbt::where('user_id', $user->id)->first();
+         $cbt = $cabinet->cabinet;
+         if ($cbt) {
+             $logoName = null;
+             if ($request->hasFile('logocbt')) {
+                 $logoName = time().'.'.$request->logocbt->extension();
+                 $request->logocbt->move(public_path('uploads'), $logoName);
+             }
+             $cbt->nomcabinet = $request->nomcabinet;
+             $cbt->emailcbt = $request->emailcbt;
+             $cbt->telcbt = $request->telcbt;
+             $cbt->descabinet = $request->descabinet;
+             $cbt->secteuractivitecabinet = $request->secteuractivitecabinet;
+             $cbt->logocbt = $logoName;
+             $cbt->save();
+         }
+   
+     return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+        // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
      }
      /**
      * Remove the specified resource from storage.

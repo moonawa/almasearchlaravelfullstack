@@ -41,7 +41,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ajouter une formation</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Ajouter une Formation</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -102,9 +102,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+           
               <th style="color:black">
                 Nom
               </th>
@@ -126,9 +124,7 @@
               @if($formation->count() > 0)
               @foreach($formation as $rs)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+             
                 <td>
                   {{ $rs->nomformation }}
                 </td>

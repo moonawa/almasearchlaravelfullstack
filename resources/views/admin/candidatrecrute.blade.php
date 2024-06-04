@@ -119,9 +119,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+            
               <th style="color:black">
                 Nom 
               </th>
@@ -139,9 +137,7 @@
               @if($candidatures->count() > 0)
               @foreach($candidatures as $prop)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+              
                 <td>
                   {{ $prop->candidat->user->name }} <br>
                  

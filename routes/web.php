@@ -12,6 +12,7 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InterlocuteurcbtController;
 use App\Http\Controllers\InterlocuteureseController;
 use App\Http\Controllers\LangueController;
+use App\Http\Controllers\MotCleController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\UserController;
@@ -67,6 +68,7 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
 Route::put('updateStatusentreprise/{id}', [AdminController::class, 'updateStatusEntreprise'])->name('updateStatusentreprise');
 Route::put('updateStatusCabinet/{id}', [AdminController::class, 'updateStatusCabinet'])->name('updateStatusCabinet');
 Route::put('updateStatusadmin/{id}', [AdminController::class, 'updateStatusAdmin'])->name('updateStatusadmin');
+Route::get('searchadmin',[AdminController::class, 'searchadmin'])->name('searchadmin');
 
 //superadmin
 Route::get('registerSuperadmin', [AuthController::class, 'registerSuperadmin'])->name('registerSuperadmin');
@@ -90,7 +92,7 @@ Route::controller(EntrepriseController::class)->prefix('entreprises')->group(fun
     Route::post('store', 'store')->name('entreprises.store');
     Route::get('show/{id}', 'show')->name('entreprises.show');
     Route::get('edit/{id}', 'edit')->name('entreprises.edit');
-    Route::put('show', 'update')->name('entreprises.update');
+    Route::put('update', 'update')->name('entreprises.update');
     Route::delete('destroy/{id}', 'destroy')->name('entreprises.destroy');
     Route::post('rc', 'storefile')->name('entreprises.rc');
 
@@ -193,7 +195,13 @@ Route::controller(CandidatController::class)->prefix('candidatvip')->group(funct
 
 
 });
+Route::controller(MotCleController::class)->prefix('motCles')->group(function () {
+    Route::get('', 'index')->name('motCles');
+    Route::post('store', 'store')->name('motCles.store');
+    Route::put('edit/{id}', 'update')->name('motCles.update');
+    Route::delete('destroy/{id}', 'destroy')->name('motCles.destroy');
 
+});
 Route::controller(LangueController::class)->prefix('langues')->group(function () {
     Route::get('', 'index')->name('langues');
     Route::get('create', 'create')->name('langues.create');
@@ -259,6 +267,7 @@ Route::controller(CabinetController::class)->prefix('cabinets')->group(function 
     Route::get('show/{id}', 'show')->name('cabinets.show');
     Route::get('edit/{id}', 'edit')->name('cabinets.edit');
     Route::put('show', 'update')->name('cabinets.update');
+    Route::put('updateinfo', 'updateinfo')->name('cabinets.updateinfo');
     Route::delete('destroy/{id}', 'destroy')->name('cabinets.destroy');
     Route::post('ninea',  'storefile')->name('cabinets.ninea');
     Route::get('candidatcabinet', 'candidat')->name('candidatcabinet');

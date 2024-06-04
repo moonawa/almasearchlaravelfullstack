@@ -31,9 +31,7 @@
                   <div class="table-responsive">
                     <table class="table">
                       <thead class=" text-primary">
-                      <th style="color:black">
-                          #
-                        </th>
+                   
                         <th style="color:black">
                          Entreprise
                         </th>
@@ -59,9 +57,7 @@
                       @if($encours->count() > 0)
                   @foreach($encours as $rs)
                         <tr>
-                        <td>
-                        {{ $loop->iteration }}
-                          </td>
+                       
                           <td>
                           {{ $rs->offre->entreprise->nomentreprise  }}
                           </td>

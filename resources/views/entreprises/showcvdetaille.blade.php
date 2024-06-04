@@ -49,7 +49,7 @@
               <h5>CV<br> <a href="/uploads/{{ $can->cv }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
             <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
-              <h5>Motivation<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
+              <h5>Fichier<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #ef8938"></i></a></h5>
             </div>
 
           </div>
@@ -84,6 +84,23 @@
       <ul>
       @foreach($can->langues as $rs)
        <li> {{ $rs->nomlangue }}</li>    
+       @endforeach
+</ul>
+          
+        
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Mot clés</h4>
+      </div>
+
+      <div class="card-body">
+    
+
+      <ul>
+      @foreach($can->mot_cles as $rs)
+       <li> {{ $rs->mot }}</li>    
        @endforeach
 </ul>
           

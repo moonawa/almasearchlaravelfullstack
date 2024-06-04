@@ -36,7 +36,7 @@ class OffreController extends Controller
     $entreprise = $inter->entreprise; // Obtenir l'entreprise associée
 
     if ($entreprise) {
-        $offre = $entreprise->offres()->paginate(10); 
+        $offre = $entreprise->offres()->latest()->paginate(10); 
         $offrecount = $entreprise->offres()->count(); /// Obtenir les offres de l'entreprise
         $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
         $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
@@ -93,7 +93,12 @@ class OffreController extends Controller
         $interlocuteur = Interlocuteurese::where('user_id', $auth->id)->first();
 
        $entreprise = $interlocuteur->entreprise;
-
+       $fichierName = null;
+  
+       if ($request->hasFile('fichierjoint')) {
+           $fichierName = time().'.'.$request->fichierjoint->extension();
+           $request->fichierjoint->move(public_path('uploads'), $fichierName);
+       }
         
         $offre = new Offre();
         $offre->nomposte = $request->nomposte;
@@ -109,6 +114,7 @@ class OffreController extends Controller
         $offre->statusoffre = 0;
         $offre->statuscabinet = 0;
         $offre->competenceoffre = $request->competenceoffre;
+        $offre->fichierjoint = $fichierName;
         $offre->typeeoffre = $request->typeeoffre; //avantage
         $offre->save();
         return redirect()->route('offres')->with('success', 'experience ajouté avec  success');
@@ -125,8 +131,8 @@ class OffreController extends Controller
         $entreprise = $interlocuteur->entreprise;
 
         $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
-        $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->paginate(10);
-        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
+        $candidats = Candidat::with('latestFormation','user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->latest()->paginate(10);
+        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -142,7 +148,7 @@ public function indexproposition($id)
 
     $entreprise = $interlocuteur->entreprise;
     $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
-    $propositions = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->paginate(5);
+    $propositions = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->latest()->paginate(5);
     $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
     $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
     $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
@@ -228,9 +234,8 @@ public function propositionstore(Request $request)
         'reponseseproposition' => "En Cours",
 
     ]);
-    $proposition->candidat->cabinet->increment('view_count');
+    $proposition->candidat->cabinet->increment('view_count'); //le nombre de fois que le cabinet propose
 
-    $proposition->offre->entreprise->user->notify(new PropositionCandidatureNotification($proposition->offre->entreprise->user));
 
     $admin = User::where('role', 'Admin')->first();
     $admin->notify(new AdminCandidatureNotification($admin));
@@ -305,19 +310,20 @@ public function updatepropositioncrute(Request $request, $id)
 public function search(Request $request, $id)
 {
     $offre = Offre::findOrFail($id);
-    $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->paginate(10);
+    $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(10);
 
     // Récupérer les critères de recherche depuis la requête
     $disponibilite = $request->input('disponibilite');
     $fonction = $request->input('fonction');
     $genre = $request->input('genre');
     $competence = $request->input('competences');
+    $mot_cle = $request->input('mot_cles');
     $langue = $request->input('langues');
    // $experience = $request->input('experiences');
     $formation = $request->input('formations');
 
     // Construire la requête de recherche avec les jointures nécessaires
-    $query = Candidat::with(['competences', 'langues', 'formations', 'experiences'])
+    $query = Candidat::with(['latestFormation','competences', 'langues', 'formations', 'experiences'])
     ->where('cabinet_id', null)
         ->when($disponibilite, function ($query, $disponibilite) {
             return $query->where('disponibilite' , 'like', '%' .$disponibilite . '%');
@@ -333,6 +339,11 @@ public function search(Request $request, $id)
                 $subQuery->where('nomcompetence', 'like', '%' . $competence . '%');
             });
         })
+        ->when($mot_cle, function ($query, $mot_cle) {
+            return $query->whereHas('mot_cles', function ($subQuery) use ($mot_cle) {
+                $subQuery->where('mot', 'like', '%' . $mot_cle . '%');
+            });
+        })
         ->when($langue, function ($query, $langue) {
             return $query->whereHas('langues', function ($subQuery) use ($langue) {
                 $subQuery->where('nomlangue', 'like', '%' . $langue . '%');
@@ -345,7 +356,7 @@ public function search(Request $request, $id)
             });
         });
     
-    $candidats = $query->paginate(10);
+    $candidats = $query->latest()->paginate(10);
     $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
     $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
     $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
@@ -369,7 +380,7 @@ public function search(Request $request, $id)
              'genre' => $genre,
              'competences' => $competence,
              'langues' => $langue,
-            // 'experiences' => $experience,
+            'mot_cles' => $mot_cle,
              'formations' => $formation,
          ]
       ]);
@@ -397,7 +408,7 @@ public function offreencoursentreprise()
     $inter = Interlocuteurese::where('user_id', $auth->id)->first();
 
     $entreprise = $inter->entreprise; 
-   $encours = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->paginate(10);
+   $encours = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->latest()->paginate(10);
     $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
     $offrecount = $entreprise->offres()->count(); 
     $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
@@ -412,7 +423,7 @@ public function offreexpireentreprise()
     $inter = Interlocuteurese::where('user_id', $auth->id)->first();
 
     $entreprise = $inter->entreprise; 
-    $expires = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->paginate(10);
+    $expires = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->latest()->paginate(10);
     $offrecount = $entreprise->offres()->count(); 
     $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
     $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
@@ -423,7 +434,7 @@ public function offreexpireentreprise()
     public function indexcabinet()
     {
         
-        $offres = Offre::with('entreprise.user')->where('statuscabinet', 1)->paginate(6);
+        $offres = Offre::with('entreprise.user')->where('statuscabinet', 1)->latest()->paginate(6);
         $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
         $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();
         $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
@@ -438,16 +449,18 @@ public function offreexpireentreprise()
         $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
         $cabinet = $inter->cabinet;
         $offre = Offre::findOrFail($id);
-        $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->paginate(10);
-        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
-        return view('cabinets.candidatoffre', compact('offre', 'candidats', 'propositions'));
+        $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->latest()->paginate(10);
+        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
+        $propositionscount = Proposition::with('candidat.user')->where('offre_id', $offre->id)->count();
+
+        return view('cabinets.candidatoffre', compact('offre', 'candidats', 'propositions', 'propositionscount'));
     }
     //show l'ensemble des candidats selectionés recrutés : entreprise
     public function candidatrecrute($id)
     {
      
         $offre = Offre::findOrFail($id);
-        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->paginate(5);
+        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->latest()->paginate(5);
         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -460,7 +473,7 @@ public function offreexpireentreprise()
     {
        
         $offre = Offre::findOrFail($id);
-        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->paginate(5);
+        $candidatures = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->latest()->paginate(5);
         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -473,7 +486,7 @@ public function offreexpireentreprise()
     {
        
         $offre = Offre::findOrFail($id);
-        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->paginate(5);
+        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->latest()->paginate(5);
         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
         $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
         $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
@@ -486,7 +499,7 @@ public function offreexpireentreprise()
     {
      
         $offre = Offre::findOrFail($id);
-        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->paginate(5);
+        $propositions = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->latest()->paginate(5);
         $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
         $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
         $propositionsrefusecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->count();
@@ -500,7 +513,7 @@ public function offreexpireentreprise()
     {
         $user = Auth::user();
         $candidat = Candidat::where('user_id', $user->id)->first();
-        $candidatures = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->whereNotNull('heurecandidature')->paginate(10);
+        $candidatures = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->whereNotNull('heurecandidature')->latest()->paginate(10);
         $candidaturescount = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->whereNotNull('heurecandidature')->count();
         $encourscount = Candidature::with('offre.entreprise.user')
         ->where('candidat_id', $candidat->id)
@@ -551,7 +564,7 @@ $recrutescount = Candidature::with('offre.entreprise.user')
     ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
             $query->where('statusoffre', 0);
-            })->paginate(10);
+            })->latest()->paginate(10);
 
         return view('candidatvip.offreencours', compact('encours', 'candidaturescount', 'encourscount', 'declinescount', 'recrutescount'));
     }
@@ -573,7 +586,7 @@ public function offredecline()
 ->where('reponese', "Recruté")->count();
     $declines = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
-->where('reponese', "Décliné")->paginate(10);
+->where('reponese', "Décliné")->latest()->paginate(10);
 $declinescount = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
 ->where('reponese', "Décliné")->count();
@@ -588,7 +601,7 @@ public function offrerecrute()
     $candidaturescount = Candidature::with('offre.entreprise.user')->where('candidat_id', $candidat->id)->whereNotNull('heurecandidature')->count();
     $recrutes = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
-->where('reponese', "Recruté")->paginate(10);
+->where('reponese', "Recruté")->latest()->paginate(10);
 $recrutescount = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
 ->where('reponese', "Recruté")->count();
@@ -687,8 +700,8 @@ $encourscount = Candidature::with('offre.entreprise.user')
 
        $entreprise = $interlocuteur->entreprise;
         $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
-        $candidats = Candidat::with('user')->where('cabinet_id', null)->paginate(10);
-        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
+        $candidats = Candidat::with('user')->where('cabinet_id', null)->latest()->paginate(10);
+        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
 
         return view('offres.getcandidat', compact('candidatures', 'offre', 'candidats'));
     }
@@ -699,8 +712,8 @@ $encourscount = Candidature::with('offre.entreprise.user')
 
        $entreprise = $interlocuteur->entreprise;
         $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
-        $candidats = Candidat::with('user')->where('cabinet_id', null)->paginate(10);
-        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
+        $candidats = Candidat::with('user')->where('cabinet_id', null)->latest()->paginate(10);
+        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
 
         return view('cabinets.candidatoffre', compact('propositions', 'offre', 'candidats'));
     }
@@ -783,9 +796,13 @@ $encourscount = Candidature::with('offre.entreprise.user')
     public function searchWithCabinet(Request $request, $id)
     {
         $offre = Offre::findOrFail($id);
-        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
-        $user = Auth::user();
-        $cabinet = Cabinet::where('user_id', $user->id)->first();
+        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
+        $propositionscount = Proposition::with('candidat.user')->where('offre_id', $offre->id)->count();
+
+        $auth = Auth::user();
+        $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
+        $cabinet = $inter->cabinet; 
+        
         // Récupérer les critères de recherche depuis la requête
         // Ajoutez d'autres critères de recherche si nécessaire
         $criteria = $request->all();
@@ -801,10 +818,10 @@ $encourscount = Candidature::with('offre.entreprise.user')
         }
 
         // Exécuter la requête
-        $candidats = $query->paginate(10);
+        $candidats = $query->latest()->paginate(10);
 
         // Renvoyer les résultats à la vue appropriée
-        return view('cabinets.candidatoffre', compact('candidats', 'offre', 'propositions'));
+        return view('cabinets.candidatoffre', compact('candidats', 'offre', 'propositions', 'propositionscount'));
 
        
     }
@@ -815,7 +832,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
        
         $offre = Offre::findOrFail($id);
         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
+        $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
         $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
         $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -830,7 +847,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
         
          $offre = Offre::findOrFail($id);
          $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->paginate(5);
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->latest()->paginate(5);
          $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
          $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
          $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -845,7 +862,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
         
          $offre = Offre::findOrFail($id);
          $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->paginate(5);
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->latest()->paginate(5);
          $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
          $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
          $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -860,7 +877,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
         
          $offre = Offre::findOrFail($id);
          $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->paginate(5);
+         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->where('reponese', "Décliné")->latest()->paginate(5);
          $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
          $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
          $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
@@ -875,7 +892,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
         
          $offre = Offre::findOrFail($id);
          $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-         $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->paginate(5);
+         $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
          $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
          $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
          $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
@@ -889,7 +906,7 @@ public function showoffrerecrutepropadmin(string $id)
    
     $offre = Offre::findOrFail($id);
     $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->paginate(5);
+    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->latest()->paginate(5);
     $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
     $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
     $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
@@ -903,7 +920,7 @@ public function showoffrerefusepropadmin(string $id)
    
     $offre = Offre::findOrFail($id);
     $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->get();
-    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->paginate(5);
+    $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Refusé")->latest()->paginate(5);
     $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
     $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
     $propositionsrecrutecount = Proposition::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponseseproposition', "Recruté")->count();
@@ -915,7 +932,7 @@ public function showoffrerefusepropadmin(string $id)
      public function showcvdetaille(string $id)
      {
         $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->findOrFail($id);
-        $candidature = Candidature::where('candidat_id', $can->id)->paginate(5);
+        $candidature = Candidature::where('candidat_id', $can->id)->latest()->paginate(5);
         $candidaturecount = Candidature::where('candidat_id', $can->id)->count();
 
         return view('admin.showcvdetaille',  compact('can', 'candidature', 'candidaturecount'));
@@ -955,7 +972,7 @@ public function offreexpireadmin()
  public function offreencourscabinet()
  {
     
-     $offres = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->paginate(6);
+     $offres = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->latest()->paginate(6);
      $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
      $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();
      $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
@@ -966,7 +983,7 @@ public function offreexpireadmin()
  public function offreexpirecabinet()
  {
  
-     $offres = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->paginate(6);
+     $offres = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->latest()->paginate(6);
      $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
      $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
      $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();

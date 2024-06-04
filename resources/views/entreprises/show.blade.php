@@ -27,7 +27,7 @@
                     <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar"  required autocomplete="avatar">
                   
 
-                    <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">
+                    <button type="submit" class="btn btn-round" style="background-color: #325fa6;">
                                     {{ __('Télécharger') }}
                                 </button>
                   </form>
@@ -63,7 +63,11 @@
             </div>
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Fichiers</h4>
+              @if($entreprise->entreprise->logo)
+                <img class="avatar border-gray" src=" /uploads/{{$entreprise->entreprise->logo }}" >
+@endif
+                <h4 class="card-title">Fichiers </h4>
+               
               </div>
               
               <div class="card-body">
@@ -91,40 +95,20 @@
           <div class="col-md-8">
             <div class="card card-user">
               <div class="card-header">
-                <h5 class="card-title"> Modifier le mot de passe</h5>
+                <h5 class="card-title"> Modifier Votre mot de passe</h5>
               </div>
               <div class="card-body">
              
-<div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-                        <label>Nom du entreprise </label>
-                        <input type="text" class="form-control" disabled="" placeholder="Nom" value="{{ $entreprise->user->name }}">
-                      </div>
-                    </div>
-                    <div class="col-md-2 px-1">
-                      <div class="form-group">
-                        <label>Téléphone</label>
-                       
-                        <input type="text" class="form-control" placeholder="771301409" disabled="" value="{{ $entreprise->user->telephone }}">
-                      </div>
-                    </div>
-                    <div class="col-md-5 pl-1">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Email </label>
-                        <input type="email" class="form-control" disabled="" value="{{ $entreprise->user->email }}">
-                      </div>
-                    </div>
-                  </div>
+              
                 <form action="{{ route('cabinets.update') }}" method="POST"> 
-                @csrf
-        @method('PUT')
-               
-        @if(session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
+                              @csrf
+                      @method('PUT')
+                            
+                      @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -156,7 +140,80 @@
                     </div>
                   </div>
                 </form>
+              </div>
+            </div>
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title"> Modifier les informations de l'entreprise</h5>
+              </div>
+              <div class="card-body">
+              <form action="{{ route('entreprises.update' ) }}" method="POST" enctype="multipart/form-data"> 
+                              @csrf
+                      @method('PUT')
+                            
+                      @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+                <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Nom de l' entreprise </label>
+                        <input type="text" class="form-control"  placeholder="Nom" value="{{ $entreprise->entreprise->nomentreprise }}" name="nomentreprise">
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email </label>
+                        <input type="email" class="form-control"  value="{{ $entreprise->entreprise->emailese }}" name="emailese">
+                      </div>
+                    </div>
+                  </div>
                
+                 
+                
+                  <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Téléphone </label>
+                        <input type="text" class="form-control"  value="{{ $entreprise->entreprise->tel }}" name="tel">
+                      </div>
+                      </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Secteur d'activité </label>
+                        <input type="text" class="form-control"  name="secteuractivite" value="{{ $entreprise->entreprise->secteuractivite }}">
+                      </div>
+                      </div>
+                     
+                      </div>
+
+                      <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Description</label>
+                        <textarea type="text" class="form-control"  name="des" > {{ $entreprise->entreprise->des }} </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="logo"> Logo</label>
+                        <input id="logo" type="file" class="form-control @error('logo') is-invalid @enderror" name="logo"   autocomplete="logo">
+
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button class="btn btn-round" type="submit" style="background-color:#325fa6;">Modifier </button>
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

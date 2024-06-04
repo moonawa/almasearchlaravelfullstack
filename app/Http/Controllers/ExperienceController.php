@@ -17,7 +17,7 @@ class ExperienceController extends Controller
      {
          $user = Auth::user();
          $candidat = Candidat::where('user_id', $user->id)->first();
-         $experience = Experience::where('candidat_id', $candidat->id)->paginate(5);   
+         $experience = Experience::where('candidat_id', $candidat->id)->orderBy('datefinexperience','desc')->paginate(5);   
          return view('experiences.index', compact('experience'));
      }
      public function indexcount()

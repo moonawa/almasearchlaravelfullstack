@@ -36,9 +36,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                  
                       <th style="color:black">
                         Entreprise 
                       </th>
@@ -67,9 +65,7 @@
                 @foreach($offres as $rs)
                       <tr>
                      
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                    
                         <td>
                       {{ $rs->entreprise->nomentreprise }}
                         </td>

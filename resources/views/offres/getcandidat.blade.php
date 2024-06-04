@@ -36,6 +36,10 @@
         </div>
         @endif
         </p>
+        @if($offre->fichierjoint)
+        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+</p>
+@endif
       </div>
       <div class="col-md-4">
         <p> <strong>Nombre de poste: </strong> {{$offre->nombredeposte}} </p>
@@ -102,9 +106,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+            
               <th style="color:black">
                 Cabinet 
               </th>
@@ -132,11 +134,9 @@
               @if($propositions->count() > 0)
               @foreach($propositions as $prop)
               <tr>
+           
                 <td>
-                  {{ $loop->iteration }}
-                </td>
-                <td>
-                  {{ $prop->candidat->cabinet->user->name }}
+                  {{ $prop->candidat->cabinet->nomcabinet }}
                 </td>
                 <td>
                   {{ $prop->candidat->user->name }} <br>

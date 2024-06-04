@@ -20,17 +20,22 @@
           @if (auth()->user()->candidat)
             <a href="{{ route('candidatvip.show', auth()->user()->candidat->id) }}"  style=" line-height: 1rem; ">
               <i class="nc-icon nc-single-02"></i>
-              <p  style="font-weight: bold ;"> profil</p>
+              <p  style="font-weight: bold ;"> Profil</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'formations') }}" style=" line-height: 1rem; " >
               <i class="nc-icon nc-user-run"></i>
-              <p style="font-weight: bold;"> CV détaillé</p>
+              <p style="font-weight: bold;"> CV Détaillé</p>
             </a>
           </li>
-          
+          <li>
+            <a href="{{ route( 'motCles') }}" style=" line-height: 1rem; " >
+              <i class="nc-icon nc-lock-circle-open"></i>
+              <p style="font-weight: bold;"> Mot Clés</p>
+            </a>
+          </li>
           <li>
             <a href="{{ route( 'offreencourscandidat') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-refresh-69"></i>

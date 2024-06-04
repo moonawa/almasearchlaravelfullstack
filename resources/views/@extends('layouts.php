@@ -5,7 +5,9 @@
 
 @extends('layouts.app')
 
-
+<td>
+                      {{ $loop->iteration }}
+                        </td>
 @section('contents')
 <div class="row">
   <div class="col-md-4">

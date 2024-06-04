@@ -16,9 +16,7 @@
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        #
-                      </th>
+                
                       <th style="color:black">
                         Cabinet
                       </th>
@@ -50,15 +48,13 @@
                     @if($candidats->count() > 0)
                 @foreach($candidats as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                   
                         <td>
                         @if (!$rs->cabinet->logocbt)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
 
                         @else ( $rs->cabinet->logocbt)
-                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->cabinet->logocbt }}">
+                        <img class="avatar border-gray" width="75px" src="/uploads/{{ $rs->cabinet->logocbt }}">
                         @endif
                         {{ $rs->cabinet->nomcabinet }}
                         </td>

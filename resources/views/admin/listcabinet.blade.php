@@ -5,21 +5,48 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-  
            
               <div class="card-header">
-                <h5 class="card-title">Liste des Cabinets ({{$cabinetscount}})</h5>
+              <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent" style="border:none">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <div class="navbar-toggle">
+              <button type="button" class="navbar-toggler">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </button>
+            </div>
+            <a class="navbar-brand" >Liste des Cabinets ({{$cabinetscount}})</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+            <span class="navbar-toggler-bar navbar-kebab"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+            <form action="{{ route('admin.listcabinetadmin') }}">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Recherche par nom" name="search" >
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                   <button style="background-color: gray-light; border:none;" type="submit"> <i class="nc-icon nc-zoom-split"></i></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </nav>
            
 
               </div>
               <br>
-              <div class="card-body">
+              <div class="card-body mt-5">
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
-                    <th style="color:black">
-                        
-                      </th>
+                  
                     
                       <th style="color:black">
                         Cabinets 
@@ -54,22 +81,20 @@
                     @if($cabinets->count() > 0)
                 @foreach($cabinets as $rs)
                       <tr>
-                      <td>
-                      {{ $loop->iteration }}
-                        </td>
+                     
                         <td>
                         @if (!$rs->logocbt)
                         <img class="avatar border-gray" width="75px" src="{{ asset('admin/img/default-avatar.png') }}" alt="...">
 
                         @else ( $rs->logocbt)
-                        <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->logocbt }}">
+                        <img class="avatar border-gray" width="75px" src="/uploads/{{ $rs->logocbt }}">
                         @endif
                         {{ $rs->nomcabinet }}
                         </td>
                       
                         <td>
-                        {{ $rs->user->telephone }} <br>
-                        {{ $rs->user->email }}
+                        {{ $rs->telcbt }} <br>
+                        {{ $rs->emailcbt }}
                         </td>
                         <td>
                         <button type="button" style="border: none; background:white; color:#ef882b" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">

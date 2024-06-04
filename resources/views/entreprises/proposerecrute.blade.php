@@ -86,9 +86,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+            
               <th style="color:black">
                 Cabinet 
               </th>
@@ -111,11 +109,9 @@
               @if($propositions->count() > 0)
               @foreach($propositions as $candidature)
               <tr>
+              
                 <td>
-                  {{ $loop->iteration }}
-                </td>
-                <td>
-                  {{ $candidature->candidat->cabinet->user->name }}  
+                  {{ $candidature->candidat->cabinet->nomcabinet }}  
 
                 </td>
                 <td>

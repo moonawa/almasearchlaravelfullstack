@@ -47,8 +47,9 @@ class InterlocuteurcbtController extends Controller
         $cabinet = $inter->cabinet; 
     if ($cabinet) {
         $interlocuteur = $cabinet->interlocuteurcbts()->latest()->paginate(10); // Obtenir les interlocuteurs du cabinet
-       
-        return view('cabinets.interlocuteurs', compact('interlocuteur')); // Passer les interlocuteurs à la vue
+        $interlocuteurcount = $cabinet->interlocuteurcbts()->count(); // Obtenir les interlocuteurs du cabinet
+
+        return view('cabinets.interlocuteurs', compact('interlocuteur', 'interlocuteurcount')); // Passer les interlocuteurs à la vue
     } else {
         return redirect()->back()->with('error', 'Vous n\'êtes pas associé à un cabinet.');
     }

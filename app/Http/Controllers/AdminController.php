@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function admin()
+    public function test(Request $request)
     {
-        
+        $search = $request->input('search');
         $admin = User::where('alma', 1)->latest()->paginate(10);
+       
         $admincount = User::where('alma', 1)->count();
         return view('admin.listadmin', compact('admin', 'admincount'));
     }
@@ -33,9 +34,12 @@ class AdminController extends Controller
         return view('admin.listoffre', compact('offres', 'offrescount', 'encours','expire'));
     }
     // list des entreprises pour l'admin
-    public function listentrepriseadmin()
+    public function listentrepriseadmin(Request $request)
     {
-        $entreprises = Entreprise::with('interlocuteureses.user')->latest()->paginate(10);
+        $search = $request->input('search');
+        $entreprises = Entreprise::with('interlocuteureses.user')->when($search, function($query, $search) {
+            return $query->where('nomentreprise', 'like', "%{$search}%");
+        })->latest()->paginate(10);
         $entreprisescount = Entreprise::with('interlocuteureses.user')->count();
 
         return view('admin.listentreprise', compact('entreprises', 'entreprisescount'));
@@ -61,9 +65,12 @@ class AdminController extends Controller
          return view('admin.listintercabinet', compact('entreprise', 'interscount', 'offrescount', 'inters', 'offres'));
      }
     // list des cabinets pour l'admin
-    public function listcabinetadmin()
+    public function listcabinetadmin(Request $request)
     {
-        $cabinets  =  Cabinet::with('interlocuteurcbts.user')->latest()->paginate(10);
+        $search = $request->input('search');
+        $cabinets  =  Cabinet::with('interlocuteurcbts.user')->when($search, function($query, $search) {
+            return $query->where('nomcabinet', 'like', "%{$search}%");
+        })->latest()->paginate(10);
         $cabinetscount  =  Cabinet::with('interlocuteurcbts.user')->count();
 
         return view('admin.listcabinet', compact('cabinets', 'cabinetscount'));
@@ -139,8 +146,12 @@ class AdminController extends Controller
         $offreexpirecount = Offre::where('statusoffre', 1)->count();
         $admin = User::where('alma', 1)->count();
         //TOP CABINET
-        $topcabinets = Cabinet::orderBy('view_count', 'desc')->take(5)->get();
-        return view('admin.dashboardadmin', compact('topcabinets','candidatcount', 'candidatvipcount', 'admin', 'cabinetcount', 'entreprisecount', 'offrecount','offreencourscount', 'offreexpirecount'));
+        $topcabinets = Cabinet::orderBy('view_count', 'desc')->take(10)->get();
+        $topentreprises = Entreprise::withCount('offres')->orderBy('offres_count', 'desc')->take(10)->get();
+        $vip = Candidat::orderBy('created_at', 'desc')->where('vip', 'oui')->take(10)->get();
+
+
+        return view('admin.dashboardadmin', compact('topcabinets','topentreprises','candidatcount', 'candidatvipcount', 'admin', 'cabinetcount', 'entreprisecount', 'offrecount','offreencourscount', 'offreexpirecount', 'vip'));
     }
 
     // profil admin
@@ -153,25 +164,24 @@ class AdminController extends Controller
     //modifier le status de l'entreprise
     public function updateStatusEntreprise($id)
     {
-// Récupérer l'entreprise
-$entreprise = Entreprise::findOrFail($id);
+    // Récupérer l'entreprise
+    $entreprise = Entreprise::findOrFail($id);
+    // Récupérer le premier interlocuteur
+    $interlocuteur = $entreprise->interlocuteureses()->first();
 
-// Récupérer le premier interlocuteur
-$interlocuteur = $entreprise->interlocuteureses()->first();
+    if ($interlocuteur) {
+        // Récupérer le user associé à cet interlocuteur
+        $user = $interlocuteur->user;
 
-if ($interlocuteur) {
-    // Récupérer le user associé à cet interlocuteur
-    $user = $interlocuteur->user;
+        // Inverser le statut du user
+        $user->status = !$user->status;
+        $user->save();
+    $user->notify(new StatusNotification());
 
-    // Inverser le statut du user
-    $user->status = !$user->status ;
-    $user->save();
-$user->notify(new StatusNotification());
-
-    return back()->with('success', 'Le statut de l\'interlocuteur a été mis à jour.');
-} else {
-    return back()->with('error', 'Aucun interlocuteur trouvé pour cette entreprise.');
-}
+        return back()->with('success', 'Le statut de l\'interlocuteur a été mis à jour.');
+    } else {
+        return back()->with('error', 'Aucun interlocuteur trouvé pour cette entreprise.');
+    }
        // if ($entreprise) {
        // $user->status = !$user->status == 'active' ? 'blocked' : 'active';
 
@@ -226,6 +236,25 @@ public function updateStatusAdmin(Request $request ,$id)
     return redirect()->back()->with('success', 'le status a été modifié avec succes');
     
    
+
+}
+public function searchadmin(Request $request){
+    $search = $request->input('search');
+    $admincount = User::where('alma', 1)->count();
+
+    $admin = User::where('alma', 1)->when($search, function($query, $search) {
+        return $query->where('name', 'like', "%{$search}%");
+    })->paginate(10);
+    return view('admin.listadmin',  compact('admin', 'admincount'));
+}
+public function admin(Request $request){
+    $search = $request->input('search');
+    $admincount = User::where('alma', 1)->count();
+
+        $admin = User::where('alma', 1)->when($search, function($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })->paginate(10);
+        return view('admin.listadmin', compact('admin', 'admincount'));
 
 }
 }

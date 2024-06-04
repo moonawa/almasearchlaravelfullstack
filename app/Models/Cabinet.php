@@ -18,7 +18,8 @@ class Cabinet extends Model
         'descabinet',
         'telcbt',
         'emailcbt',
-        'nomcabinet'
+        'nomcabinet',
+        'logocbt'
     ];
     public function user() {
         return $this->belongsTo(User::class,'user_id'); 

@@ -19,8 +19,9 @@ class Entreprise extends Model
         'secteuractivite',
         'des',
         'tel',
-        'email',
-        'nomentreprise'
+        'emailese',
+        'nomentreprise',
+        'logo'
         
     ];
     public function user() {

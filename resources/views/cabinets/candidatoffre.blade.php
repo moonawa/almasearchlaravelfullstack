@@ -79,8 +79,11 @@
   <div class="col-md-8">
   <div class="card card-user">
       <div class="card-header row p-4">
-      <div class="col-md-9">  <h5 class="card-title">Liste des candidats Proposés</h5>   </div>
-        <div class="col-md-3"><a style="background-color: #ef882b; padding-left: 15px;  padding-right: 15px; padding-top: 5px; padding-bottom: 5px; color:white; border-radius:20px; text-decoration: none;  text-decoration: none;" data-toggle="modal" data-target="#exampleModalr">Ajouter</a> </div>
+      <div class="col-md-9">  <h5 class="card-title">Liste des candidats Proposés ({{$propositionscount}})</h5>   </div>
+        <div class="col-md-3">
+        <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModalr">Ajouter</button>
+
+        </div>
 
       </div>
        <!-- Modal -->
@@ -158,11 +161,12 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+             
               <th style="color:black">
                 Nom 
+              </th>
+              <th style="color:black">
+                CV
               </th>
               <th style="color:black">
                 Rendez-vous
@@ -180,15 +184,15 @@
               @if($propositions->count() > 0)
               @foreach($propositions as $proposition)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+              
                 <td>
                   {{ $proposition->candidat->user->name }}
+
+                </td>
+                <td>
                   <a href="/uploads/{{ $proposition->candidat->cv }}" style="color: #325fa6;"><i class="fa fa-eye"></i></a>
 
                 </td>
-                
                 <td>
                 @if( $proposition->heureproposition)
                 @php
@@ -278,9 +282,7 @@
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
-              <th style="color:black">
-                #
-              </th>
+             
               <th style="color:black">
                 Nom
               </th>
@@ -312,9 +314,7 @@
               @if($candidats->count() > 0)
               @foreach($candidats as $rs)
               <tr>
-                <td>
-                  {{ $loop->iteration }}
-                </td>
+            
                 <td>
                   {{ $rs->user->name }}
                 </td>

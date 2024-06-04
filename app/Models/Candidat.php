@@ -60,6 +60,10 @@ class Candidat extends Model
     {
         return $this->hasMany(Reference::class,'candidat_id');
     }
+    public function mot_cles()
+    {
+        return $this->hasMany(MotCle::class, 'candidat_id');
+    }
     public function candidatures()
     {
         return $this->hasMany(Candidature::class);
@@ -67,6 +71,10 @@ class Candidat extends Model
     public function propositions()
     {
         return $this->hasMany(Proposition::class);
+    }
+    public function latestFormation()
+    {
+        return $this->hasOne(Formation::class)->orderBy('anneeacademique', 'desc');
     }
     public function isCvComplete()
     {
