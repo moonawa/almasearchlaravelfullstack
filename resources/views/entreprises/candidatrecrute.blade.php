@@ -49,7 +49,6 @@
      <p><strong>Année d'expérience: </strong>{{$offre->annexperience}} </p>
      <p><strong>Type de Contrat: </strong>{{$offre->typecontrat}} </p>
 
-     
 
       </div>
     </div>
@@ -126,8 +125,12 @@
                           @method('PUT')
 
                           <div  class="form-group ">
+                   
+                          <textarea name="commentaireese" class="form-control commentaireese" id=""  placeholder="Pourquoi le candidat a été recruté?" > {{ $candidature->commentaireese }}</textarea>
+                          <button type="submit" class="btn  btn-sm mt-1" style="background-color: #325FA6;">Commenter</button>
                         
-                         <textarea name="commentaireese" class="form-control commentaireese" id="" cols="60" rows="2" placeholder="Pourquoi le candidat a été recruté?" > {{ $candidature->commentaireese }}</textarea>
+                         
+                    
         </div>
     
                          

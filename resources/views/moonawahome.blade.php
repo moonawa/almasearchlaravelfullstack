@@ -66,7 +66,8 @@
   <div class="card-body">
     <h4 class="card-title">Découvrez Alma Search, votre destination ultime pour simplifier le processus de recrutement.
 </h4>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <p class="card-text"> Nous sommes dédiés à fournir une expérience fluide et efficace, 
+                   en connectant les meilleurs talents avec les opportunités professionnelles qui leur correspondent.</p>
    <a href="#" class="btn  mt-2" style="background-color: #325FA6; color:white;">Comment ça Marche</a>
   </div>
 </div>
@@ -117,7 +118,7 @@
   </div>
 </div>
 
-<div class="container-fluid p-5" id="propos" style="background-image: url(admin/img/d2c4674a16.jpeg); background-repeat: no-repeat; background-size: cover; opacity: 0.9;">
+<div class="container-fluid p-5" id="propos" style="background-image: url(admin/img/d2c4674a16.jpg); background-repeat: no-repeat; background-size: cover; opacity: 0.9;">
  <div class="container mt-5 " >
     <div class=" col-md-12">
         <div class="row" style="background-color: white;">

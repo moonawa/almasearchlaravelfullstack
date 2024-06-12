@@ -131,7 +131,7 @@
                         </form>
                     
                     <div class="card-footer row"> 
-                   
+                    @if(!$candidature->confirmerv && $candidature->reponese == "En Cours") 
                    <div class="col-md-4">
                 <button type="button" class="btn btn-round " data-toggle="modal" data-target="#exampleModalv" style="background-color: #ef882b;" >Décliner Le RV</button>
                 <div class="modal fade" id="exampleModalv" tabindex="-1" role="dialog" aria-labelledby="exampleModalvLabel" aria-hidden="true">
@@ -147,9 +147,8 @@
         <form method="post" action="{{route('commentaireVipRv', ['id' => $candidature->id]) }}">
         @csrf
         @method('PUT')
-        <div class="form-group">
 <textarea class="form-control" name="commentaireviprv" id="" placeholder="la date ne m'arrange pas..." required>{{ $candidature->commentaireviprv}}</textarea>
-</div>
+        
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
         <button type="submit" class="btn btn-round" style="background: #325fa6;">Commenter</button>
@@ -160,8 +159,8 @@
   </div>
 </div>
 </div>
-
-
+@endif
+@if($candidature->reponese == "En Cours") 
                    <div class="col-md-4">
                 <form class="statusForm" method="post" action="{{ route('confirmeVipRv', ['id' => $candidature->id]) }}">
                           @csrf
@@ -169,8 +168,8 @@
                 <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #325fa6;">Confirmer le Rv </button>
                 </form>
                 </div>
-             
-              
+                @endif
+                @if(!$candidature->confirmerv) 
                    <div class="col-md-4">
                 <form class="statusForm" method="post" action="{{ route('updateDecline', ['id' => $candidature->id]) }}">
                           @csrf
@@ -179,7 +178,7 @@
                 <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #ff3333;">Décliner L'offre</button>
                 </form>
                 </div>
-           
+                @endif
             </div>
             @if ($candidature->confirmerv)
               <hr>
@@ -206,7 +205,18 @@
 
 
 </div>
+public function propositionselectionne(Request $request, $id)
+    {
+        $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+        $interlocuteur = Interlocuteurese::where('user_id', $auth->id)->first();
 
+       $entreprise = $interlocuteur->entreprise;
+        $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
+        $candidats = Candidat::with('user')->where('cabinet_id', null)->latest()->paginate(10);
+        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
+
+        return view('cabinets.candidatoffres', compact('propositions', 'offre', 'candidats'));
+    }
 <style>
 /* CSS pour le spinner de chargement */
 .btn-loading {

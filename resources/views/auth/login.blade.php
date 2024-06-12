@@ -54,16 +54,17 @@ height: 100%;
 
           <!-- Email input -->
           <div class="form-outline mb-4">
+          <label class="form-label" for="form3Example3">Email <span style="color:red;">*</span></label>
             <input type="email" name="email"  id="form3Example3" class="form-control form-control-lg"
               placeholder="Adresse email" />
-            <label class="form-label" for="form3Example3">Email </label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-3">
+          <label class="form-label" for="form3Example4">Mot de Passe <span style="color:red;">*</span></label>
+
             <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Mot de passe" />
-            <label class="form-label" for="form3Example4">Mot de Passe</label>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">

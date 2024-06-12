@@ -61,8 +61,11 @@ class EntrepriseController extends Controller
         $rcName = time().'.'.$request->rc->extension();  
         $request->rc->move(public_path('uploads'), $rcName);
         }
-        $user = Auth::user();
-        $entreprise = Entreprise::where('user_id', $user->id)->firstOrFail();
+        $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+    $inter = Interlocuteurese::where('user_id', $auth->id)->first();
+
+    $entreprise = $inter->entreprise;
+        
         $updateData = [];
         if (isset($nineaName)) {
             $updateData['ninea'] = $nineaName;
@@ -82,16 +85,32 @@ class EntrepriseController extends Controller
         $entreprise = Interlocuteurese::where('user_id', $user->id)->first();
         $ese = $entreprise->entreprise;
         if ($ese) {
-            $logoName = null;
-            if ($request->hasFile('logo')) {
-                $logoName = time().'.'.$request->logo->extension();
-                $request->logo->move(public_path('uploads'), $logoName);
-            }
+            
             $ese->nomentreprise = $request->nomentreprise;
             $ese->emailese = $request->emailese;
             $ese->tel = $request->tel;
             $ese->des = $request->des;
             $ese->secteuractivite = $request->secteuractivite;
+         
+            $ese->save();
+        }
+  
+    return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+       // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
+    }
+    public function logo(Request $request)
+    {
+  
+       
+        $user = Auth::user();
+        $entreprise = Interlocuteurese::where('user_id', $user->id)->first();
+        $ese = $entreprise->entreprise;
+        if ($ese) {
+            $logoName = null;
+            if ($request->hasFile('logo')) {
+                $logoName = time().'.'.$request->logo->extension();
+                $request->logo->move(public_path('uploads'), $logoName);
+            }
             $ese->logo = $logoName;
             $ese->save();
         }

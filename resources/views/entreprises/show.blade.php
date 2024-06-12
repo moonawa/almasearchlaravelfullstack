@@ -28,7 +28,7 @@
                   
 
                     <button type="submit" class="btn btn-round" style="background-color: #325fa6;">
-                                    {{ __('Télécharger') }}
+                                    {{ __('Photo de Profil') }}
                                 </button>
                   </form>
                 
@@ -62,10 +62,38 @@
               </div>
             </div>
             <div class="card">
+            <div class="card-header">
+                <h5 class="card-title"> Logo de l'entreprise</h5>
+              </div>
+              <div class="card-body">
+              <form action="{{ route('entreprises.logo' ) }}" method="POST" enctype="multipart/form-data"> 
+                              @csrf
+                      @method('PUT')
+                            
+                      @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+              <div class="row">
+                    <div class="col-md-12">
+                      <div class="">
+                        <label for="logo"> Logo</label>
+                        <input id="logo" type="file" class="form-control" name="logo" autocomplete="logo" value="{{ $entreprise->entreprise->logo }}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button class="btn btn-round" type="submit" style="background-color:#325fa6;">Modifier </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="card">
               <div class="card-header">
-              @if($entreprise->entreprise->logo)
-                <img class="avatar border-gray" src=" /uploads/{{$entreprise->entreprise->logo }}" >
-@endif
+             
                 <h4 class="card-title">Fichiers </h4>
                
               </div>
@@ -80,10 +108,10 @@
                             </div>
                         @endif
                         <label for="ninea"> NINEA</label>
-                    <input id="ninea" type="file" class="form-control @error('ninea') is-invalid @enderror" name="ninea"   autocomplete="ninea">
+                    <input id="ninea" type="file" class="form-control " name="ninea"   autocomplete="ninea">
                   
                     <label for="rc">Régistre de Commerce </label>
-                    <input id="rc" type="file" class="form-control @error('rc') is-invalid @enderror" name="rc"   autocomplete="rc">
+                    <input id="rc" type="file" class="form-control " name="rc"   autocomplete="rc">
                   
                     <button type="submit" class="btn btn-round" style="background-color:#325fa6;">
                                     {{ __('Télécharger') }}
@@ -91,6 +119,7 @@
                   </form>
               </div>
             </div>
+            
           </div>
           <div class="col-md-8">
             <div class="card card-user">
@@ -112,7 +141,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Mot de passe actuel</label>
+                        <label>Mot de passe actuel <span style="color:red;">*</span></label>
                         <input type="password" class="form-control"  name="current_password" >
                       </div>
                     </div>
@@ -121,7 +150,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Nouveau mot de passe</label>
+                        <label>Nouveau mot de passe <span style="color:red;">*</span></label>
                         <input type="password" class="form-control"  name="password" >
                       </div>
                     </div>
@@ -129,7 +158,7 @@
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label>Confirmer le nouveau mot de passe</label>
+                        <label>Confirmer le nouveau mot de passe <span style="color:red;">*</span></label>
                         <input type="password" class="form-control"  name="password_confirmation" >
                       </div>
                     </div>
@@ -198,16 +227,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="logo"> Logo</label>
-                        <input id="logo" type="file" class="form-control @error('logo') is-invalid @enderror" name="logo"   autocomplete="logo">
-
-
-                      </div>
-                    </div>
-                  </div>
+                
                   <div class="row">
                     <div class="update ml-auto mr-auto">
                       <button class="btn btn-round" type="submit" style="background-color:#325fa6;">Modifier </button>
@@ -216,6 +236,7 @@
                 </form>
               </div>
             </div>
+           
           </div>
         </div>
 @endsection

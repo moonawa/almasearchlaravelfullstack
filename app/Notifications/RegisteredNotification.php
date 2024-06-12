@@ -35,8 +35,12 @@ class RegisteredNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
 
-        return (new MailMessage)->line('Vous avez bien été enregistré sur notre plateforme, vous serez notifier par mail lorsque votre compte sera activé, Merci de patienter!!!');
-
+        return (new MailMessage)
+        ->subject('Pré-selection à une Offre')
+        ->greeting(__('Bonjour!'))
+        ->line(__('Merci de vous être inscrit sur notre site.'))
+        ->line('Vous avez bien été enregistré sur notre plateforme, vous serez notifier par mail lorsque votre compte sera activé, Merci de patienter!!!')
+        ->salutation('Cordialement');
     }
 
     /**

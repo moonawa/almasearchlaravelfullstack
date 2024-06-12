@@ -36,10 +36,11 @@ class StatusNotification extends Notification
     {
         return (new MailMessage)
         ->subject('Compte Activé')
+        ->greeting(__('Bonjour!'))
                     ->line('Votre compte a été activé avec success; vous 
                     pouvez vous connecter avec votre email et votre mot de passe!')
-                    ->action('Lien de connection', url('/login'));
-
+                    ->action('Lien de connection', url('/login'))
+                    ->salutation('Cordialement');
     }
 
     /**

@@ -20,7 +20,7 @@ class CabinetController extends Controller
      */
     public function index()
     {
-        $cabinet = Cabinet::orderBy('created_at', 'DESC')->paginate(10);
+        $cabinet = Cabinet::orderBy('created_at', 'DESC')->latest()->paginate(10);
         return view('cabinets.index', compact('cabinet'));
     }
   
@@ -29,7 +29,7 @@ class CabinetController extends Controller
         $user = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
         $cabinet = $inter->cabinet;
-        $candidat = $cabinet->candidats()->paginate(10); 
+        $candidat = $cabinet->candidats()->latest()->paginate(10); 
         $candidatcount = $cabinet->candidats()->count(); 
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
@@ -44,7 +44,7 @@ class CabinetController extends Controller
         $cabinet = $inter->cabinet;
         $candidat = $cabinet->candidats; 
         $candidatcount = $cabinet->candidats()->count(); 
-        $proposition = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->paginate(10);       
+        $proposition = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->latest()->paginate(10);       
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -58,7 +58,7 @@ class CabinetController extends Controller
         $cabinet = $inter->cabinet;
         $candidat = $cabinet->candidats; 
         $candidatcount = $cabinet->candidats()->count();
-        $selection = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->paginate(10);
+        $selection = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->latest()->paginate(10);
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -72,7 +72,7 @@ class CabinetController extends Controller
         $cabinet = $inter->cabinet;
         $candidat = $cabinet->candidats; 
         $candidatcount = $cabinet->candidats()->count();
-        $recrute = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->paginate(10);
+        $recrute = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->latest()->paginate(10);
         $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
         $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
         $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
@@ -83,15 +83,18 @@ class CabinetController extends Controller
     {
         $user = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
-        $cabinet = $inter->cabinet;
-        $intercount = $cabinet->interlocuteurcbts->count();
-        $candidat = $cabinet->candidats()->paginate(10); 
-        $offre = Offre::where('statuscabinet', 1)->count();
-        $offreencours = Offre::where('statuscabinet', 1)->where('statusoffre', 0)->count();
-        $offreexpire = Offre::where('statuscabinet', 1)->where('statusoffre', 1)->count();
-        $candidatureprop = Proposition::where('selectionproposition', 1)->count();
-        $candidatureselec = Proposition::whereNotNull('heureproposition')->count();
-        $candidaturerecru = Proposition::where('recruteproposition', 1)->count();
+     
+            $cabinet = $inter->cabinet;
+            $intercount = $cabinet->interlocuteurcbts->count();
+            $candidat = $cabinet->candidats()->latest()->paginate(10); 
+            $offre = Offre::where('statuscabinet', 1)->count();
+            $offreencours = Offre::where('statuscabinet', 1)->where('statusoffre', 0)->count();
+            $offreexpire = Offre::where('statuscabinet', 1)->where('statusoffre', 1)->count();
+            $candidatureprop = Proposition::where('selectionproposition', 1)->count();
+            $candidatureselec = Proposition::whereNotNull('heureproposition')->count();
+            $candidaturerecru = Proposition::where('recruteproposition', 1)->count();
+     
+        
 
         return view('cabinets.dashboard', compact('intercount', 'candidat', 'offre','offreencours', 'offreexpire', 'candidatureselec', 'candidaturerecru', 'candidatureprop'));
     }
@@ -190,16 +193,33 @@ class CabinetController extends Controller
          $cabinet = Interlocuteurcbt::where('user_id', $user->id)->first();
          $cbt = $cabinet->cabinet;
          if ($cbt) {
-             $logoName = null;
-             if ($request->hasFile('logocbt')) {
-                 $logoName = time().'.'.$request->logocbt->extension();
-                 $request->logocbt->move(public_path('uploads'), $logoName);
-             }
+            
              $cbt->nomcabinet = $request->nomcabinet;
              $cbt->emailcbt = $request->emailcbt;
              $cbt->telcbt = $request->telcbt;
              $cbt->descabinet = $request->descabinet;
              $cbt->secteuractivitecabinet = $request->secteuractivitecabinet;
+         
+             $cbt->save();
+         }
+   
+     return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+        // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
+     }
+     public function logocbt(Request $request)
+     {
+   
+        
+         $user = Auth::user();
+         $cabinet = Interlocuteurcbt::where('user_id', $user->id)->first();
+         $cbt = $cabinet->cabinet;
+         if ($cbt) {
+             $logoName = null;
+             if ($request->hasFile('logocbt')) {
+                 $logoName = time().'.'.$request->logocbt->extension();
+                 $request->logocbt->move(public_path('uploads'), $logoName);
+             }
+            
              $cbt->logocbt = $logoName;
              $cbt->save();
          }
@@ -266,7 +286,7 @@ $candidat->delete();
 
         $request->validate([
             'nineacabinet' => 'sometimes|mimes:pdf,xlx,csv,docx|max:2048',
-            'rccabinet' => 'sometimes|mimes:pdf,xlx,csv,docx|max:2048',
+            'rccabinet' => 'sometimes|mimes:pdf,jpg,jpeg,png,xlx,csv,docx|max:2048',
 
         ],);
         if ($request->hasFile('nineacabinet')) {

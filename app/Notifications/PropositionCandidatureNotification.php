@@ -36,7 +36,9 @@ class PropositionCandidatureNotification extends Notification
     {
         return (new MailMessage)
         ->subject('Proposition de candidat pour l\'offre')
-        ->line('Un cabinet vient de vous proposer un candidat.');
+        ->greeting(__('Bonjour!'))
+        ->line('Un cabinet vient de vous proposer un candidat.')
+        ->salutation('Cordialement');
     }
 
     /**

@@ -276,7 +276,23 @@
     </div>
 </form>
      
-        <h5 class="card-title"> Liste des candidats</h5>
+        <h5 class="card-title"> Liste des candidats </h5>
+
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
       </div>
       <div class="card-body">
         <div class="table-responsive">

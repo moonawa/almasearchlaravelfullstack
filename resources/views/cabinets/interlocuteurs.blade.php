@@ -31,23 +31,23 @@
                 <div class="modal-body">
                   <form method="POST" action="{{ route('registerInterlocbt') }}">
                     @csrf
-                    <label>Nom </label>
+                    <label>Nom <span style="color:red;">*</span></label>
                     <div class="form-group">
                       <input type="text" required class="form-control" name="name" placeholder="Nom">
                     </div>
-                    <label>Téléphone</label>
+                    <label>Téléphone <span style="color:red;">*</span></label>
                     <div class="form-group">
                       <input type="text" required class="form-control" name="telephone" placeholder="Téléphone ">
                     </div>
-                    <label>Email</label>
+                    <label>Email <span style="color:red;">*</span></label>
                     <div class="form-group">
                       <input type="email" required class="form-control" name="email" placeholder="Email">
                     </div>
-                    <label>Fonction</label>
+                    <label>Fonction <span style="color:red;">*</span></label>
                     <div class="form-group">
                       <input type="text" required class="form-control" name="fonctioncbt" placeholder="Consutant">
                     </div>
-                    <label>Mot de passe</label>
+                    <label>Mot de passe <span style="color:red;">*</span></label>
                     <div class="form-group">
                       <input type="password" required class="form-control" name="password" placeholder="Mot de passe">
                     </div>

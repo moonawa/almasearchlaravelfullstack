@@ -123,7 +123,9 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
-
+public function unauthorized(){
+    return view('auth.unauthorized');
+}
     //register candidatvip
     public function registercandidat()
     {

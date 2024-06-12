@@ -134,7 +134,9 @@
                           <div  class="form-group ">
                         
                          <textarea name="commentaireeseproposition" class="form-control commentaireese" id="" cols="60" rows="2" placeholder="Pourquoi le candidat a été recruté?" > {{ $candidature->commentaireeseproposition }}</textarea>
-        </div>
+                         <button type="submit" class="btn  btn-sm mt-1" style="background-color: #325FA6;">Commenter</button>
+
+                        </div>
     
                          
                           </form>

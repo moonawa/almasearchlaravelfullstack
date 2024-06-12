@@ -40,8 +40,10 @@ class NotificationMail extends Notification
 
         return (new MailMessage)
         ->subject('Nouvelle inscription entreprise')
-        ->line('Une nouvelle entreprise s\'est inscrite sur la plateforme.');
-    
+        ->greeting(__('Bonjour!'))
+        ->line('Une nouvelle entreprise s\'est inscrite sur la plateforme.')
+        ->salutation('Cordialement');
+
     }
 
     /**

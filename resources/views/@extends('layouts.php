@@ -4,7 +4,7 @@
         //return view('offres.index', compact('offre'));
 
 @extends('layouts.app')
-
+MoonAlma19962004
 <td>
                       {{ $loop->iteration }}
                         </td>

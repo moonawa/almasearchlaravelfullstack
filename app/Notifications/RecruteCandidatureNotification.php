@@ -39,7 +39,9 @@ class RecruteCandidatureNotification extends Notification
     {
         return (new MailMessage)
         ->subject('Status Recrutement entreprise')
-        ->line('Le status de recrutement a changé .');
+        ->greeting(__('Bonjour!'))
+        ->line('Le status de recrutement a changé .')
+        ->salutation('Cordialement');
     }
 
     /**

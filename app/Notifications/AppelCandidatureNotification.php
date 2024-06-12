@@ -36,7 +36,10 @@ class AppelCandidatureNotification extends Notification
     {
         return (new MailMessage)
         ->subject('Appel aux Cabinets')
-        ->line('Une entreprise vient de faire appel aux cabinets pour une offre.');
+        ->greeting(__('Bonjour!'))
+        ->line('Une entreprise vient de faire appel aux cabinets pour une offre.')
+        ->salutation('Cordialement');
+
     }
 
     /**

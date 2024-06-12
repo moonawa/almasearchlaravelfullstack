@@ -3,10 +3,12 @@
         <a href="#" class="simple-text " >
           <div class=" ">
             <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
-          </div>
-          <!-- <p>CT</p> -->
-        </a>
       
+          @if(auth()->user()->interlocuteurcbt->cabinet->logocbt)
+            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurcbt->cabinet->logocbt }}" width="50px" style="border-radius: 50%; width: 50px; height:50px;">
+            @endif
+        </a>
+        </div>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">

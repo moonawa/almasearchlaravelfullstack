@@ -20,6 +20,7 @@ use App\Notifications\SelectionCandidatureNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 
 class OffreController extends Controller
 {
@@ -163,7 +164,16 @@ public function getcandidatstore(Request $request)
         'offre_id' => 'required|exists:offres,id',
         'candidat_id' => 'required|exists:candidats,id',
     ]);
+    // Vérifier si la combinaison offre_id et candidat_id existe déjà
+    $exists = Candidature::where('offre_id', $request->offre_id)
+    ->where('candidat_id', $request->candidat_id)
+    ->exists();
 
+    if ($exists) {
+    return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà sélectionné pour cette offre.']);
+    }
+
+// Créer la candidature
     Candidature::create([
         'offre_id' => $request->offre_id,
         'candidat_id' => $request->candidat_id,
@@ -176,6 +186,7 @@ public function getcandidatstore(Request $request)
 //ajout en meme temps  dans la table proposition et candidat pour cabinet
 public function propositionstoreshow(Request $request)
 {
+    
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet;
@@ -219,14 +230,22 @@ public function propositionstoreshow(Request $request)
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 }
-//ajout dans la table proposition depuis la page show de l'offre
+//ajout dans la table proposition depuis la page show de l'offre pour le cabinet
 public function propositionstore(Request $request)
 {
+
     $request->validate([
         'offre_id' => 'required|exists:offres,id',
         'candidat_id' => 'required|exists:candidats,id',
     ]);
+    // Vérifier si la combinaison offre_id et candidat_id existe déjà
+    $exists = Proposition::where('offre_id', $request->offre_id)
+    ->where('candidat_id', $request->candidat_id)
+    ->exists();
 
+    if ($exists) {
+    return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà proposé pour cette offre.']);
+    }
     $proposition = Proposition::create([
         'offre_id' => $request->offre_id,
         'candidat_id' => $request->candidat_id,
@@ -245,6 +264,11 @@ public function propositionstore(Request $request)
 //ajout ou modifier une date de rendez-vous pour la candidature : entreprise
 public function updatecandidature(Request $request, $id)
 {
+    $request->validate([
+        'heurecandidature' => 'nullable|date|after:tomorrow',
+    ], [
+        'heurecandidature.after' => 'La date du rendez-vous doit être postérieure à la date d\'aujourd\'hui.',
+    ]);
     $candidature = Candidature::findOrFail($id);
     $candidature->heurecandidature = $request->input('heurecandidature');
     $candidature->confirmerv = 0;
@@ -254,8 +278,9 @@ public function updatecandidature(Request $request, $id)
     $candidature->save();
     
     $candidature->candidat->user->notify(new SelectionCandidatureNotification($candidature->candidat->user));
-    $admin = User::where('role', 'Admin')->first();
-    $admin->notify(new AdminCandidatureNotification($admin));
+    $admin = User::where('role', 'Admin')->get();
+    Notification::send($admin, new AdminCandidatureNotification());
+
     return redirect()->back()->with('success', 'le status a été modifié avec succes');
     //return response()->json(['message' => ' le rendez-vous a été fixé avec succès']);
 
@@ -266,6 +291,8 @@ public function updatecandidaturelieu(Request $request, $id)
     $candidature = Candidature::findOrFail($id);
     $candidature->lieu = $request->input('lieu');
     $candidature->save();
+    $candidature->candidat->user->notify(new SelectionCandidatureNotification($candidature->candidat->user));
+    
     return redirect()->back()->with('success', 'le status a été modifié avec succes');
     //return response()->json(['message' => ' le rendez-vous a été fixé avec succès']);
 
@@ -449,11 +476,12 @@ public function offreexpireentreprise()
         $inter = Interlocuteurcbt::where('user_id', $user->id)->first();
         $cabinet = $inter->cabinet;
         $offre = Offre::findOrFail($id);
+        $candidatscount = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->count();
         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->latest()->paginate(10);
         $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
         $propositionscount = Proposition::with('candidat.user')->where('offre_id', $offre->id)->count();
 
-        return view('cabinets.candidatoffre', compact('offre', 'candidats', 'propositions', 'propositionscount'));
+        return view('cabinets.candidatoffre', compact('candidatscount','offre', 'candidats', 'propositions', 'propositionscount'));
     }
     //show l'ensemble des candidats selectionés recrutés : entreprise
     public function candidatrecrute($id)
@@ -636,11 +664,13 @@ $encourscount = Candidature::with('offre.entreprise.user')
 
         $candidature = Candidature::findOrFail($id);
         $candidature->reponese = "Décliné";
+        $candidature->confirmerv = 0;
+        $candidature->commentaireviprv = null;
         $candidature->save();
         return redirect()->back()->with('success', 'le status a été modifié avec succes');
         
     }
-    //confirmation d'un canndidat pour un rv
+    //confirmation d'un rv par un candidat
     public function candidatureconfirmerv( $id)
     {
 
@@ -705,18 +735,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
 
         return view('offres.getcandidat', compact('candidatures', 'offre', 'candidats'));
     }
-    public function propositionselectionne(Request $request, $id)
-    {
-        $auth = Auth::user(); // Récupérer l'interlocuteur connecté
-        $interlocuteur = Interlocuteurese::where('user_id', $auth->id)->first();
-
-       $entreprise = $interlocuteur->entreprise;
-        $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
-        $candidats = Candidat::with('user')->where('cabinet_id', null)->latest()->paginate(10);
-        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
-
-        return view('cabinets.candidatoffre', compact('propositions', 'offre', 'candidats'));
-    }
+    
     /**
      * Show the form for editing the specified resource.
      */
@@ -802,10 +821,10 @@ $encourscount = Candidature::with('offre.entreprise.user')
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet; 
-        
+
         // Récupérer les critères de recherche depuis la requête
         // Ajoutez d'autres critères de recherche si nécessaire
-        $criteria = $request->all();
+        $criteria = $request->except('page');
 
         // Construire la requête de recherche
         $query = Candidat::where('cabinet_id', $cabinet->id);
@@ -813,15 +832,15 @@ $encourscount = Candidature::with('offre.entreprise.user')
         // Appliquer les critères de recherche à la requête
         foreach ($criteria as $key => $value) {
             if (!empty($value)) {
-                $query->where($key, 'like', '%' . $value . '%');
+                $query->where($key, 'like', '%' . $value . '%'); 
             }
         }
 
         // Exécuter la requête
-        $candidats = $query->latest()->paginate(10);
+       $candidats = $query->latest()->paginate(10); 
 
         // Renvoyer les résultats à la vue appropriée
-        return view('cabinets.candidatoffre', compact('candidats', 'offre', 'propositions', 'propositionscount'));
+        return view('cabinets.candidatoffre', compact('candidats', 'offre', 'propositions', 'propositionscount', ));
 
        
     }

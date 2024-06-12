@@ -40,13 +40,13 @@
             <div class="modal-body">
               <form method="POST" action="{{ route('cabinets.candidat') }}"  enctype="multipart/form-data">
                 @csrf
-                <label>Nom </label>
+                <label>Nom <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <input type="text" class="form-control" required name="name" placeholder="Nom">
                     </div>
                     <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Genre </label>
+                    <label>Genre <span style="color:red;">*</span></label>
                     <div class="form-group">
                     <select name="genre" id="genre" class="form-control" required>
                             <option value="Homme">Homme</option>
@@ -65,34 +65,34 @@
                     </div>
                     </div>
                     
-                    <label>Mail </label>
+                    <label>Mail <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <input type="text" required class="form-control" name="email" placeholder="awandiayesene7@gmail.com">
                     </div>
                     <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Téléphone </label>
+                    <label>Téléphone <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <input type="text" required class="form-control" name="telephone" placeholder="+221771301409">
                     </div>
                     </div>
                     <div class="col-md-6 pr-1">
-                    <label>Nationnalité </label>
+                    <label>Nationnalité <span style="color:red;">*</span></label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="nationnalite" placeholder="nationnalite">
+                        <input type="text" class="form-control" name="nationnalite" placeholder="nationnalite" required>
                     </div>
                     </div>
                     </div>
                     <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Genre </label>
-                    <label>Fonction </label>
+                   
+                    <label>Fonction <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <input type="text" required class="form-control" name="fonction" placeholder="fonction">
                     </div>
                     </div>
                     <div class="col-md-6 pr-1">
-                    <label>Disponibilité </label>
+                    <label>Disponibilité <span style="color:red;">*</span></label>
                     <div class="form-group">
                     <select name="disponibilite" id="disponibilite" required class="form-control">
                             <option value="Immédiate">Immédiate</option>
@@ -106,7 +106,7 @@
                     </div>
                    
                   
-                   <label>CV </label>
+                   <label>CV <span style="color:red;">*</span></label>
                     <input id="cv" type="file" required class="form-control " name="cv"   autocomplete="cv" />
               
                     </div> 

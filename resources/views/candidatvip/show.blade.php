@@ -76,10 +76,11 @@
             {{ session('success') }}
           </div>
           @endif
-          <label for="cv"> CV</label>
+         
+          <label for="cv"> CV(max 2mo)</label>
           <input id="cv" type="file" class="form-control @error('cv') is-invalid @enderror" name="cv" autocomplete="cv">
 
-          <label for="motivation">Fichier </label>
+          <label for="motivation">Fichier (max 2mo)</label>
           <input id="motivation" type="file" class="form-control @error('motivation') is-invalid @enderror" name="motivation" autocomplete="motivation">
 
           <button type="submit" class="btn btn-round" style="background-color: #325fa6;">

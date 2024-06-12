@@ -38,32 +38,32 @@
                 @csrf
                 <div class="row">
                 <div class="col-md-6 pr-1">
-                <label>Nom poste</label>
+                <label>Nom poste <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <input type="text" class="form-control" required name="nomposte" placeholder="Developpeur web H/F">
                     </div>
                     </div>
                     <div class="col-md-6 px-1">
-                    <label>Nombre de poste </label>
+                    <label>Nombre de poste <span style="color:red;">*</span></label>
                     <div class="form-group">
 <input type="number" class="form-control" required name="nombredeposte" placeholder="5">
                     </div>
                     </div>
                     </div>
-                    <label>Description</label>
+                    <label>Description <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <textarea name="description" id="description" required class="form-control" cols="30" rows="10"></textarea>
                     </div>
                   
                    
-                    <label>Compétences Requises   </label>
+                    <label>Compétences Requises  <span style="color:red;">*</span> </label>
                     <div class="form-group">
-                        <input type="text" class="form-control" required name="competenceoffre" >
+                        <input type="text"  class="form-control" required name="competenceoffre" >
                     </div>
 
                     <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Année d'expérience </label>
+                    <label>Année d'expérience <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <select name="annexperience" id="annexperience" class="form-control" required>
                             <option value="0 à 3 ans">	0 à 3 ans</option>
@@ -76,7 +76,7 @@
                     </div>
                     </div>
 <div class="col-md-6 pr-1">
-                    <label>Salaire  </label>
+                    <label>Salaire <span style="color:red;">*</span> </label>
                     <div class="form-group">
                         <input type="text" class="form-control" name="salaire" required placeholder="500000">
                     </div>
@@ -96,9 +96,9 @@
                    
                     </div>
                     <div class="col-md-6 pr-1">
-                    <label>Date Clôture  </label>
+                    <label>Date Clôture <span style="color:red;">*</span> </label>
                     <div class="form-group">
-                        <input type="date" class="form-control"  name="datecloture" >
+                        <input type="date" class="form-control" required name="datecloture" >
                         @error('datecloture')
               <div class="text-danger">{{ $message }}</div>
             @enderror
@@ -107,7 +107,7 @@
                     </div>
                     <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Type de contrat </label>
+                    <label>Type de contrat <span style="color:red;">*</span></label>
                     <div class="form-group">
                         <select name="typecontrat" id="typecontrat" class="form-control" required>
                         <option value="Stage">Stage</option>
@@ -119,7 +119,7 @@
                     </div>
                     </div>
                     <div class="col-md-6 pr-1">
-                    <label>Lieu   </label>
+                    <label>Lieu  <span style="color:red;">*</span> </label>
                     <div class="form-group">
                         <input type="text" class="form-control" required name="lieu" placeholder="Dakar, remote" >
                     </div>
@@ -128,7 +128,7 @@
              
                      <div class="row">
                 <div class="col-md-6 pr-1">
-                    <label>Avantage </label>
+                    <label>Avantage <span style="color:red;">*</span> </label>
                     <div class="form-group">
                       <select name="typeoffre" id="typeoffre" required class="form-control">
                         <option value="13ième mois">13ième mois</option>

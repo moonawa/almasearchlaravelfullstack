@@ -48,7 +48,7 @@
                 @csrf
                 <label>Nom de la compétence</label>
                 <div class="form-group">
-                  <input type="text" required class="form-control" name="nomcompetence" placeholder="intitulé de la compétence">
+                  <input type="text" required class="form-control" name="nomcompetence" id="nomcompetence" placeholder="intitulé de la compétence">
                 </div>
                 <label>Niveau</label>
                 <div class="form-group"> 
@@ -178,7 +178,16 @@
     </div>
   </div>
 </div>
-
-
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function() {
+    var competencesList = ["JavaScript", "Laravel", "PHP", "React", "Vue", "Node.js", "Python", "Docker", "AWS"];
+    $("#nomcompetence").autocomplete({
+        source: competencesList
+    });
+});
+</script>
 
 @endsection

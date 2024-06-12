@@ -93,12 +93,16 @@ class CandidatController extends Controller
     {
 
         $request->validate([
-            'cv' => 'sometimes|mimes:pdf,xlx,csv,docx|max:2048',
-            'motivation' => 'sometimes|mimes:pdf,xlx,csv,docx|max:2048',
+            'cv' => 'sometimes|mimes:pdf,docx,jpg,jpeg,png|max:2048',
+            'motivation' => 'sometimes|mimes:pdf,docx,jpg,jpeg,png|max:2048',
 
         ], [
             'cv.max' => 'La taille maximale autorisée pour le CV est de 2 Mo.',
-            'motivation.max' => 'La taille maximale autorisée pour la lettre de motivation est de 2 Mo.',
+            'motivation.max' => 'La taille maximale autorisée pour le fichier est de 2 Mo.',
+        ],
+        [
+            'cv.mimes' => 'Le CV doit etre au format: pdf ou docx ou jpg ou jpeg ou png.',
+            'motivation.mimes' => 'Le fichier doit etre au format: pdf ou docx ou jpg ou jpeg ou png.',
         ]);
         if ($request->hasFile('cv')) {
         $cvName = time().'.'.$request->cv->extension();  

@@ -40,8 +40,9 @@ class SelectionCandidatureNotification extends Notification
     {
         return (new MailMessage)
         ->subject('Pré-selection à une Offre')
-        ->line('Vous êtes pré-sélectionné à une offre vous pouvez vous connecter pour plus d\'informations.');
-    
+        ->greeting(__('Bonjour!'))
+        ->line('Vous êtes pré-sélectionné à une offre vous pouvez vous connecter pour plus d\'informations.')
+->salutation('Cordialement');
     }
 
     /**

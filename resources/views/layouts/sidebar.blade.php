@@ -3,8 +3,13 @@
         <a href="#" class="simple-text " >
           <div class=" ">
             <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
+      
+            @if(auth()->user()->interlocuteurese->entreprise->logo)
+            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurese->entreprise->logo }}"  style="border-radius: 50%; width: 50px; height:50px;" >
+            @endif
+     
           </div>
-          <!-- <p>CT</p> -->
+         
         </a>
       
       </div>
