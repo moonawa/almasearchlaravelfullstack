@@ -59,10 +59,10 @@
       <div class="card-header">
       <ul class="nav nav-pills">
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('offres.show', $offre->id) }} " style="color: #ef882b;"><strong>Candidats Sélectionnés ({{$candidaturescount}}) </strong></a>
+    <a class="nav-link " href="{{ route('offres.show', $offre->id) }} " style="color: #7ac9e8;"><strong>Candidats Sélectionnés ({{$candidaturescount}}) </strong></a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id)}}" style="background:#325fa6;;">Candidats Proposés ({{$propositionscount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id)}}" style="background:#035874;;">Candidats Proposés ({{$propositionscount}})</a>
   </li>
  
 </ul>
@@ -75,7 +75,7 @@
     <a class="nav-link " href="{{ route('proposerecrute', $offre->id) }}" style="color: black;">Recrutés ({{$propositionsrecrutecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('proposerefuse', $offre->id) }}" style="color:  #325fa6;">Refusés ({{$propositionsrefusecount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('proposerefuse', $offre->id) }}" style="color:  #035874;">Refusés ({{$propositionsrefusecount}})</a>
   </li>
   
 </ul>
@@ -119,7 +119,7 @@
 
                 </td>
                 <td>
-                  <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+                  <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
 
                
                 </td>
@@ -134,7 +134,7 @@
                           <div  class="form-group ">
                         
                          <textarea name="commentaireeseproposition" class="form-control commentaireese" id="" cols="60" rows="2" placeholder="Pourquoi le candidat a été recruté?" > {{ $candidature->commentaireeseproposition }}</textarea>
-                         <button type="submit" class="btn  btn-sm mt-1" style="background-color: #325FA6;">Commenter</button>
+                         <button type="submit" class="btn  btn-sm mt-1" style="background-color: #035874;">Commenter</button>
 
                         </div>
     

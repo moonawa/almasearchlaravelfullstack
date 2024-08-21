@@ -18,7 +18,8 @@ class Proposition extends Model
         'heureproposition',
         'lieuproposition',
         'reponseseproposition',
-        'commentaireeseproposition'
+        'commentaireeseproposition',
+        'interlocuteurcbt_id'
     ];
 
     public function candidat()
@@ -29,5 +30,9 @@ class Proposition extends Model
     public function offre()
     {
         return $this->belongsTo(Offre::class,'offre_id');
+    }
+    public function interlocuteurcbt()
+    {
+        return $this->belongsTo(Interlocuteurcbt::class);
     }
 }

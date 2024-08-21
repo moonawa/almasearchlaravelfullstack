@@ -37,8 +37,7 @@ class AdminCandidatureNotification extends Notification
         return (new MailMessage)
         ->subject('Pré-selection à une Offre')
         ->greeting(__('Bonjour!'))
-
-                    ->line('Un candidat vient d\'etre convoqué.')
+                    ->line('Un candidat vient d\'etre convoqué à un rendez vous.')
                     ->salutation('Cordialement');
 
                 }

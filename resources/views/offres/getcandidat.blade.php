@@ -37,7 +37,7 @@
         @endif
         </p>
         @if($offre->fichierjoint)
-        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #035874">Voir</i></a>
 </p>
 @endif
       </div>
@@ -59,12 +59,14 @@
         <form id="statusForm" method="post" action="{{ route('updateStatuscabinet', $offre->id) }}">
           @csrf
           @method('PUT')
-          <button type="submit" class="btn  btn-round  status-button" style="background-color: #325fa6;">
+          <button type="submit" class="btn  btn-round  status-button" style="background-color: #035874;">
             {{ __('Faire appel aux cabinets') }}
           </button>
           </form>
           @if ($offre->statuscabinet)
-<p>Vous avez fait appel aux cabinets, vous ne pourrez plus sélectionner de candidat pour cette offre</p>
+<p>Vous avez fait appel aux cabinets</p>
+@else
+<p>Si vous faites appel aux cabinets vous ne pourrez pas pas sélectionner de candidats pour cette offre</p>
           @endif
        
           
@@ -78,17 +80,17 @@
     
       <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('offres.show', $offre->id) }} " style="color: #ef882b;"> <strong>Candidats Sélectionnés ({{$candidaturescount}}) </strong></a>
+        <a class="nav-link " href="{{ route('offres.show', $offre->id) }} " style="color: #7ac9e8;"> <strong>Candidats Sélectionnés ({{$candidaturescount}}) </strong></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id)}}" style="background:#325fa6;">Candidats Proposés ({{$propositionscount}})</a>
+        <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id)}}" style="background:#035874;">Candidats Proposés ({{$propositionscount}})</a>
       </li>
 
     </ul>
     <br><br>
     <ul class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id) }}" style="color: #325fa6;">Proposés ({{$propositionscount}})</a>
+        <a class="nav-link active" aria-current="page" href="{{ route('indexproposition', $offre->id) }}" style="color: #035874;">Proposés ({{$propositionscount}})</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('proposerecrute', $offre->id) }}" style="color: black;">Recrutés ({{$propositionsrecrutecount}})</a>
@@ -143,7 +145,7 @@
 
                 </td>
                 <td>
-                  <a href="/uploads/{{ $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+                  <a href="/uploads/{{ $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
 
                 </td>
                 <td>

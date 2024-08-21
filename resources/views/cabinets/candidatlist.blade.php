@@ -5,10 +5,14 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-   <div class=" p-4" >
+  <form action="{{ route('cabinets.vivier') }}" class="form-inline my-2 my-lg-0 p-4">
+      <input class="form-control mr-sm-2" type="search" placeholder="Recherche par fonction" aria-label="Search" value="{{ request('search') }}" id="search" name="search">
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" style="border: none;"><i class="nc-icon nc-zoom-split"></i></button>
+    </form>
+   <div class=" p-4">
    <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('candidatcabinet') }}" style="color:#325FA6;">Viviers ({{$candidatcount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('candidatcabinet') }}" style="color:#035874;">Viviers ({{$candidatcount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('proposition') }}" style="color:black;">Proposés ({{$propositioncount}})</a>
@@ -20,9 +24,9 @@
     <a class="nav-link " href="{{ route('recru') }}"  style="color:black;">Recrutés ({{$recrutecount}})</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter un vivier</button> 
-
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter un candidat</button> 
   </li>
+
 </ul>
   
 </div>
@@ -112,7 +116,7 @@
                     </div> 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter </button>
+              <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter </button>
             </div>
             </form>
           </div>

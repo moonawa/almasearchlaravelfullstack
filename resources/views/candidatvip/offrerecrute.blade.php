@@ -14,7 +14,7 @@
     <a class="nav-link " href="{{ route('offreencourscandidat') }}" style="color:black;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offrerecrutecandidat') }}" style="color:#325fa6;">Offres Recrutées ({{$recrutescount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offrerecrutecandidat') }}" style="color:#035874;">Offres Acceptées ({{$recrutescount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link " href="{{ route('offredeclinecandidat') }}"  style="color:black;">Offres Déclinées  ({{$declinescount}})</a>
@@ -78,7 +78,7 @@
                           </td>
                           <td class="text-right">
                           <div class="btn-group" role="group" aria-label="Basic example">
-                          <a href="{{ route('showcandidatoffre', $rs->id)}}" style="margin:5px;"><button style=" background: white; border:none ; color: #325fa6">Voir</button></a>
+                          <a href="{{ route('showcandidatoffre', $rs->id)}}" style="margin:5px;"><button style=" background: white; border:none ; color: #035874">Voir</button></a>
                                   
                               </div>
                           </td>

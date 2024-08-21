@@ -26,21 +26,21 @@ class AuthController extends Controller
      {
          return view('auth/registeradmin');
      }
-     public function registerSaveadmin(Request $request)
-     {
-         $user = new User();
-         $user->name = $request->name;
-         $user->email = $request->email;
-         $user->role = 'Admin';
-         $user->telephone = $request->telephone;
-         $user->alma = 1;
-         $user->status = 1;
-         $user->posteuser = $request->posteuser;
-         $user->password = Hash::make($request->password);
-         $user->save();
+    public function registerSaveadmin(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = 'Admin';
+        $user->telephone = $request->telephone;
+        $user->alma = 1;
+        $user->status = 1;
+        $user->posteuser = $request->posteuser;
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-         return redirect()->back()->with('success', 'l utilisateur  a été ajouté avec succès');
-        }
+        return redirect()->back()->with('success', 'l utilisateur a été ajouté avec succès');
+    }
      //register Superadmin
      public function registerSuperadmin()
      {
@@ -68,7 +68,7 @@ class AuthController extends Controller
     public function registerSave(Request $request)
     {
         $user = new User();
-        $user->name = $request->name;
+        $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
         $user->role = 'Entreprise';
         $user->telephone = $request->telephone;
@@ -77,13 +77,15 @@ class AuthController extends Controller
         $user->password = Hash::make("A#w!88a32");
         $user->save();
 
+        $pass= $user->password;
+
         $nineaName = null;
         $rcName = null;
-        if ($request->hasFile('ninea')) {
+        if($request->hasFile('ninea')) {
             $nineaName = time().'.'.$request->ninea->extension();
             $request->ninea->move(public_path('uploads'), $nineaName);
         }
-        if ($request->hasFile('rc')) {
+        if($request->hasFile('rc')) {
             $rcName = time().'.'.$request->rc->extension();
             $request->rc->move(public_path('uploads'), $rcName);
         }
@@ -101,15 +103,15 @@ class AuthController extends Controller
         $inter->entreprise_id = $ese->id;
         $inter->save();
         $inter->user->notify(new RegisteredNotification());
+
+
         // envoi mail a l'admin
         $admin = User::where('role', 'Admin')->first();
-        $details = [
-            'title' => 'Nouvelle inscription entreprise',
-            'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme.'
-        ];
+       
         $admin->notify(new NotificationMail($admin));
-        
-           // $details = [
+           
+        return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous serez avertit par mail des que votre compte sera validé .');
+   // $details = [
              //   'title' => 'Nouvelle inscription entreprise',
              //   'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme'
             //];
@@ -118,10 +120,7 @@ class AuthController extends Controller
             //    $message->to($admin->email);
            //     $message->subject('Création de compte');
            // });
-           
-           
-
-        return redirect()->route('login');
+       // return redirect()->route('login');
     }
 public function unauthorized(){
     return view('auth.unauthorized');
@@ -135,12 +134,12 @@ public function unauthorized(){
     {
         $request->validate([
             'birthday' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
-        ],  [
-                'birthday.before_or_equal' => 'Vous devez avoir au moins 18 ans pour vous inscrire.',
-         
+        ],
+        [
+            'birthday.before_or_equal' => 'Vous devez avoir au moins 18 ans pour vous inscrire.',
         ]); 
         $user = new User();
-        $user->name = $request->name;
+        $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
         $user->role = 'CandidatVIP';
         $user->telephone = $request->telephone;
@@ -148,8 +147,6 @@ public function unauthorized(){
         $user->status = 1;
         $user->password = Hash::make($request->password);
         $user->save();
-
-       
 
         $cvName = null;
         if ($request->hasFile('cv')) {
@@ -164,8 +161,10 @@ public function unauthorized(){
         $candidat->user_id = $user->id;
         $candidat->cv = $cvName;
         $candidat->save();
-  
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Votre inscription a été bien enregistré vous pouvez vous connecter sur votre profile .');   
+
+        return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous pouvez vous connecter sur votre profile .');
+
     }
 
     //register cabinet
@@ -177,7 +176,7 @@ public function unauthorized(){
     {
         
             $user = User::create([
-                'name' => $request->name,
+                'name' => $request->first_name . ' ' . $request->last_name,
                 'email' => $request->email,
                 'role' => 'Cabinet',
                 'telephone' => $request->telephone,
@@ -218,7 +217,8 @@ public function unauthorized(){
             ];
             $admin->notify(new NotificationMail($admin));
             
-            return redirect()->route('login')->with('success', 'Votre compte cabinet a été créé avec succès.');   
+            return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous serez avertit par mail des que votre compte sera validé .');
+
         
     }
   
@@ -240,7 +240,7 @@ public function unauthorized(){
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed')
+                'email' => trans('Votre email ou mot de passe est invalide.')
             ]);
         }
 
@@ -252,18 +252,28 @@ $user = Auth::user();
 // Rediriger l'utilisateur en fonction de son rôle
 switch ($user->role) {
     case 'Admin':
+        $user->last_login_at = now();
+        $user->save();
         return redirect()->route('dashboardadmin');
         break;
     case 'SuperAdmin':
+        $user->last_login_at = now();
+        $user->save();
             return redirect()->route('dashboardSuperAdmin');
             break;
     case 'CandidatVIP':
+        $user->last_login_at = now();
+        $user->save();
         return redirect()->route('dashboardcandidatvip');
         break;
     case 'Entreprise':
+        $user->last_login_at = now();
+        $user->save();
         return redirect()->route('dashboard');
         break;
     case 'Cabinet':
+        $user->last_login_at = now();
+        $user->save();
         return redirect()->route('dashboardcabinet');
         break;
     default:

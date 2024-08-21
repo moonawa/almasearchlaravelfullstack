@@ -2,7 +2,7 @@
 <div class="logo ">
         <a href="#" class="simple-text " >
           <div class=" ">
-            <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
+            <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
           </div>
           <!-- <p>CT</p> -->
         </a>
@@ -33,33 +33,17 @@
           <li>
             <a href="{{ route( 'motCles') }}" style=" line-height: 1rem; " >
               <i class="nc-icon nc-lock-circle-open"></i>
-              <p style="font-weight: bold;"> Mot Clés</p>
+              <p style="font-weight: bold;"> Mots Clés</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencourscandidat') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;"> Offre En cours</p>
+              <p style="font-weight: bold;"> Offres </p>
             </a>
           </li>
-          <li>
-            <a href="{{ route( 'offrerecrutecandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-satisfied" ></i>
-              <p style="font-weight: bold;"> Offres Recrutées</p>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route( 'offredeclinecandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-simple-remove"></i>
-              <p style="font-weight: bold;"> Offres Déclinées</p>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route( 'showcandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-paper"></i>
-              <p style="font-weight: bold;">Toutes les Offres </p>
-            </a>
-          </li>
+       
+          
         </ul>
       </div>
     </div>

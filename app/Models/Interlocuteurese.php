@@ -22,4 +22,12 @@ class Interlocuteurese extends Model
     public function user() {
         return $this->belongsTo(User::class,'user_id'); 
     }
+    public function offres()
+    {
+        return $this->hasMany(Offre::class);
+    }
+    public function candidatures()
+    {
+        return $this->hasMany(Candidature::class);
+    }
 }

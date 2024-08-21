@@ -11,7 +11,7 @@
     <a class="nav-link " href="{{ route('admin.listcandidatadmin') }}" style="color: black;">Tous les Candidats ({{$candidatscount }})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('admin.listvipadmin') }}" style="color:#325fa6;">Candidats VIP ({{$vipcount }})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('admin.listvipadmin') }}" style="color:#035874;">Candidats VIP ({{$vipcount }})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.listnonvipadmin') }}" style="color:black;">Candidats Simples ({{$nonvipcount }})</a>
@@ -44,9 +44,7 @@
                       <th style="color:black">
                         Fonction 
                       </th>
-                      <th style="color:black">
-                        Nationnalité
-                      </th>
+                    
                       <th style="color:black">
                         Sélection
                       </th>
@@ -56,6 +54,7 @@
                       <th class="text-right" style="color:black">
                         VIP
                       </th>
+                      <th class="text-right" style="color:black">Dernière Connexion</th>
                     </thead>
                     <tbody>
                     @if($candidats->count() > 0)
@@ -73,7 +72,7 @@
                         
                  
                         @if ($rs->vip == "oui")
-                          <span style="color: #325fa6; font-size:large;"> &#8226; </span>
+                          <span style="color: #035874; font-size:large;"> &#8226; </span>
                           @else
                           <span style="color: red; font-size:large;"> &#8226; </span>
                           @endif
@@ -96,15 +95,13 @@
                         {{ $rs->fonction  }}
                         </td>
                       
-                        <td>
-                        {{ $rs->nationnalite  }}
-                      </td>
-                      <td style="color: #ef882b">
+                       
+                      <td style="color: #7ac9e8">
                         {{ $rs->candidatures_count  }}
                         </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('cvdetaille', $rs->id)}}" style="color: #325fa6;">Voir</a>
+                        <a href="{{ route('cvdetaille', $rs->id)}}" style="color: #035874;">Voir</a>
 
                                 
                             </div>
@@ -127,6 +124,17 @@
                           </form>
                    
                       </td>
+                      <td>
+        @if( $rs->user->last_login_at)
+        @php
+                $date = date('Y-m-d', strtotime($rs->user->last_login_at));
+                $heure = date('H:i', strtotime($rs->user->last_login_at));
+                @endphp
+                {{ $date }} à  {{ $heure }}
+                @else
+              <span style="color:red"> Jamais </span> 
+                @endif
+        </td>
                       </tr>
                       @endforeach
                       @else

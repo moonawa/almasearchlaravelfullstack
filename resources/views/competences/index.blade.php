@@ -14,7 +14,7 @@
     <a class="nav-link " href="{{ route('experiences') }}" style="color:black ;">Expériences</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('competences') }}" style="color:#325fa6;">Compétences</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('competences') }}" style="color:#035874;">Compétences</a>
   </li>
   <li class="nav-item">
     <a class="nav-link " href="{{ route('references') }}" style="color:black;" >Références</a>
@@ -23,10 +23,10 @@
     <a class="nav-link " href="{{ route('langues') }}" style="color:black;" >Langues</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#7ac9e8; " >CV Complet</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Compétence</button> 
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Compétence</button> 
 
   </li>
   
@@ -47,9 +47,19 @@
               <form method="POST" action="{{ route('competences.store') }}">
                 @csrf
                 <label>Nom de la compétence</label>
+               
                 <div class="form-group">
-                  <input type="text" required class="form-control" name="nomcompetence" id="nomcompetence" placeholder="intitulé de la compétence">
-                </div>
+    <input type="text" class="form-control" required placeholder="Compétence" name="nomcompetence" list="list-timezone" id="input-datalist">
+    <datalist id="list-timezone">
+        <option>Php</option>
+        <option>Java</option>
+        <option>Devops</option>
+        <option>Photoshop</option>
+        <option>Wordpress</option>
+        <option>Microsoft Office</option>
+        
+    </datalist>
+</div>
                 <label>Niveau</label>
                 <div class="form-group"> 
                   <select name="niveaucompetence" class="form-control" required>
@@ -63,7 +73,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-nfo btn-round" style="background-color: #325fa6;">Ajouter </button>
+              <button type="submit" class="btn btn-nfo btn-round" style="background-color: #035874;">Ajouter </button>
             </div>
             </form>
           </div>
@@ -147,7 +157,7 @@
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary  btn-round" data-dismiss="modal">Fermer</button>
 
-                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #325fa6;" data-id="{{ $rs->id }}">
+                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #035874;" data-id="{{ $rs->id }}">
                               Modifier
                             </button>
                           </div>
@@ -181,13 +191,16 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+
 <script>
-$(document).ready(function() {
-    var competencesList = ["JavaScript", "Laravel", "PHP", "React", "Vue", "Node.js", "Python", "Docker", "AWS"];
-    $("#nomcompetence").autocomplete({
-        source: competencesList
-    });
-});
+    document.addEventListener('DOMContentLoaded', e => {
+        $('#input-datalist').autocomplete()
+    }, false);
 </script>
+
+
 
 @endsection

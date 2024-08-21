@@ -11,10 +11,10 @@
     <a class="nav-link " href="{{ route('indexcabinet') }}" style="color:black;">Toutes les Offres ({{$offrescount }})</a>
   </li>
   <li class="nav-item ">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreencourscabinet') }}" style="color:#325fa6;">Offres En cours ({{$offresencours }})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreencourscabinet') }}" style="color:#035874;">Offres En cours ({{$offresencours }})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offreexpirecabinet') }}" style="color:black;">Offres Expirées ({{$offresexpire }})</a>
+    <a class="nav-link" href="{{ route('offreexpirecabinet') }}" style="color:black;">Offres Cloturées({{$offresexpire }})</a>
   </li>
   </ul>
    
@@ -85,7 +85,7 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showcabinet', $rs->id)}}" style="color: #325fa6;">Voir</a>
+                        <a href="{{ route('showcabinet', $rs->id)}}" style="color: #035874;">Voir</a>
 
                                
                             </div>

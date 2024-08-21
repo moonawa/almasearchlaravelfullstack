@@ -21,7 +21,8 @@ class Candidature extends Model
         'confirmerv',
         'commentaireviprv',
         'commentaireese',
-        'reponese'
+        'reponese',
+        'interlocuteurese_id',
     ];
     public function candidat()
     {
@@ -30,5 +31,9 @@ class Candidature extends Model
     public function offre()
     {
         return $this->belongsTo(Offre::class,'offre_id');
+    }
+    public function interlocuteurese()
+    {
+        return $this->belongsTo(Interlocuteurese::class);
     }
 }

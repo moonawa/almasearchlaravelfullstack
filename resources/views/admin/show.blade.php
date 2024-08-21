@@ -27,7 +27,7 @@
             <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" required autocomplete="avatar">
 
 
-            <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">
+            <button type="submit" class="btn  btn-round" style="background-color: #035874;">
               {{ __('Photo de Profil') }}
             </button>
           </form>
@@ -41,12 +41,8 @@
           <p>
             {{ $user->email }}
           </p>
-          <p>
-            Tel: {{ $user->telephone }}
-          </p>
-          <p>
-            Fonction: {{ $user->posteuser }}
-          </p>
+         
+        
         </div>
 
       </div>
@@ -85,7 +81,7 @@
           <label for="motivation">Lettre de motivation </label>
           <input id="motivation" type="file" class="form-control @error('motivation') is-invalid @enderror" name="motivation" autocomplete="motivation">
 
-          <button type="submit" class="btn  btn-round" style="background-color: #325fa6;">
+          <button type="submit" class="btn  btn-round" style="background-color: #035874;">
             {{ __('Télécharger') }}
           </button>
         </form>
@@ -96,10 +92,10 @@
     
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Modifier le Mot de passe</h4>
+        <h4 class="card-title">Modifier vos informations</h4>
       </div>
       <div class="card-body">
-        <form action="{{ route('cabinets.update') }}" method="POST">
+        <form action="{{ route('admin.updateUser', $user->id) }}" method="POST">
           @csrf
           @method('PUT')
 
@@ -109,33 +105,49 @@
           </div>
           @endif
           <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Mot de passe actuel</label>
-                <input type="password" class="form-control" name="current_password">
-              </div>
-            </div>
-          </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>Nom  </label>
+                        <input type="text" class="form-control"  placeholder="Nom" value="{{ $user->last_name }}" name="last_name">
+                      </div>
+                    </div>
+                  
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Prénom </label>
+                        <input type="text" class="form-control"  value="{{ $user->first_name }}" name="first_name">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Téléphone </label>
+                        <input type="text" class="form-control"  value="{{ $user->telephone }}" name="telephone">
+                      </div>
+                      </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Fonction  </label>
+                        <input type="text" class="form-control"  name="posteuser" value="{{ $user->posteuser }}">
+                      </div>
+                      </div>
+                     
+                      </div>
 
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Nouveau mot de passe</label>
-                <input type="password" class="form-control" name="password">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Confirmer le nouveau mot de passe</label>
-                <input type="password" class="form-control" name="password_confirmation">
-              </div>
-            </div>
-          </div>
+       
+                      <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="email"  class="form-control"  name="email" value="{{ $user->email }}">
+
+                      </div>
+                    </div>
+                  </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button class="btn  btn-round" type="submit" style="background-color: #325fa6;">Modifier </button>
+              <button class="btn  btn-round" type="submit" style="background-color: #035874;">Modifier </button>
             </div>
           </div>
         </form>

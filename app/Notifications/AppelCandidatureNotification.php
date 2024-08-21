@@ -39,7 +39,6 @@ class AppelCandidatureNotification extends Notification
         ->greeting(__('Bonjour!'))
         ->line('Une entreprise vient de faire appel aux cabinets pour une offre.')
         ->salutation('Cordialement');
-
     }
 
     /**

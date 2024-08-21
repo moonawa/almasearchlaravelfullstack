@@ -20,13 +20,13 @@
     <a class="nav-link " href="{{ route('references') }}" style="color:black;" >Références</a>
     </li>
     <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('langues') }}" style="color:#325fa6;" >Langues</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('langues') }}" style="color:#035874;" >Langues</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#7ac9e8; " >CV Complet</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Langue</button> 
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Langue</button> 
 
   </li>
   
@@ -47,7 +47,108 @@
                     @csrf
                     <label>Nom de la langue </label>
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="nomlangue" placeholder="nom langue">
+                        <select name="language" id="language" required class="form-control" name="nomlangue">
+    <option value="">Sélectionner une langue</option>
+    <option value="Afrikaans">Afrikaans</option>
+    <option value="Albanais">Albanais</option>
+    <option value="Allemand">Allemand</option>
+    <option value="Amharique">Amharique</option>
+    <option value="Anglais">Anglais</option>
+    <option value="Arabe">Arabe</option>
+    <option value="Arménien">Arménien</option>
+    <option value="Assamais">Assamais</option>
+    <option value="Azerbaïdjanais">Azerbaïdjanais</option>
+    <option value="Basque">Basque</option>
+    <option value="Bengali">Bengali</option>
+    <option value="Biélorusse">Biélorusse</option>
+    <option value="Birman">Birman</option>
+    <option value="Bosniaque">Bosniaque</option>
+    <option value="Bulgare">Bulgare</option>
+    <option value="Catalan">Catalan</option>
+    <option value="Cebuano">Cebuano</option>
+    <option value="Chichewa">Chichewa</option>
+    <option value="Chinois">Chinois</option>
+    <option value="Coréen">Coréen</option>
+    <option value="Corse">Corse</option>
+    <option value="Créole haïtien">Créole haïtien</option>
+    <option value="Croate">Croate</option>
+    <option value="Danois">Danois</option>
+    <option value="Espagnol">Espagnol</option>
+    <option value="Espéranto">Espéranto</option>
+    <option value="Estonien">Estonien</option>
+    <option value="Filipino">Filipino</option>
+    <option value="Finnois">Finnois</option>
+    <option value="Français">Français</option>
+    <option value="Frison">Frison</option>
+    <option value="Galicien">Galicien</option>
+    <option value="Gallois">Gallois</option>
+    <option value="Géorgien">Géorgien</option>
+    <option value="Grec">Grec</option>
+    <option value="Gujarati">Gujarati</option>
+    <option value="Hausa">Hausa</option>
+    <option value="Hawaïen">Hawaïen</option>
+    <option value="Hébreu">Hébreu</option>
+    <option value="Hindi">Hindi</option>
+    <option value="Hongrois">Hongrois</option>
+    <option value="Islandais">Islandais</option>
+    <option value="Igbo">Igbo</option>
+    <option value="Indonésien">Indonésien</option>
+    <option value="Irlandais">Irlandais</option>
+    <option value="Italien">Italien</option>
+    <option value="Japonais">Japonais</option>
+    <option value="Javanais">Javanais</option>
+    <option value="Kannada">Kannada</option>
+    <option value="Kazakh">Kazakh</option>
+    <option value="Khmer">Khmer</option>
+    <option value="Kirghiz">Kirghiz</option>
+    <option value="Kurde">Kurde</option>
+    <option value="Laotien">Laotien</option>
+    <option value="Latin">Latin</option>
+    <option value="Letton">Letton</option>
+    <option value="Lituanien">Lituanien</option>
+    <option value="Luxembourgeois">Luxembourgeois</option>
+    <option value="Macédonien">Macédonien</option>
+    <option value="Malais">Malais</option>
+    <option value="Malayalam">Malayalam</option>
+    <option value="Maltais">Maltais</option>
+    <option value="Maori">Maori</option>
+    <option value="Marathi">Marathi</option>
+    <option value="Mongol">Mongol</option>
+    <option value="Néerlandais">Néerlandais</option>
+    <option value="Népalais">Népalais</option>
+    <option value="Norvégien">Norvégien</option>
+    <option value="Ouzbek">Ouzbek</option>
+    <option value="Pachto">Pachto</option>
+    <option value="Persan">Persan</option>
+    <option value="Polonais">Polonais</option>
+    <option value="Portugais">Portugais</option>
+    <option value="Roumain">Roumain</option>
+    <option value="Russe">Russe</option>
+    <option value="Samoan">Samoan</option>
+    <option value="Serbe">Serbe</option>
+    <option value="Shona">Shona</option>
+    <option value="Sindhi">Sindhi</option>
+    <option value="Slovaque">Slovaque</option>
+    <option value="Slovène">Slovène</option>
+    <option value="Somali">Somali</option>
+    <option value="Soundanais">Soundanais</option>
+    <option value="Suédois">Suédois</option>
+    <option value="Swahili">Swahili</option>
+    <option value="Tadjik">Tadjik</option>
+    <option value="Tamoul">Tamoul</option>
+    <option value="Tchèque">Tchèque</option>
+    <option value="Télougou">Télougou</option>
+    <option value="Thaï">Thaï</option>
+    <option value="Turc">Turc</option>
+    <option value="Ukrainien">Ukrainien</option>
+    <option value="Ourdou">Ourdou</option>
+    <option value="Vietnamien">Vietnamien</option>
+    <option value="Xhosa">Xhosa</option>
+    <option value="Yiddish">Yiddish</option>
+    <option value="Yoruba">Yoruba</option>
+    <option value="Zoulou">Zoulou</option>
+</select>
+
                     </div>
                     <label>Niveau de la langue</label>
                     <div class="form-group">
@@ -61,7 +162,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button type="submit" class="btn btn-round" style="background-color: #035874;">Ajouter </button>
       </div>
       </form>
     </div>
@@ -141,7 +242,7 @@
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary  btn-round" data-dismiss="modal">Fermer</button>
 
-                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #325fa6;" data-id="{{ $rs->id }}">
+                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #035874;" data-id="{{ $rs->id }}">
                               Modifier
                             </button>
                           </div>

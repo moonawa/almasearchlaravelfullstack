@@ -36,7 +36,7 @@ class RegisteredNotification extends Notification
     {
 
         return (new MailMessage)
-        ->subject('Pré-selection à une Offre')
+        ->subject('Inscription ')
         ->greeting(__('Bonjour!'))
         ->line(__('Merci de vous être inscrit sur notre site.'))
         ->line('Vous avez bien été enregistré sur notre plateforme, vous serez notifier par mail lorsque votre compte sera activé, Merci de patienter!!!')

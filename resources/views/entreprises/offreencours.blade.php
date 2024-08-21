@@ -12,15 +12,18 @@
     <a class="nav-link "  href="{{ route('offres') }}"style="color:black;" >Toutes les Offres  ({{$offrecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreencoursentreprise') }}" style="color:#325fa6;">Offres En Cours ({{$encourscount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreencoursentreprise') }}" style="color:#035874;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('offreexpireentreprise') }}" style="color:black;">Offres Expirées ({{$expirescount}})</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offrestandbyentreprise') }}" style="color:black;">Offres En StandBy ({{$standbycount}})</a>
+  </li>
 </ul>
     </div>
   <div class="col-md-2">
-    <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+    <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
   </div>
 </div>
 <!-- Modal -->
@@ -147,7 +150,7 @@
                     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
-        <button id="submitButton" type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button id="submitButton" type="submit" class="btn btn-round" style="background-color: #035874;">Ajouter </button>
       </div>
       </form>
     </div>
@@ -212,9 +215,9 @@
 
                           @method('PUT')
                           <div  class="form-group form-outline mb-0">
-                          <select name="statusoffre" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
-                            <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->statusoffre}}" {{ $rs->statusoffre == 0  ? 'selected' : '' }} >En cours</option>
-                            <option id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->statusoffre == 1  ? 'selected' : '' }}>Expirée</option>
+                          <select name="offrestatu" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
+                            <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->offrestatu}}" {{ $rs->offrestatu == "En Cours"  ? 'selected' : '' }} >En Cours</option>
+                            <option id="flexSwitchCheck{{$rs->id}}" value="Cloturée" {{ $rs->offrestatu == "Cloturée"  ? 'selected' : '' }}>Cloturée</option>
                           </select>
                           </div>
                           
@@ -222,9 +225,9 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #ef882b; text-decoration:none;">Détails</a>
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #7ac9e8; text-decoration:none;">Détails</a>
                         &nbsp;|
-                                <a href="{{ route('offres.edit', $rs->id)}}" style=""><button style="background: white; border:none; color:#325fa6;">Éditer</button></a>
+                                <a href="{{ route('offres.edit', $rs->id)}}" style=""><button style="background: white; border:none; color:#035874;">Éditer</button></a>
                                
                             </div>
                         </td>

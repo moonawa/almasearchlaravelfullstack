@@ -76,7 +76,7 @@ height: 100%;
 
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;">Réinitialiser</button>
+              style="padding-left: 2.5rem; padding-right: 2.5rem; background-color: #035874;">Réinitialiser</button>
            
           </div>
 

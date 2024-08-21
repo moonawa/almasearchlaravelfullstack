@@ -2,7 +2,7 @@
 <div class="logo ">
         <a href="#" class="simple-text " >
           <div class=" ">
-            <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
+            <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
       
           @if(auth()->user()->interlocuteurcbt->cabinet->logocbt)
             <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurcbt->cabinet->logocbt }}" width="50px" style="border-radius: 50%; width: 50px; height:50px;">
@@ -20,10 +20,19 @@
           </li>
           <li>
           @if (auth()->user()->interlocuteurcbt)
-            <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
+            <a href="{{ route('cabinets.intercbt', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
               <i class="nc-icon nc-diamond"></i>
               <p style="font-weight: bold;">Profil</p>
+            </a>
+            @endif
+          </li>
+          <li>
+          @if (auth()->user()->interlocuteurcbt)
+            <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
+           
+              <i class="nc-icon nc-diamond"></i>
+              <p style="font-weight: bold;">Infos Cabinet</p>
             </a>
             @endif
           </li>
@@ -42,7 +51,7 @@
           <li>
             <a href="{{ route( 'offreencourscabinet') }}"  style=" line-height: 1rem; ">
               <i class="nc-icon nc-tile-56"></i>
-              <p style="font-weight: bold;">Offres En Cours</p>
+              <p style="font-weight: bold;">Offres </p>
             </a>
           </li>
      

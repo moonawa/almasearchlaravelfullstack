@@ -2,7 +2,7 @@
       <div class="logo">
         <a href="#" class="simple-text ">
           <div class="">
-            <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
+            <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
           </div>
           <!-- <p>CT</p> -->
         </a>
@@ -62,7 +62,7 @@
           <li>
             <a href="{{ route( 'offreencoursadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-paper"></i>
-              <strong >Offres En Cours</strong>
+              <strong >Offres </strong>
             </a>
           </li>
         </ul>

@@ -94,7 +94,7 @@
                   {{ $rs->emailese }}
                 </td>
                 <td>
-                  <button type="button" style="border: none; background:white; color: #ef882b;" data-toggle="modal" data-target="#entrepriseDescription{{$rs->id}}">
+                  <button type="button" style="border: none; background:white; color: #7ac9e8;" data-toggle="modal" data-target="#entrepriseDescription{{$rs->id}}">
                     Voir
                   </button>
                   <!-- Modal -->
@@ -121,13 +121,13 @@
                   {{ $rs->secteuractivite  }}
                 </td>
                 <td>
-                  <a href="/uploads/{{ $rs->ninea }}" style="color: #325fa6">Voir</i></a>
+                  <a href="/uploads/{{ $rs->ninea }}" style="color: #035874">Voir</i></a>
                 </td>
                 <td>
-                  <a href="/uploads/{{ $rs->rc }}" style="color: #325fa6">Voir</i></a>
+                  <a href="/uploads/{{ $rs->rc }}" style="color: #035874">Voir</i></a>
                 </td>
                 <td>
-                  <a href="{{ route('admin.listinterentrepriseadmin', $rs->id)}}" style="color:#ef882b;">Voir</a>
+                  <a href="{{ route('admin.listinterentrepriseadmin', $rs->id)}}" style="color:#7ac9e8;">Voir</a>
                 </td>
                 <td>
                   <form class="statusForm" method="post" action="{{ route('updateStatusentreprise', $rs->id)}}">

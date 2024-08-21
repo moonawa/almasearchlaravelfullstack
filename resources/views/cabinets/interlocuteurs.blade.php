@@ -14,7 +14,7 @@
             <h5 class="card-title">Liste des Interlocuteurs ({{$interlocuteurcount}})</h5>
           </div>
           <div class="col-md-2">
-            <button class="btn btn-round  " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter </button>
+            <button class="btn btn-round  " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter </button>
 
 
           </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-                  <button type="submit" class="btn btn-nfo btn-round" style="background-color: #325fa6;">Ajouter </button>
+                  <button type="submit" class="btn btn-nfo btn-round" style="background-color: #035874;">Ajouter </button>
                 </div>
                 </form>
               </div>
@@ -85,7 +85,9 @@
               <th style="color:black">
                 Fonction
               </th>
-
+              <th style="color:black">
+                Dernière Connexion
+              </th>
 
 
             </thead>
@@ -117,7 +119,17 @@
                   {{ $rs->fonctioncbt  }}
                 </td>
 
-
+                <td>
+        @if( $rs->user->last_login_at)
+        @php
+                $date = date('Y-m-d', strtotime($rs->user->last_login_at));
+                $heure = date('H:i', strtotime($rs->user->last_login_at));
+                @endphp
+                {{ $date }} à  {{ $heure }}
+                @else
+              <span style="color:red"> Jamais </span> 
+                @endif
+        </td>
 
               </tr>
               @endforeach

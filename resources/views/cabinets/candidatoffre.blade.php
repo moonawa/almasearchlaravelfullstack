@@ -81,7 +81,7 @@
       <div class="card-header row p-4">
       <div class="col-md-9">  <h5 class="card-title">Liste des candidats Proposés ({{$propositionscount}})</h5>   </div>
         <div class="col-md-3">
-        <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModalr">Ajouter</button>
+        <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModalr">Ajouter</button>
 
         </div>
 
@@ -151,7 +151,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button type="submit" class="btn btn-round" style="background-color: #035874;">Ajouter </button>
       </div>
       </form>
     </div>
@@ -177,7 +177,9 @@
               <th style="color:black">
                 Processus
               </th>
-             
+              <th style="color:black">
+                Proposé par
+              </th>
             </thead>
             <tbody>
 
@@ -190,7 +192,7 @@
 
                 </td>
                 <td>
-                  <a href="/uploads/{{ $proposition->candidat->cv }}" style="color: #325fa6;"><i class="fa fa-eye"></i></a>
+                  <a href="/uploads/{{ $proposition->candidat->cv }}" style="color: #035874;"><i class="fa fa-eye"></i></a>
 
                 </td>
                 <td>
@@ -228,6 +230,7 @@
                   <td style="color:orange">En Cours</td>
                   
                           @endif
+                          <td>{{ $proposition->interlocuteurcbt->user->name }}</td>
               </tr>
 
               @endforeach
@@ -271,7 +274,7 @@
         
         <!-- Ajouter des champs pour les autres critères de recherche -->
         <div class="col-md-3 mt-3">
-            <button type="submit" class="btn btn-round " style="background-color: #325fa6;">Rechercher</button>
+            <button type="submit" class="btn btn-round " style="background-color: #035874;">Rechercher</button>
         </div>
     </div>
 </form>
@@ -309,7 +312,7 @@
               Genre
               </th>
               <th style="color:black">
-              Nationnalite
+              Nationnalité
               </th>
               <th style="color:black">
                 Age
@@ -366,7 +369,7 @@
                
 
                 <td>
-                  <a href="/uploads/{{ $rs->cv }}" style="color: #325fa6;">Voir</a>
+                  <a href="/uploads/{{ $rs->cv }}" style="color: #035874;">Voir</a>
                 </td>
 
                 <td class="text-right">
@@ -375,7 +378,7 @@
                       @csrf
                       <input type="hidden" name="offre_id" value="{{ $offre->id }}">
                       <input type="hidden" name="candidat_id" value="{{ $rs->id }}">
-                      <button type="submit" style="margin:5px; background: white;border:none; color:#ef882b;" > Ajouter</i></button>
+                      <button type="submit" style="margin:5px; background: white;border:none; color:#7ac9e8;" > Ajouter</i></button>
                     </form>
 
                    

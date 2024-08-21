@@ -12,7 +12,7 @@
                         <p>(Ajouter des  Mots clés pour faciliter les recherches dans la base et les matching pour les entreprises)</p>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+                        <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -29,12 +29,21 @@
                                         @csrf
                                         <label>Mot Clé </label>
                                         <div class="form-group">
-                                            <input type="text" required class="form-control" name="mot" placeholder="mot cle">
-                                            
-                                        </div>
+    <input type="text" class="form-control" required placeholder="mot cle" name="mot" list="list-timezone" id="input-datalist">
+    <datalist id="list-timezone">
+        <option>Php</option>
+        <option>Java</option>
+        <option>Devops</option>
+        <option>Photoshop</option>
+        <option>Wordpress</option>
+        <option>Microsoft Office</option>
+        
+    </datalist>
+</div>
+                                      
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-                                            <button type="submit" class="btn btn-nfo btn-round" style="background-color: #325fa6;">Ajouter </button>
+                                            <button type="submit" class="btn btn-nfo btn-round" style="background-color: #035874;">Ajouter </button>
                                         </div>
                                     </form>
                                 </div>
@@ -115,7 +124,11 @@ color: red;
 }
 
     </style>
-
+<script>
+    document.addEventListener('DOMContentLoaded', e => {
+        $('#input-datalist').autocomplete()
+    }, false);
+</script>
 <script>
 $(document).ready(function() {
     $('.delete-form').on('submit', function(e) {

@@ -43,6 +43,11 @@
               </div>
               <br>
               <div class="card-body mt-5">
+              @if (session('success'))
+            <div class="alert alert-success" role="alert">
+              {{ session('success') }}
+            </div>
+            @endif
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
@@ -97,7 +102,7 @@
                         {{ $rs->emailcbt }}
                         </td>
                         <td>
-                        <button type="button" style="border: none; background:white; color:#ef882b" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">
+                        <button type="button" style="border: none; background:white; color:#7ac9e8" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">
                        Voir
                         </button>
 
@@ -125,15 +130,15 @@
                         {{ $rs->secteuractivitecabinet  }}
                         </td>
                         <td>
-                        <a href="/uploads/{{ $rs->nineacabinet }}" style="color: #325fa6">Voir</i></a>
+                        <a href="/uploads/{{ $rs->nineacabinet }}" style="color: #035874">Voir</i></a>
 
                         </td>
                         <td>
-                        <a href="/uploads/{{ $rs->rccabinet }}" style="color: #325fa6">Voir</a>
+                        <a href="/uploads/{{ $rs->rccabinet }}" style="color: #035874">Voir</a>
 
                         </td>
                         <td >
-                        <a href="{{ route('admin.listintercabinetadmin', $rs->id)}}" style="color:#ef882b;">Voir</a>
+                        <a href="{{ route('admin.listintercabinetadmin', $rs->id)}}" style="color:#7ac9e8;">Voir</a>
 
 
                         </td>

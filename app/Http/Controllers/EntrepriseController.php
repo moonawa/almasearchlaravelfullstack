@@ -28,6 +28,16 @@ class EntrepriseController extends Controller
       
         return view('entreprises.show', compact('entreprise', 'ese'));
     }
+    public function inter(string $id)
+    {
+        $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+    $entreprise = Interlocuteurese::where('user_id', $auth->id)->findOrFail($id);
+
+    $ese = $entreprise->entreprise; // Obtenir l'entreprise associée
+
+      
+        return view('entreprises.profilinter', compact('entreprise', 'ese'));
+    }
   
     /**
      * Show the form for editing the specified resource.
@@ -76,6 +86,24 @@ class EntrepriseController extends Controller
 
         $entreprise->update($updateData); 
         return back()->with('success', 'Les fichiers ont  été modifiés avec succès.');
+    }
+    public function updateInter(Request $request, string $id)
+    {
+
+        $user = Auth::user();
+        $entreprise = Interlocuteurese::where('user_id', $user->id)->findOrFail($id);
+        if ($entreprise) {
+            $entreprise->user->email = $request->email;
+            $entreprise->user->telephone = $request->telephone;
+            $entreprise->user->name = $request->first_name . ' ' . $request->last_name;
+            $entreprise->user->save();
+        }
+            $entreprise->update($request->all());
+
+    // Enregistrer les modifications
+    $entreprise->save();
+    return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+       // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
     }
     public function update(Request $request)
     {

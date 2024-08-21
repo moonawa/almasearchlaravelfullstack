@@ -20,7 +20,14 @@ height: calc(100% - 73px);
 .h-custom {
 height: 100%;
 }
+
 }
+.toggle-password {
+    cursor: pointer;
+    margin-left: 10px;
+    color: blue;
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
@@ -51,7 +58,11 @@ height: 100%;
           <div class="divider d-flex align-items-center my-4">
              <p class="text-center fw-bold mx-3 mb-0">Avec</p>
           </div>
-
+          @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
           <!-- Email input -->
           <div class="form-outline mb-4">
           <label class="form-label" for="form3Example3">Email <span style="color:red;">*</span></label>
@@ -63,8 +74,10 @@ height: 100%;
           <div class="form-outline mb-3">
           <label class="form-label" for="form3Example4">Mot de Passe <span style="color:red;">*</span></label>
 
-            <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
+            <input type="password" name="password" id="new_password" class="form-control form-control-lg"
               placeholder="Mot de passe" />
+              <span id="toggle-new-password" class="toggle-password">Afficher le mot de passe</span>
+
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -79,7 +92,7 @@ height: 100%;
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn  btn-round" style="background-color: #325fa6; color:white;"
+            <button type="submit" class="btn  btn-round" style="background-color: #035874; color:white;"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
             <p class="small fw-bold mt-2 pt-1 mb-0">Vous n'avez pas de compte? <a href="#services "
                 class="link-danger">S' inscrire</a></p>
@@ -114,6 +127,21 @@ height: 100%;
   </div>   -->
 </section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('toggle-new-password').addEventListener('click', function () {
+      var passwordField = document.getElementById('new_password');
+      var passwordFieldType = passwordField.getAttribute('type');
 
+      if (passwordFieldType === 'password') {
+        passwordField.setAttribute('type', 'text');
+        this.textContent = 'Masquer le mot de passe';
+      } else {
+        passwordField.setAttribute('type', 'password');
+        this.textContent = 'Afficher le mot de passe';
+      }
+    });
+  });
+    </script>
 </body>
 </html>

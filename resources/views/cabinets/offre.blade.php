@@ -8,13 +8,13 @@
   <div class=" p-4" >
   <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('indexcabinet') }}" style="color:#325fa6;">Toutes les Offres   ({{$offrescount }})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('indexcabinet') }}" style="color:#035874;">Toutes les Offres   ({{$offrescount }})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('offreencourscabinet') }}" style="color:black;">Offres En cours ({{$offresencours }})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offreexpirecabinet') }}" style="color:black;">Offres Expirées ({{$offresexpire }})</a>
+    <a class="nav-link" href="{{ route('offreexpirecabinet') }}" style="color:black;">Offres Cloturées ({{$offresexpire }})</a>
   </li>
  
 </ul>
@@ -83,16 +83,16 @@
                       <td>
                         {{ $rs->datecloture  }}
                         </td>
-                        @if($rs->statusoffre)
+                        @if($rs->offrestatu == "Cloturée")
                         <td style="color: red">
-                         Expirée
+                        Cloturée
                           @else
-                          <td style="color: green" >Encours</td>
+                          <td style="color: green" >En Cours</td>
                           @endif
                       </td>
                       <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showcabinet', $rs->id)}}" style=" color: #325fa6">Voir</a>
+                        <a href="{{ route('showcabinet', $rs->id)}}" style=" color: #035874">Voir</a>
                        
                       </div>
                       </tr>

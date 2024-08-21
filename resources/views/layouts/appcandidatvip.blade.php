@@ -20,6 +20,7 @@ Coded by www.creative-tim.com
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
   <title>
     Paper Dashboard 2 by Creative Tim
   </title>

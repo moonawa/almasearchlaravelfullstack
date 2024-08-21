@@ -12,7 +12,7 @@
 <nav class="navbar navbar-expand-lg  static-top">
   <div class="container">
     <a class="navbar-brand" href="#">
-      <img src="{{ asset('admin/img/logoalma.png') }}" alt="..." height="50">
+      <img src="{{ asset('admin/img/logo.jpeg') }}" alt="..." height="50">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -44,13 +44,13 @@
         </li>
         <li class="nav-item" style="margin: 5px;">
      
-    <a href="#services" class="btn  btn-round " style="color: white; background-color: #ef882b; text-decoration: none;">S' inscrire</a> 
+    <a href="#services" class="btn  btn-round " style="color: white; background-color: #035874; text-decoration: none;">S' inscrire</a> 
     
 
         </li>
         <li class="nav-item" style="margin: 5px;">
       
-    <a class="btn  btn-round  " href=" {{ route('login') }}" style="background-color: #325fa6; color: white; text-decoration: none;">Se Connecter</a> 
+    <a class="btn  btn-round  " href=" {{ route('login') }}" style="background-color: #7ac9e8; color: white; text-decoration: none;">Se Connecter</a> 
 
         </li>
       </ul>
@@ -68,7 +68,7 @@
 </h4>
     <p class="card-text"> Nous sommes dédiés à fournir une expérience fluide et efficace, 
                    en connectant les meilleurs talents avec les opportunités professionnelles qui leur correspondent.</p>
-   <a href="#" class="btn  mt-2" style="background-color: #325FA6; color:white;">Comment ça Marche</a>
+   <a href="#" class="btn  mt-2" style="background-color: #035874; color:white;">Comment ça Marche</a>
   </div>
 </div>
     </div>
@@ -82,7 +82,7 @@
     <div class="col-md-4 p-5"><br>
   <center> <img  src="{{ asset('admin/img/cv.png') }}" alt="..." height="90"></center> 
 <br>
-        <h5 class="text-center" style="color:#ef882b;">Vous êtes un candidat</h5>
+        <h5 class="text-center" style="color:#7ac9e8;">Vous êtes un candidat</h5>
         <p style=" text-align:center;">
           Vous pouvez vous inscrire gratuitement, mettre à jour votre CV à tout moment, vos cv seront envoyés aux entreprises directement.
           </p>
@@ -95,7 +95,7 @@
     <center> <img  src="{{ asset('admin/img/recruitment1.png') }}" alt="..." height="90"></center> 
 
 <br>
-        <h5 class="text-center" style="color:#ef882b;">Vous êtes une entreprise</h5>
+        <h5 class="text-center" style="color:#7ac9e8;">Vous êtes une entreprise</h5>
         <p  style=" text-align:center;">
            Créez et publiez des offres d'emploi, recherchez des candidats qualifiés, planifiez des entretiens et recrutez efficacement.
           </p>
@@ -105,7 +105,7 @@
     <div class="col-md-4 p-5"><br>
     <center> <img  src="{{ asset('admin/img/recruitment.png') }}" alt="..." height="90"></center> 
 <br>
-        <h5 class="text-center" style="color:#ef882b;">Vous êtes un cabinet</h5>
+        <h5 class="text-center" style="color:#7ac9e8;">Vous êtes un cabinet</h5>
         <p  style=" text-align:center;"> 
           Repérez les offres d'emploi pertinentes pour vos candidats, proposez-leur les meilleures opportunités. 
         </p>
@@ -157,17 +157,17 @@
 </div>
 
 
-  <div class="container-fluid	" style="background-color: #325fa6; padding: 30px;">
+  <div class="container-fluid	" style="background-color: #035874; padding: 30px;">
     <div class="row">
       <div class="col-md-3">
-        <img src="admin/img/logoalmacopie.png" alt="" width="200px">
+        <img src="admin/img/logo-removebg.png" alt="" width="200px">
       </div>
       <div class="col-md-3">
         <h4 style="color:white;">Liens Utiles</h4>
         <ul>
           <li style="color:white;">Accueil</li>
           <li style="color:white;">A propos</li>
-          <li style="color:white;">Services</li>
+          <li style="color:white;">Services</li> 
           <li style="color:white;">Contact</li>
         </ul>
       </div>
@@ -181,12 +181,10 @@
       </div>
       <div class="col-md-3">
   
-        <button  class="btn  btn-round  " style="background-color: #ef882b;"> 
+        <button  class="btn  btn-round" style="background-color: #7ac9e8;"> 
     <a href="#services" style="color: white; text-decoration: none;">S' inscrire</a> </button>
-
-       
         <button  class="btn  btn-round  " style="background-color: #ffffff;"> 
-    <a href=" {{ route('login') }}" style="color: #325FA6; text-decoration: none;">Se Connecter</a> </button>
+    <a href=" {{ route('login') }}" style="color: #7ac9e8; text-decoration: none;">Se Connecter</a> </button>
 
       
       </div>

@@ -8,7 +8,7 @@
   <div class=" ">
     <div class="row ">
       <div class="col-md-4">
-        <p><strong>L'offre a été créée le:</strong> {{$offre->created_at}}</p>
+        <p><strong>L'offre a été créée le:</strong> {{$offre->created_at}} par <span style="font-size: large;"> {{$offre->interlocuteurese->user->name}} </span></p>
         <p><strong>Nom:</strong> {{$offre->nomposte}}</p>
         <p><strong>Description:</strong>
           {{Str::limit($offre->description, 100, '...')}}
@@ -36,7 +36,7 @@
         @endif
         </p>
         @if($offre->fichierjoint)
-        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+        <p><strong>Fichier Joint: </strong>                  <a href="/uploads/{{ $offre->fichierjoint }}" style="color: #035874">Voir</i></a>
 </p>
 @endif
       </div>
@@ -58,12 +58,14 @@
           <form id="statusForm" method="post" action="{{ route('updateStatuscabinet', $offre->id) }}">
             @csrf
             @method('PUT')
-            <button type="submit" class="btn  btn-round  status-button" style="background-color: #325fa6;">
+            <button type="submit" class="btn  btn-round  status-button" style="background-color: #035874;">
               {{ __('Faire appel aux cabinets') }}
             </button>
           </form>
           @if ($offre->statuscabinet)
-          <p>Vous avez fait appel aux cabinets, vous ne pourrez plus sélectionner de candidat pour cette offre</p>
+          <p>Vous avez fait appel aux cabinets, </p>
+          @else
+          <p>Si vous faites appel aux cabinets vous ne pourrez pas pas sélectionner de candidats pour cette offre .</p>
           @endif
 
 
@@ -76,17 +78,23 @@
   <div class="card-header">
     <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }} " style="background: #325fa6;">Candidats Sélectionnés ({{$candidaturescount}})</a>
+        <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }} " style="background: #035874;">Candidats Sélectionnés ({{$candidaturescount}})</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('indexproposition', $offre->id)}}" style="color:#ef882b;"> <strong> Candidats Proposés ({{$propositionscount}}) </strong></a>
+        <a class="nav-link" href="{{ route('indexproposition', $offre->id)}}" style="color:#7ac9e8;"> <strong> Candidats Proposés ({{$propositionscount}}) </strong></a>
       </li>
 
     </ul>
     <br><br>
+    @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
     <ul class="nav nav-tabs">
+   
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }}" style="color: #325fa6;">Sélectionnés ({{$candidaturescount}})</a>
+        <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }}" style="color: #035874;">Sélectionnés ({{$candidaturescount}})</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('candidatrecrute', $offre->id) }}" style="color: black;">Recrutés ({{$candidatrecrutecount}})</a>
@@ -131,6 +139,9 @@
           <th style="color:black">
             Réponse
           </th>
+          <th style="color:black">
+            Sélection
+          </th>
         </thead>
         <tbody>
 
@@ -143,9 +154,9 @@
 
             </td>
             <td>
-              <a href="{{ route('cvdetailleese', $candidature->candidat->id)}}"><i class="fa fa-eye" style="color: #ef882b;"></i></a>
+              <a href="{{ route('cvdetailleese', $candidature->candidat->id)}}"><i class="fa fa-eye" style="color: #7ac9e8;"></i></a>
 
-              <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+              <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
             </td>
             <td>
               <form class="dateForm" method="post" action="{{ route('updateDate', $candidature->id) }}">
@@ -213,6 +224,9 @@
               @endif
 
             </td>
+            <td>
+            {{ $candidature->interlocuteurese->user->name }}
+            </td>
           </tr>
 
           @endforeach
@@ -267,7 +281,7 @@
 
         <!-- Ajouter des champs pour les autres critères de recherche -->
         <div class="col-md-3 mt-3">
-          <button type="submit" class="btn btn-round " style="background-color: #325fa6;">Rechercher</button>
+          <button type="submit" class="btn btn-round " style="background-color: #035874;">Rechercher</button>
         </div>
       </div>
     </form>
@@ -346,8 +360,8 @@
 
 
             <td>
-              <a href="{{ route('cvdetailleese', $rs->id)}}"><i class="fa fa-eye" style="color: #ef882b;" ></i></a>
-              <a href="/uploads/{{ $rs->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+              <a href="{{ route('cvdetailleese', $rs->id)}}"><i class="fa fa-eye" style="color: #7ac9e8;" ></i></a>
+              <a href="/uploads/{{ $rs->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
 
             </td>
 
@@ -357,7 +371,7 @@
                   @csrf
                   <input type="hidden" name="offre_id" value="{{ $offre->id }}">
                   <input type="hidden" name="candidat_id" value="{{ $rs->id }}">
-                  <button id="submitButton" type="submit" class="btn btn-round" style=" background:white; border:none; color: #ef882b">Selectionner</button>
+                  <button id="submitButton" type="submit" class="btn btn-round" style=" background:white; border:none; color: #7ac9e8">Selectionner</button>
                 </form>
 
 

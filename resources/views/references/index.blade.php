@@ -17,16 +17,16 @@
     <a class="nav-link" href="{{ route('competences') }}" style="color:black;">Compétences</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('references') }}" style="color:#325fa6;" >Références</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('references') }}" style="color:#035874;" >Références</a>
     </li>
     <li class="nav-item">
     <a class="nav-link " href="{{ route('langues') }}" style="color:black;" >Langues</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#7ac9e8; " >CV Complet</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Référence</button> 
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Référence</button> 
 
   </li>
   
@@ -71,7 +71,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-round" style="background-color: #325fa6;"> Ajouter</button>
+        <button type="submit" class="btn btn-round" style="background-color: #035874;"> Ajouter</button>
       </div>
       </form>
     </div>
@@ -174,7 +174,7 @@
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary  btn-round" data-dismiss="modal">Fermer</button>
 
-                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #325fa6;" data-id="{{ $rs->id }}">
+                            <button type="submit" class="btn btn-round btn-update-competence"  style="background-color: #035874;" data-id="{{ $rs->id }}">
                               Modifier
                             </button>
                           </div>

@@ -70,4 +70,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cabinet::class, 'user_id');
     }
+    // Ajoutez ces méthodes au modèle User
+    public function getFirstNameAttribute()
+    {
+        return explode(' ', $this->name)[0];
+    }
+
+    public function getLastNameAttribute()
+    {
+        $nameParts = explode(' ', $this->name);
+        return isset($nameParts[1]) ? $nameParts[1] : '';
+    }
 }

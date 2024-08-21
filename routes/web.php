@@ -17,6 +17,7 @@ use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ReferenceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,12 +29,28 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/clear-cache', function() {
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return "Cache is cleared";
+
+});
+Route::get('/storage-link', function() {
+Artisan::call('storage:link');
+    return "storage is linked";
+
+});
 
 Route::get('/', function () {
     return view('moonawahome');
 });
 
-
+Route::get('pass', function () {
+    return view('layouts.password');
+})->name('pass');
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
 Route::post('login', [AuthController::class, 'loginAction'])->name('login.action'); 
@@ -73,6 +90,7 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
     Route::get('listnonvipadmin', 'listnonvipadmin')->name('admin.listnonvipadmin');
     Route::get('listcandidatnonadmin', 'listcandidatnonadmin')->name('admin.listcandidatnonadmin');
     Route::get('show', 'show')->name('admin.show');
+    Route::put('updateUser/{id}', 'updateUser')->name('admin.updateUser');
     Route::get('admin', 'admin')->name('admin.admin');
     Route::get('listinterentrepriseadmin/{id}', 'listinterentrepriseadmin')->name('admin.listinterentrepriseadmin');
     Route::get('listintercabinetadmin/{id}', 'listintercabinetadmin')->name('admin.listintercabinetadmin');
@@ -130,14 +148,17 @@ Route::group(['middleware' => ['role:Entreprise']], function () {
         Route::get('create', 'create')->name('entreprises.create');
         Route::post('store', 'store')->name('entreprises.store');
         Route::get('show/{id}', 'show')->name('entreprises.show');
+        Route::get('inter/{id}', 'inter')->name('entreprises.inter');
         Route::get('edit/{id}', 'edit')->name('entreprises.edit');
         Route::put('update', 'update')->name('entreprises.update');
+        Route::put('updateInter/{id}', 'updateInter')->name('entreprises.updateInter');
         Route::put('logo', 'logo')->name('entreprises.logo');
         Route::delete('destroy/{id}', 'destroy')->name('entreprises.destroy');
         Route::post('rc', 'storefile')->name('entreprises.rc');
     });
     Route::get('offreencoursentreprise', [OffreController::class, 'offreencoursentreprise'])->name('offreencoursentreprise');
     Route::get('offreexpireentreprise', [OffreController::class, 'offreexpireentreprise'])->name('offreexpireentreprise');
+    Route::get('offrestandbyentreprise', [OffreController::class, 'offrestandbyentreprise'])->name('offrestandbyentreprise');
     Route::get('candidatrecrute/{id}', [OffreController::class, 'candidatrecrute'])->name('candidatrecrute');
     Route::get('candidatrefuse/{id}', [OffreController::class, 'candidatrefuse'])->name('candidatrefuse');
     Route::put('commentaireese/{id}', [OffreController::class, 'commentaireese'])->name('commentaireese');
@@ -148,9 +169,11 @@ Route::group(['middleware' => ['role:Entreprise']], function () {
 
 
 //candidatvip
+
 Route::get('registercandidat', [AuthController::class, 'registercandidat'])->name('registercandidat');
 Route::post('registercandidat', [AuthController::class, 'registerSavecandidatvip'])->name('registercandidat.save'); 
 Route::group(['middleware' => ['role:CandidatVIP']], function () {
+   
     Route::get('showcandidatoffre/{id}', [OffreController::class, 'showcandidatoffre'])->name('showcandidatoffre');
     Route::put('confirmerv/{id}', [OffreController::class, 'candidatureconfirmerv'])->name('confirmeVipRv');
     Route::put('commentaire/{id}', [OffreController::class, 'candidaturecommentairerv'])->name('commentaireVipRv');
@@ -226,8 +249,11 @@ Route::group(['middleware' => ['role:CandidatVIP']], function () {
         Route::get('edit/{id}', 'edit')->name('competences.edit');
         Route::put('edit/{id}', 'update')->name('competences.update');
         Route::delete('destroy/{id}', 'destroy')->name('competences.destroy');
+
     });
 });
+Route::get("search",[CompetenceController::class,'search'])->name('search');
+Route::get("suggestions",[CompetenceController::class,'suggestions'])->name('suggestions');
 
 //cabinet
 Route::get('registercabinet', [AuthController::class, 'registercabinet'])->name('registercabinet');
@@ -246,9 +272,12 @@ Route::group(['middleware' => ['role:Cabinet']], function () {
     Route::get('offreexpirecabinet', [OffreController::class, 'offreexpirecabinet'])->name('offreexpirecabinet');
     Route::controller(CabinetController::class)->prefix('cabinets')->group(function () {
         Route::get('', 'index')->name('cabinets');
+        Route::get('vivier', 'vivier')->name('cabinets.vivier');
+        Route::put('updateIntercbt/{id}', 'updateIntercbt')->name('cabinets.updateIntercbt');
         Route::get('create', 'create')->name('cabinets.create');
         Route::post('store', 'store')->name('cabinets.store');
         Route::get('show/{id}', 'show')->name('cabinets.show');
+        Route::get('intercbt/{id}', 'intercbt')->name('cabinets.intercbt');
         Route::get('edit/{id}', 'edit')->name('cabinets.edit');
         Route::put('updateinfo', 'updateinfo')->name('cabinets.updateinfo');
         Route::put('logocbt', 'logocbt')->name('cabinets.logocbt');

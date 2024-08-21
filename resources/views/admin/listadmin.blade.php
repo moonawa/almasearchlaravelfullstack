@@ -36,7 +36,7 @@
                 </div>
               </div>
             </form>
-            <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+            <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
           </div>
         </div>
       </nav><br><br>
@@ -78,7 +78,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-nfo btn-round" style="background-color: #325fa6;">Ajouter </button>
+              <button type="submit" class="btn btn-nfo btn-round" style="background-color: #035874;">Ajouter </button>
             </div>
             </form>
           </div>
@@ -117,7 +117,9 @@
                       <th style="color:black">
                          Status
                       </th>
-                      
+                      <th style="color:black">
+                         Dernière Connexion
+                      </th>
                    
                     </thead>
                     <tbody>
@@ -168,7 +170,18 @@
                           </form>
 
         </td>
-                     
+        <td>
+        @if( $rs->last_login_at)
+        @php
+                $date = date('Y-m-d', strtotime($rs->last_login_at));
+                $heure = date('H:i', strtotime($rs->last_login_at));
+                @endphp
+                {{ $date }} à  {{ $heure }}
+                @else
+              <span style="color:red"> Jamais </span> 
+                @endif
+        </td>
+   
                        
                       </tr>
                       @endforeach

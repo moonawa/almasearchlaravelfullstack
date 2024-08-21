@@ -2,7 +2,7 @@
       <div class="logo ">
         <a href="#" class="simple-text " >
           <div class=" ">
-            <img src="{{ asset('admin/img/logoalma.png') }}" width="100px" >
+            <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
       
             @if(auth()->user()->interlocuteurese->entreprise->logo)
             <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurese->entreprise->logo }}"  style="border-radius: 50%; width: 50px; height:50px;" >
@@ -24,9 +24,16 @@
           <li>
           @if (auth()->user()->interlocuteurese)
 
+<a href="{{ route('entreprises.inter', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
+  <i class="nc-icon nc-diamond"></i>
+  <p  style="font-weight: bold;">Profil</p>
+</a>
+@endif
+          @if (auth()->user()->interlocuteurese)
+
             <a href="{{ route('entreprises.show', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-diamond"></i>
-              <p  style="font-weight: bold;">Profil</p>
+              <p  style="font-weight: bold;">Infos Entreprise</p>
             </a>
             @endif
           </li>
@@ -36,24 +43,14 @@
               <p style="font-weight: bold;"> Interlocuteurs</p>
             </a>
           </li>
-          <li>
-            <a href="{{ route( 'offres') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-money-coins"></i>
-              <p style="font-weight: bold;"> Toutes les Offres</p>
-            </a>
-          </li>
+        
      <li>
             <a href="{{ route( 'offreencoursentreprise') }}" style=" line-height: 1rem; ">
               <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;">Offres En Cours</p>
+              <p style="font-weight: bold;">Offres </p>
             </a>
           </li>
-            <li>
-            <a href="{{ route( 'offreexpireentreprise') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-simple-remove"></i>
-              <p style="font-weight: bold;">Offres Expirées </p>
-            </a>
-          </li>
+          
            <!--    <li>
             <a href="./tables.html">
               <i class="nc-icon nc-tile-56"></i>

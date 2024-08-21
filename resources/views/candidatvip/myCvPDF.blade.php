@@ -15,10 +15,12 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ public_path('admin/demo/demo.css') }}" rel="stylesheet"  type="text/css">
     <link href="{{ public_path('admin/css/moonawa.css') }}" rel="stylesheet"  type="text/css">
-
+ 
 </head>
 
 <body class="">
+
+
 <div class="wrapper ">
 <div class="main-panel">
 <div class="content">
@@ -174,7 +176,6 @@
 </div>
 </div>
 </div>
-
 
 <script src="{{ public_path('admin/js/moonawa.js') }}"></script>
 <script src="{{ public_path('admin/js/core/jquery.min.js') }}"></script>

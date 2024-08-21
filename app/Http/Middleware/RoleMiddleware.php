@@ -28,7 +28,7 @@ class RoleMiddleware
             // Redirect to an appropriate page if the user does not have the required role
             return redirect('unauthorized');
         }
-
+      
         return $next($request);
         
     }

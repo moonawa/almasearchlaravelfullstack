@@ -86,10 +86,10 @@ class CabinetController extends Controller
      
             $cabinet = $inter->cabinet;
             $intercount = $cabinet->interlocuteurcbts->count();
-            $candidat = $cabinet->candidats()->latest()->paginate(10); 
+            $candidat = $cabinet->candidats()->count(); 
             $offre = Offre::where('statuscabinet', 1)->count();
-            $offreencours = Offre::where('statuscabinet', 1)->where('statusoffre', 0)->count();
-            $offreexpire = Offre::where('statuscabinet', 1)->where('statusoffre', 1)->count();
+            $offreencours = Offre::where('statuscabinet', 1)->where('offrestatu', "En Cours")->count();
+            $offreexpire = Offre::where('statuscabinet', 1)->where('offrestatu', "Cloturée")->count();
             $candidatureprop = Proposition::where('selectionproposition', 1)->count();
             $candidatureselec = Proposition::whereNotNull('heureproposition')->count();
             $candidaturerecru = Proposition::where('recruteproposition', 1)->count();
@@ -148,6 +148,13 @@ class CabinetController extends Controller
         $cabinet = Interlocuteurcbt::where('user_id', $user->id)->findOrFail($id);
         
         return view('cabinets.show', compact('cabinet'));
+    }
+    public function intercbt(string $id)
+    {
+        $user = Auth::user();
+        $cabinet = Interlocuteurcbt::where('user_id', $user->id)->findOrFail($id);
+        
+        return view('cabinets.profilinter', compact('cabinet'));
     }
   
     /**
@@ -311,5 +318,48 @@ $candidat->delete();
         $cabinet->update($updateData); 
         return back()->with('success', 'Les fichiers ont  été modifiés avec succès.');
     }
+    public function vivier(Request $request){
+    $auth = Auth::user();
+    $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
+    $cabinet = $inter->cabinet;
+    $candidat = $cabinet->candidats()->latest()->paginate(10); 
+    $candidatcount = $cabinet->candidats()->count(); 
+    $propositioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('selectionproposition')->count();
+    $selectioncount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->whereNotNull('heureproposition')->count();
+    $recrutecount = Proposition::with('candidat.user')->whereIn('candidat_id', $candidat->pluck('id'))->where('recruteproposition', 1)->count();
     
+    $search = $request->input('search');
+    $candidat = Candidat::where('cabinet_id', $cabinet->id)->when($search, function($query, $search){
+        return $query->where('fonction', 'like', "%{$search}%");})->paginate(10);
+
+    //if ($request->has('name')) {
+      //  $name = $request->input('name');
+        //$query->whereHas('user', function($query) use ($name) {
+          //  $query->where('name', 'like', '%' . $name . '%');
+       // });
+    //}
+
+    //$candidat = $query->latest()->paginate(10);
+
+    return view('cabinets.candidatlist', compact( 'candidatcount', 'propositioncount', 'selectioncount', 'recrutecount', 'candidat' ));
+    
+    }
+    public function updateIntercbt(Request $request, string $id)
+    {
+
+        $user = Auth::user();
+        $cabinet = Interlocuteurcbt::where('user_id', $user->id)->findOrFail($id);
+        if ($cabinet) {
+            $cabinet->user->email = $request->email;
+            $cabinet->user->telephone = $request->telephone;
+            $cabinet->user->name = $request->first_name . ' ' . $request->last_name;
+            $cabinet->user->save();
+        }
+            $cabinet->update($request->all());
+
+    // Enregistrer les modifications
+    $cabinet->save();
+    return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+       // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
+    }
 }

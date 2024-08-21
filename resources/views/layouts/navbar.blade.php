@@ -46,8 +46,9 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="{{ route('logout') }}">Se Déconneceter</a>
-                 
+                <a class="dropdown-item" href="{{ route('pass') }}">Mot de Passe</a>
+                  <a class="dropdown-item" href="{{ route('logout') }}">Se Déconnecter</a>
+
                 </div>
               </li>
             </ul>

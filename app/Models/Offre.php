@@ -25,9 +25,14 @@ class Offre extends Model
         'entreprise_id',
         'competenceoffre',
         'typeeoffre', //avantage
-        'fichierjoint'
+        'fichierjoint',
+        'interlocuteurese_id', // celui qui a crée l'offre
+        'offrestatu'
     ];
-
+    public function interlocuteurese()
+    {
+        return $this->belongsTo(Interlocuteurese::class, 'interlocuteurese_id');
+    }
     public function entreprise()
     {
         return $this->belongsTo(Entreprise::class,'entreprise_id');

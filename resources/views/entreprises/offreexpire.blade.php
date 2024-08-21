@@ -15,7 +15,10 @@
     <a class="nav-link "  href="{{ route('offreencoursentreprise') }}" style="color:black;">Offres En Cours ({{$encourscount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireentreprise') }}" style="color:#325fa6;">Offres Expirées ({{$expirescount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offreexpireentreprise') }}" style="color:#035874;">Offres Expirées ({{$expirescount}})</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offrestandbyentreprise') }}" style="color:black;">Offres En StandBy ({{$standbycount}})</a>
   </li>
 </ul>
   
@@ -69,11 +72,11 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #ef882b; text-decoration:none;">Détails</a>
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #7ac9e8; text-decoration:none;">Détails</a>
                         &nbsp;|
                                 <form action="{{ route('offres.duplicate', $rs->id) }}" method="post">
                 @csrf
-                <button type="submit"  style="background-color: #FFF; color:#325fa6; border:none;">Dupliquer</button>
+                <button type="submit"  style="background-color: #FFF; color:#035874; border:none;">Dupliquer</button>
             </form>
                             </div>
                         </td>

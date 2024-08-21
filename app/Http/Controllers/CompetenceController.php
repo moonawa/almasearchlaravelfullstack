@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidat;
 use App\Models\Competence;
+use App\Models\Langue;
+use App\Models\Suggestion;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -91,4 +94,54 @@ class CompetenceController extends Controller
          $competence->delete();
          return redirect()->route('competences')->with('success', 'competence supprimé ');
      }
-}
+     public function search(Request $request)
+    {
+        if($request->ajax()){
+ 
+            $data=User::where('name','like','%'.$request->nomcompetence.'%')->get();
+            $output='';
+            if(count($data)>0){
+                $output ='
+                     <table class="table">
+                    <thead>
+                    <tr>
+                       
+                        <th scope="col"></th>
+                      
+                    </tr>
+                    </thead>
+                    <tbody>';
+                        foreach($data as $row){
+                            $output .='
+                         
+                           <tr>
+                            
+                            <td>'.$row->name.'</td>
+                           
+                            </tr>
+                           
+                          
+                            ';
+                        }
+                $output .= '
+                   
+                   </tbody>
+                    </table>';
+            }
+            else{
+                $output .='Pas de résultas';
+            }
+            return $output;
+        }
+        //$search = $request->input('query');
+        //$suggestions = Langue::where('nomlangue', 'like', "%{$search}%")->pluck('nomlangue');
+        
+        //return response()->json($suggestions);
+    }
+        public function suggestions(){
+            $suggestions = Suggestion::all();
+            return response()->json($suggestions);
+        }
+        
+    }
+

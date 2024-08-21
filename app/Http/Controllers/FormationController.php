@@ -42,7 +42,7 @@ class FormationController extends Controller
     ->where('candidat_id', $candidat->id)
     ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
-            $query->where('statusoffre', 0);
+            $query->where('offrestatu', "En Cours");
             })->count();
             if (!$candidat->isCvComplete()) {
                 // Définissez un message flash pour avertir que le CV n'est pas complet

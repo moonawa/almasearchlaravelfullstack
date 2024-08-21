@@ -19,7 +19,7 @@
           <p>
           {{Str::limit($offre->description, 100, '...')}}
           @if(strlen($offre->description) > 100)
-            <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#ef882b;"></i> </a>
+            <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#7ac9e8;"></i> </a>
  <!-- Modal -->
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -90,10 +90,10 @@
         <div class="p-2">
         <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('showoffreadmin', $offre->id) }} " style="background: #325fa6;">Candidats Sélectionnés ({{$candidaturescount}})</a>
+        <a class="nav-link active" aria-current="page" href="{{ route('showoffreadmin', $offre->id) }} " style="background: #035874;">Candidats Sélectionnés ({{$candidaturescount}})</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('showoffrepropadmin', $offre->id)}}" style="color:#ef882b;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
+        <a class="nav-link" href="{{ route('showoffrepropadmin', $offre->id)}}" style="color:#7ac9e8;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
       </li>
 
     </ul><br><br>
@@ -105,7 +105,7 @@
     <a class="nav-link " href="{{ route('showoffrerecruteadmin', $offre->id)}}" style="color:black;">Recrutés ({{$candidatrecrutecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('showoffrerefuseadmin', $offre->id)}}" style="color:#325fa6;">Refusés ({{$candidatrefusecount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('showoffrerefuseadmin', $offre->id)}}" style="color:#035874;">Refusés ({{$candidatrefusecount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('showoffredeclineadmin', $offre->id)}}" style="color:black;">Déclinés ({{$candidatdeclinecount}})</a>
@@ -146,8 +146,8 @@
                
                 <td>
                
-                <a href="{{ route('cvdetaille', $prop->candidat->id)}}"><i class="fa fa-eye" style="color: #ef882b;"></i></a>
-                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+                <a href="{{ route('cvdetaille', $prop->candidat->id)}}"><i class="fa fa-eye" style="color: #7ac9e8;"></i></a>
+                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
 
                    
                 </td>

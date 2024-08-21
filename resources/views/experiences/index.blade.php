@@ -11,7 +11,7 @@
     <a class="nav-link " href="{{ route('formations') }}" style="color:black;">Formations</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('experiences') }}" style="color:#325fa6 ;">Expériences</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('experiences') }}" style="color:#035874 ;">Expériences</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('competences') }}" style="color:black;">Compétences</a>
@@ -23,10 +23,10 @@
     <a class="nav-link " href="{{ route('langues') }}" style="color:black;" >Langues</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#7ac9e8; " >CV Complet</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Expérience</button> 
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Expérience</button> 
   </li>
 </ul>
   
@@ -49,7 +49,7 @@
                     </div>
                     <label>Mission</label>
                     <div class="form-group">
-                        <input type="text" required class="form-control" name="missionexperience" placeholder="mission">
+                      <textarea name="missionexperience" id="" class="form-control" required placeholder="mission"></textarea>
                     </div>
                   
                     <label>Entreprise </label>
@@ -66,18 +66,18 @@
                         <input type="text" required class="form-control" name="datefinexperience" placeholder="Ex: 2023 ou  Jusqu'à aujourd'hui">
                     </div>
                    <!--  <div class="card-footer ">
-                <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter</button>
+                <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter</button>
             </div>
              
                     
                    <div class="card-footer ">
-                <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter</button>
+                <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter</button>
             </div> -->
                 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"  data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter </button>
       </div>
       </form>
     </div>
@@ -152,7 +152,8 @@
                     </div>
                     <label>Mission</label>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="missionexperience" placeholder="mission" value="{{ $rs->missionexperience }}">
+                    <textarea name="missionexperience" id="" class="form-control" required placeholder="mission">{{ $rs->missionexperience }}</textarea>
+
                     </div>
                   
                     <label>Entreprise </label>
@@ -173,7 +174,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary  btn-round " data-dismiss="modal">Fermer</button>
-        <button type="subimit" class="btn btn-primary  btn-round" style="background-color: #325fa6;">Modifier</button>
+        <button type="subimit" class="btn btn-primary  btn-round" style="background-color: #035874;">Modifier</button>
       </div>
       </form>
     </div>

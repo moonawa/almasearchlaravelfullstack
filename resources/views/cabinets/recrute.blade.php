@@ -17,7 +17,7 @@
     <a class="nav-link " href="{{ route('selec') }}" style="color:black;">Sélectionnés ({{$selectioncount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link  active" aria-current="page" href="{{ route('recru') }}"  style="color:#325FA6;">Recrutés ({{$recrutecount}})</a>
+    <a class="nav-link  active" aria-current="page" href="{{ route('recru') }}"  style="color:#035874;">Recrutés ({{$recrutecount}})</a>
   </li>
 
 </ul>

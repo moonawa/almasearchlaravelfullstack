@@ -31,7 +31,20 @@
 
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 order-1 order-lg-2">
-
+              @if ($errors->any())
+                      <div class="alert alert-danger">
+                          <ul>
+                            @foreach ($errors->all() as $error)
+                              <li>{{ $error }}</li>
+                            @endforeach
+                          </ul>
+                      </div>
+                    @endif
+                    @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
 
                 <form class="mx-1 mx-md-4 pt-4" method="POST"   action="{{ route('registercabinet.save') }}"  class="user" enctype="multipart/form-data">
                 @csrf
@@ -51,8 +64,24 @@
                
                     <div class="form-outline ">
                     <label for=""> Secteur d' activité <span style="color:red;">*</span></label>
-                      <input type="text"  required class="form-control" name="secteuractivitecabinet" placeholder="Secteur d'activité" />
-              
+                      <select name="secteuractivitecabinet" class="form-control" required placeholder="Secteur d'activité">
+
+<option value="Agriculture, Sylviculture et Pêche">Agriculture, Sylviculture et Pêche</option>
+<option value="Industries Extractives">Industries Extractives</option>
+<option value="Industrie Manufacturière">Industrie Manufacturière</option>
+<option value="Production et Distribution d'Énergie">Production et Distribution d'Énergie</option>
+<option value="Construction">Construction</option>
+<option value="Commerce">Commerce</option>
+<option value="Transports et Logistique">Transports et Logistique</option>
+<option value="Informatique et Communication">Informatique et Communication</option>
+<option value="Activités Financières et d'Assurance">Activités Financières et d'Assurance</option>
+<option value="Services Professionnels, Scientifiques et Techniques">Services Professionnels, Scientifiques et Techniques</option>
+<option value="Administration Publique">Administration Publique</option>
+<option value="Éducation">Éducation</option>
+<option value="Santé et Action Sociale">Santé et Action Sociale</option>
+<option value="Arts, Spectacles et Activités Récréatives">Arts, Spectacles et Activités Récréatives</option>
+<option value="Hébergement et Restauration">Hébergement et Restauration</option>
+</select>
                     </div>
             
            
@@ -91,14 +120,14 @@
                   <div class="col-md-6  pr-1">
                       <div class="form-outline flex-fill mb-2">
                         <label for="">Nom <span style="color:red;">*</span></label>
-                        <input type="text" required class="form-control" name="name" placeholder="Votre Nom" />
+                        <input type="text" required class="form-control" name="last_name" placeholder="Votre Nom" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline flex-fill mb-2">
-                    <label for="">Email  <span style="color:red;">*</span></label>
+                    <label for="">Prénom  <span style="color:red;">*</span></label>
                      
-                    <input type="email" required  class="form-control" name="email" placeholder="Votre Email" />
+                    <input type="text" required  class="form-control" name="first_name" placeholder="Votre Prénom" />
 
                   </div>
                     </div>
@@ -112,19 +141,25 @@
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline flex-fill mb-2">
-                    <label for="">Fonction <span style="color:red;">*</span> </label>
-                    <input type="text" required  class="form-control" name="fonctioncbt" placeholder="Votre Fonction" />
+                    <label for="">Email <span style="color:red;">*</span> </label>
+                    <input type="email" required  class="form-control" name="email" placeholder="Votre Email" />
 
                  
                   </div>
                     </div>
                     </div>
                    
-                 
+                    <div class="col-md-6  px-1">
+                    <div class="form-outline flex-fill mb-2">
+                    <label for="">Fonction <span style="color:red;">*</span> </label>
+                    <input type="text" required  class="form-control" name="fonctioncbt" placeholder="Votre Fonction" />
+
+                  </div>
+                    </div>
                   
 
                   <div class="d-flex justify-content-center mx-4  mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-round " style="background-color: #325fa6;">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary btn-round " style="background-color: #035874;">S'inscrire</button>
                     <p class="small fw-bold mt-4 pt-1 ">Vous avez déja un compte? <a href="{{ route('login') }}"
                 class="link-danger">Se connecter</a></p>
                   </div>

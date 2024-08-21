@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeEmail;
 use App\Models\Cabinet;
 use App\Models\Candidat;
 use App\Models\Candidature;
@@ -13,14 +14,16 @@ use App\Models\User;
 use App\Notifications\StatusNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
     public function test(Request $request)
     {
         $search = $request->input('search');
-        $admin = User::where('alma', 1)->latest()->paginate(10);
-       
+        
+        $admin = User::where('alma', 1)->orderBy('last_login_at', 'desc')->paginate(10);
+
         $admincount = User::where('alma', 1)->count();
         return view('admin.listadmin', compact('admin', 'admincount'));
     }
@@ -29,8 +32,8 @@ class AdminController extends Controller
     {
         $offres= Offre::with('entreprise.user')->latest()->paginate(10);
         $offrescount= Offre::with('entreprise.user')->count();
-        $encours = Offre::where('statusoffre', 0)->count();
-        $expire = Offre::where('statusoffre', 1)->count();
+        $encours = Offre::where('offrestatu', "En Cours")->count();
+        $expire = Offre::where('offrestatu', "Cloturée")->count();
         return view('admin.listoffre', compact('offres', 'offrescount', 'encours','expire'));
     }
     // list des entreprises pour l'admin
@@ -142,8 +145,8 @@ class AdminController extends Controller
         $cabinetcount = Cabinet::with('user')->count();
         $entreprisecount = Entreprise::with('user')->count();
         $offrecount = Offre::with('entreprise.user')->count();
-        $offreencourscount = Offre::where('statusoffre', 0)->count();
-        $offreexpirecount = Offre::where('statusoffre', 1)->count();
+        $offreencourscount = Offre::where('offrestatu', "En Cours")->count();
+        $offreexpirecount = Offre::where('offrestatu', "Cloturée")->count();
         $admin = User::where('alma', 1)->count();
         //TOP CABINET
         $topcabinets = Cabinet::orderBy('view_count', 'desc')->take(10)->get();
@@ -170,15 +173,17 @@ class AdminController extends Controller
     $interlocuteur = $entreprise->interlocuteureses()->first();
 
     if ($interlocuteur) {
+        $password = "A#w!88a32";
         // Récupérer le user associé à cet interlocuteur
         $user = $interlocuteur->user;
 
         // Inverser le statut du user
         $user->status = !$user->status;
         $user->save();
-    $user->notify(new StatusNotification());
+        $user->notify(new StatusNotification());
 
-        return back()->with('success', 'Le statut de l\'interlocuteur a été mis à jour.');
+
+        return back()->with('success', 'Le statut de l\'entreprise a été mis à jour.');
     } else {
         return back()->with('error', 'Aucun interlocuteur trouvé pour cette entreprise.');
     }
@@ -203,6 +208,7 @@ class AdminController extends Controller
         $cabinet = Cabinet::findOrFail($id);
         $interlocuteur = $cabinet->interlocuteurcbts()->first();
         if ($interlocuteur) {
+            $password = "A#w!88a32";
             // Récupérer le user associé à cet interlocuteur
             $user = $interlocuteur->user;
         
@@ -210,8 +216,8 @@ class AdminController extends Controller
             $user->status = !$user->status ;
             $user->save();
         $user->notify(new StatusNotification());
-        
-            return back()->with('success', 'Le statut de l\'interlocuteur a été mis à jour.');
+
+            return back()->with('success', 'Le statut du cabinet a été mis à jour.');
         } else {
             return back()->with('error', 'Aucun interlocuteur trouvé pour cette entreprise.');
         }
@@ -253,9 +259,27 @@ public function admin(Request $request){
 
         $admin = User::where('alma', 1)->when($search, function($query, $search) {
             return $query->where('name', 'like', "%{$search}%");
-        })->paginate(10);
+        })->orderBy('last_login_at', 'desc')->paginate(10);
         return view('admin.listadmin', compact('admin', 'admincount'));
 
 }
+public function updateUser(Request $request, string $id)
+    {
+
+       
+        $user = User::findOrFail($id);
+            $user->email = $request->email;
+            $user->telephone = $request->telephone;
+            $user->name = $request->first_name . ' ' . $request->last_name;
+            $user->posteuser = $request->posteuser;
+            $user->save();
+        
+            
+
+        // Enregistrer les modifications
+        $user->save();
+        return redirect()->back()->with('success', 'Vos données ont été modifiées avec succès');
+        // return redirect()->route('candidatvip')->with('success', ' Vos données sont modifiées avec succes');
+        }
 }
 

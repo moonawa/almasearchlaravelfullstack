@@ -19,7 +19,7 @@
           <p>
           {{Str::limit($offre->description, 100, '...')}}
           @if(strlen($offre->description) > 100)
-            <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#ef882b;"></i> </a>
+            <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#7ac9e8;"></i> </a>
  <!-- Modal -->
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -90,10 +90,10 @@
       <div class="p-2">
       <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('showoffreadmin', $offre->id) }} " style=" color:#ef882b; "><strong>Candidats Sélectionnés ({{$candidaturescount}}</strong>)</a>
+        <a class="nav-link " href="{{ route('showoffreadmin', $offre->id) }} " style=" color:#7ac9e8; "><strong>Candidats Sélectionnés ({{$candidaturescount}}</strong>)</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="{{ route('showoffrepropadmin', $offre->id)}}" style="background: #325fa6;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
+        <a class="nav-link active" aria-current="page" href="{{ route('showoffrepropadmin', $offre->id)}}" style="background: #035874;"> <strong> Candidats Proposés  ({{$propositionscount}}) </strong></a>
       </li>
 
     </ul><br><br>
@@ -105,7 +105,7 @@
     <a class="nav-link" href="{{ route('showoffrerecrutepropadmin', $offre->id)}}" style="color:black;">Recrutés ({{$propositionsrecrutecount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page"  href="{{ route('showoffrerefusepropadmin', $offre->id)}}" style="color:#325fa6;">Refusés ({{$propositionsrefusecount}})</a>
+    <a class="nav-link active" aria-current="page"  href="{{ route('showoffrerefusepropadmin', $offre->id)}}" style="color:#035874;">Refusés ({{$propositionsrefusecount}})</a>
   </li>
  
 </ul>
@@ -140,7 +140,7 @@
                   {{ $prop->candidat->user->name }}
                 </td>
                 <td>
-                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #EF882B;"></i></a>
+                  <a href="/uploads/{{  $prop->candidat->cv }}"><i class="fa fa-eye" style="color: #7ac9e8;"></i></a>
 
                 </td>
                

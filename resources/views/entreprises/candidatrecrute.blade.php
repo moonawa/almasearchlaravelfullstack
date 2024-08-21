@@ -58,10 +58,10 @@
       <div class="card-header">
       <ul class="nav nav-pills">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }} " style="background: #325fa6;">Candidats Sélectionnés ({{$candidaturescount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offres.show', $offre->id) }} " style="background: #035874;">Candidats Sélectionnés ({{$candidaturescount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('indexproposition', $offre->id)}}" style="color:#ef882b;"><strong>Candidats Proposés ({{$propositionscount}}) </strong> </a>
+    <a class="nav-link" href="{{ route('indexproposition', $offre->id)}}" style="color:#7ac9e8;"><strong>Candidats Proposés ({{$propositionscount}}) </strong> </a>
   </li>
  
 </ul>
@@ -71,7 +71,7 @@
     <a class="nav-link "  href="{{ route('offres.show', $offre->id) }}" style="color: black;">Sélectionnés ({{$candidaturescount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('candidatrecrute', $offre->id) }}" style="color: #325fa6;">Recrutés  ({{$candidatrecrutecount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('candidatrecrute', $offre->id) }}" style="color: #035874;">Recrutés  ({{$candidatrecrutecount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('candidatrefuse', $offre->id) }}" style="color: black;">Refusés ({{$candidatrefusecount}})</a>
@@ -111,8 +111,8 @@
 
                 </td>
                 <td>
-                <a href="{{ route('cvdetailleese', $candidature->candidat->id)}}" ><i class="fa fa-eye" style="color: #ef882b;"></i></a>
-                  <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #325fa6;"></i></a>
+                <a href="{{ route('cvdetailleese', $candidature->candidat->id)}}" ><i class="fa fa-eye" style="color: #7ac9e8;"></i></a>
+                  <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
 
                
                 </td>
@@ -127,7 +127,7 @@
                           <div  class="form-group ">
                    
                           <textarea name="commentaireese" class="form-control commentaireese" id=""  placeholder="Pourquoi le candidat a été recruté?" > {{ $candidature->commentaireese }}</textarea>
-                          <button type="submit" class="btn  btn-sm mt-1" style="background-color: #325FA6;">Commenter</button>
+                          <button type="submit" class="btn  btn-sm mt-1" style="background-color: #035874;">Commenter</button>
                         
                          
                     

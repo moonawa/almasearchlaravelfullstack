@@ -23,4 +23,12 @@ class Interlocuteurcbt extends Model
     public function user() {
         return $this->belongsTo(User::class,'user_id'); 
     }
+    public function cabinets()
+    {
+        return $this->hasMany(Cabinet::class);
+    }
+    public function propositions()
+    {
+        return $this->hasMany(Proposition::class,'candidature_id');
+    }
 }

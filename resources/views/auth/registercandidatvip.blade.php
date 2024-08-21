@@ -38,17 +38,35 @@
 @endif
                 <form class="mx-1 mx-md-4" method="POST"   action="{{ route('registercandidat.save') }}"  class="user" enctype="multipart/form-data">
                 @csrf
-
+                @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+                <div class="row">
+                <div class="col-md-6 pr-1">
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                    <label for="name"> Nom</label>
-                      <input type="text"  class="form-control" name="name" required placeholder="Votre nom" />
+                    <label for="name">Prénom <span style="color:red;">*</span></label>
+                      <input type="text"  class="form-control" name="first_name" required placeholder="Votre prénom" />
                       @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                     </div>
+                  </div>
+                  </div>
+                  <div class="col-md-6 pr-1">
+                  <div class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill mb-0">
+                    <label for="birthday"> Nom <span style="color:red;">*</span></label>
+
+                      <input type="text"  class="form-control" name="last_name" required placeholder="Votre nom" />
+                    
+                    </div>
+                    </div>
+                  </div>
                   </div>
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
@@ -90,12 +108,13 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
                     <label for="password">Mot de Passe <span style="color:red;">*</span></label>
-                      <input type="password"  class="form-control" name="password" required placeholder="Votre mot de passe"  />
+                      <input type="password" id="current_password" class="form-control" name="password" required placeholder="Votre mot de passe"  />
+                      <span id="toggle-current-password" class="toggle-password">Afficher le mot de passe</span>
                       @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
                     </div>
                   </div>
                   </div>
@@ -147,7 +166,7 @@
                  
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    <button type="submit" class="btn btn-primary btn-round " style="background-color: #325fa6;">S'inscrire</button>
+                    <button type="submit" class="btn btn-primary btn-round " style="background-color: #035874;">S'inscrire</button>
                     <p class="small fw-bold mt-4 pt-1 ">Vous avez déja un compte? <a href="{{ route('login') }}"
                 class="link-danger">Se connecter</a></p>
                   </div>
@@ -168,6 +187,30 @@
     </div>
   </div>
 </section>
+<style>
+  .toggle-password {
+    cursor: pointer;
+    margin-left: 10px;
+    color: blue;
+    text-decoration: underline;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('toggle-current-password').addEventListener('click', function () {
+      var passwordField = document.getElementById('current_password');
+      var passwordFieldType = passwordField.getAttribute('type');
+
+      if (passwordFieldType === 'password') {
+        passwordField.setAttribute('type', 'text');
+        this.textContent = 'Masquer le mot de passe';
+      } else {
+        passwordField.setAttribute('type', 'password');
+        this.textContent = 'Afficher le mot de passe';
+      }
+    });
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="{{ asset('admin/js/core/jquery.min.js') }}"></script>
       <script src="{{ asset('admin/js/core/popper.min.js') }}"></script>

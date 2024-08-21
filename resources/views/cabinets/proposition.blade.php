@@ -11,7 +11,7 @@
     <a class="nav-link " href="{{ route('candidatcabinet') }}" style="color:black;">Viviers ({{$candidatcount}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('proposition') }}" style="color:#325FA6;">Proposés ({{$propositioncount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('proposition') }}" style="color:#035874;">Proposés ({{$propositioncount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('selec') }}" style="color:black;">Sélectionnés ({{$selectioncount}})</a>

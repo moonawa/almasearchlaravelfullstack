@@ -24,6 +24,7 @@
                       <th  style="color:black">
                         Fonction
                       </th>
+                      <th style="color:black">Connexion</th>
                     </thead>
                     <tbody>
                     @if($inters->count() > 0)
@@ -40,6 +41,17 @@
                         <td>
                         {{ $rs->fonction }}
                         </td>
+                        <td>
+        @if( $rs->user->last_login_at)
+        @php
+                $date = date('Y-m-d', strtotime($rs->user->last_login_at));
+                $heure = date('H:i', strtotime($rs->user->last_login_at));
+                @endphp
+                {{ $date }} à  {{ $heure }}
+                @else
+              <span style="color:red"> Jamais </span> 
+                @endif
+        </td>
                         </tr>
                       @endforeach
                       @else
@@ -86,9 +98,9 @@
                         <td>
                         {{ $rs->nomposte }}
                         </td>
-                        @if($rs->statusoffre)
+                        @if($rs->offrestatu == "Cloturée")
                         <td style="color:red">
-                       Terminée
+                       Cloturée
                         </td>
                         @else
                         <td style="color:green">En Cours</td>

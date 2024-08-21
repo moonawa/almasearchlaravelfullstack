@@ -8,13 +8,13 @@
   <div class=" p-4" >
   <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('admin.listoffreadmin') }}" style="color: #325fa6;">Toutes les Offres ({{$offrescount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('admin.listoffreadmin') }}" style="color: #035874;">Toutes les Offres ({{$offrescount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('offreencoursadmin') }}" style="color:black">Offres En Cours ({{$encours}})</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('offreexpireadmin') }}" style="color:black">Offre Expirées ({{$expire}})</a>
+    <a class="nav-link" href="{{ route('offreexpireadmin') }}" style="color:black">Offre Cloturées ({{$expire}})</a>
   </li>
  
 </ul>
@@ -69,16 +69,18 @@
                         {{ $rs->datecloture  }}
                         </td>
                         <td>
-                          @if($rs->statusoffre)
+                          @if($rs->offrestatu == "Cloturée")
                        
-                          <p style="color: red">Expirée</p>
+                          <p style="color: red">Cloturée</p>
+                          @elseif($rs->offrestatu == "StandBy")
+                          <p style="color: blue" >En StandBy</p>
                           @else
-                          <p style="color: green" >Encours</p>
+                          <p style="color: green" >En cours</p>
                           @endif
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('showoffreadmin', $rs->id)}}" style="color: #325fa6;">Voir</a>
+                        <a href="{{ route('showoffreadmin', $rs->id)}}" style="color: #035874;">Voir</a>
 
                                
                             </div>

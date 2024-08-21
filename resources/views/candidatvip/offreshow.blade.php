@@ -20,7 +20,7 @@
          
             {{Str::limit($candidature->offre->description, 100, '...')}}
           @if(strlen($candidature->offre->description) > 100)
-          <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#ef882b;"></i> </a>
+          <a href="" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus" style="color:#7ac9e8;"></i> </a>
  <!-- Modal -->
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -66,7 +66,7 @@
          
           @if($candidature->offre->fichierjoint)
         <p>Fichier Joint: 
-        <a href="/uploads/{{ $candidature->offre->fichierjoint }}" style="color: #325fa6">Voir</i></a>
+        <a href="/uploads/{{ $candidature->offre->fichierjoint }}" style="color: #035874">Voir</i></a>
 </p>
 @endif
         </div>
@@ -107,7 +107,7 @@
                     </div>
                     <label>Numéro à contacter</label>
                     <div class="form-group">
-                        <input type="text" disabled class="form-control"  value="{{ $candidature->offre->entreprise->interlocuteureses->first()->user->telephone }}">
+                        <input type="text" disabled class="form-control"  value="{{ $candidature->interlocuteurese->user->name }}">
                     </div>
                     @endif
                     <label>Processus</label>
@@ -133,7 +133,7 @@
                     <div class="card-footer row"> 
                    
                    <div class="col-md-4">
-                <button type="button" class="btn btn-round " data-toggle="modal" data-target="#exampleModalv" style="background-color: #ef882b;" >Décliner Le RV</button>
+                <button type="button" class="btn btn-round " data-toggle="modal" data-target="#exampleModalv" style="background-color: #7ac9e8;" >Décliner Le RV</button>
                 <div class="modal fade" id="exampleModalv" tabindex="-1" role="dialog" aria-labelledby="exampleModalvLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -152,7 +152,7 @@
 </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-        <button type="submit" class="btn btn-round" style="background: #325fa6;">Commenter</button>
+        <button type="submit" class="btn btn-round" style="background: #035874;">Commenter</button>
       </div>
       </form>
       </div>
@@ -166,7 +166,7 @@
                 <form class="statusForm" method="post" action="{{ route('confirmeVipRv', ['id' => $candidature->id]) }}">
                           @csrf
                           @method('PUT')
-                <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #325fa6;">Confirmer le Rv </button>
+                <button type="submit" id="submitButton" class="btn btn-round" style="background-color: #035874;">Confirmer le Rv </button>
                 </form>
                 </div>
              

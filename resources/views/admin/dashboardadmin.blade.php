@@ -253,7 +253,7 @@
                 </div>
               </div>
               <div class="col-md-7 col-7">
-                <a href="{{ route('admin.listintercabinetadmin', $rss->id)}}" style="color:#325fa6;">{{$rss->nomcabinet}}</a>
+                <a href="{{ route('admin.listintercabinetadmin', $rss->id)}}" style="color:#035874;">{{$rss->nomcabinet}}</a>
 
 
                 <br />
@@ -296,7 +296,7 @@
                 </div>
               </div>
               <div class="col-md-7 col-7">
-                <a href="{{ route('admin.listinterentrepriseadmin', $rs->id)}}" style="color:#325fa6;">{{$rs->nomentreprise}}</a>
+                <a href="{{ route('admin.listinterentrepriseadmin', $rs->id)}}" style="color:#035874;">{{$rs->nomentreprise}}</a>
 
                 <br />
                 <span class="text-muted"><small>{{$rs->offres_count}} Offre(s)</small></span>
@@ -338,7 +338,7 @@
                 </div>
               </div>
               <div class="col-md-7 col-7">
-                <a href="{{ route('cvdetaille', $vips->id)}}" style="color:#325fa6;">{{$vips->user->name}}</a>
+                <a href="{{ route('cvdetaille', $vips->id)}}" style="color:#035874;">{{$vips->user->name}}</a>
 
                 <br />
                 <span class="text-muted"><small>vip</small></span>

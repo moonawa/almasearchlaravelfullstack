@@ -96,7 +96,7 @@
                       </td>
                      
                         <td >
-                        <a href="/uploads/{{ $rs->cv }}" style="color: #325fa6;">Voir</i></a>
+                        <a href="/uploads/{{ $rs->cv }}" style="color: #035874;">Voir</i></a>
                         </td>
                       </tr>
                       @endforeach

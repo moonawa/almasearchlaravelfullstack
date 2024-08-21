@@ -6,6 +6,7 @@ use App\Models\Candidat;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class CandidatController extends Controller
@@ -152,10 +153,10 @@ public function generatePDF($id)
     {
      $user= Auth::user();
        $can = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues', 'references')->where('user_id', $user->id)->findOrFail($id);
-       
         $data = ['can' => $can];
+        
+        $pdf =  App::make('dompdf.wrapper');
         $pdf = Pdf::loadView('candidatvip.myCvPDF', $data);
-    
         return $pdf->download('cv.pdf');
     }
 

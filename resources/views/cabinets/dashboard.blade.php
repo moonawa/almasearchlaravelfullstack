@@ -41,7 +41,7 @@
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">Viviers</p>
-                      <p class="card-title"> {{ $candidat }} <p>
+                      <p class="card-title"> {{ $candidat}} <p>
                     </div>
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Offres </p>
+                      <p class="card-category">Offres des Entreprises</p>
                       <p class="card-title"> {{ $offre}}<p>
                     </div>
                   </div>
@@ -93,7 +93,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category"> Proposés</p>
+                      <p class="card-category">Candidats Proposés</p>
                       <p class="card-title"> {{ $candidatureprop }}<p>
                     </div>
                   </div>
@@ -122,7 +122,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">Sélectionnés</p>
+                      <p class="card-category">Candidats Sélectionnés</p>
                       <p class="card-title"> {{ $candidatureselec }} <p>
                     </div>
                   </div>
@@ -149,7 +149,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category"> Recrutés</p>
+                      <p class="card-category">Candidats Recrutés</p>
                       <p class="card-title"> {{ $candidaturerecru }} <p>
                     </div>
                   </div>
@@ -176,7 +176,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">O. Encours </p>
+                      <p class="card-category">Offres Encours </p>
                       <p class="card-title"> {{ $offreencours }}<p>
                     </div>
                   </div>
@@ -203,7 +203,7 @@
                   </div>
                   <div class="col-7 col-md-8">
                     <div class="numbers">
-                      <p class="card-category">O. Expirés</p>
+                      <p class="card-category">Offres Expirés</p>
                       <p class="card-title">{{ $offreexpire }} <p>
                     </div>
                   </div>

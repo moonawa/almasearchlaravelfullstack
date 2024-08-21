@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AppelCabinet;
+use App\Mail\HeureRvSelection;
+use App\Mail\HeureRvSelectionAdmin;
 use App\Models\Cabinet;
 use App\Models\Candidat;
 use App\Models\Candidature;
@@ -20,6 +23,7 @@ use App\Notifications\SelectionCandidatureNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 
 class OffreController extends Controller
@@ -39,10 +43,11 @@ class OffreController extends Controller
     if ($entreprise) {
         $offre = $entreprise->offres()->latest()->paginate(10); 
         $offrecount = $entreprise->offres()->count(); /// Obtenir les offres de l'entreprise
-        $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
-        $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
+        $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->count();
+        $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->count();
+        $standbycount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->count();
 
-        return view('offres.index', compact('offre', 'offrecount','encourscount', 'expirescount')); // Passer les offres à la vue
+        return view('offres.index', compact('offre', 'standbycount', 'offrecount','encourscount', 'expirescount')); // Passer les offres à la vue
     } else {
         return redirect()->back()->with('error', 'Vous n\'êtes pas associé à une entreprise.');
     }
@@ -60,8 +65,10 @@ class OffreController extends Controller
          $offres = Offre::where('entreprise_id', $entreprise->id);
          if ($entreprise) {
          $offre = Offre::where('entreprise_id', $entreprise->id)->count();
-         $encours = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
-         $expires = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
+         $encours = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->count();
+         $expires = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->count();
+         $standBy = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->count();
+
         }
         $interlocuteurcount = $entreprise->interlocuteureses->count();
         $candidatures = Candidature::whereIn('offre_id', $offres->pluck('id'))->whereNotNull('heurecandidature')->count();
@@ -69,7 +76,7 @@ class OffreController extends Controller
         $proposition = Proposition::whereIn('offre_id', $offres->pluck('id'))->whereNotNull('selectionproposition')->count();
         $recrutesproposition = Proposition::whereIn('offre_id', $offres->pluck('id'))->where('reponseseproposition', "Recruté")->count();
 
-         return view('entreprises.dashboard', compact('offre', 'encours' , 'expires', 'candidatures', 'recrutes', 'proposition', 'recrutesproposition', 'interlocuteurcount'));
+         return view('entreprises.dashboard', compact('offre','standBy', 'encours' , 'expires', 'candidatures', 'recrutes', 'proposition', 'recrutesproposition', 'interlocuteurcount'));
      }
      /**
      * Show the form for creating a new resource.
@@ -112,7 +119,8 @@ class OffreController extends Controller
         $offre->typecontrat = $request->typecontrat;
         $offre->datecloture = $request->datecloture;
         $offre->entreprise_id = $entreprise->id;
-        $offre->statusoffre = 0;
+        $offre->interlocuteurese_id = $interlocuteur->id;
+        $offre->offrestatu = "En Cours";
         $offre->statuscabinet = 0;
         $offre->competenceoffre = $request->competenceoffre;
         $offre->fichierjoint = $fichierName;
@@ -131,7 +139,7 @@ class OffreController extends Controller
 
         $entreprise = $interlocuteur->entreprise;
 
-        $offre = Offre::where('entreprise_id', $entreprise->id)->findOrFail($id);
+        $offre = Offre::with('interlocuteurese.user')->where('entreprise_id', $entreprise->id)->findOrFail($id);
         $candidats = Candidat::with('latestFormation','user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id', null)->latest()->paginate(10);
         $candidatures = Candidature::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
         $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
@@ -164,6 +172,7 @@ public function getcandidatstore(Request $request)
         'offre_id' => 'required|exists:offres,id',
         'candidat_id' => 'required|exists:candidats,id',
     ]);
+    
     // Vérifier si la combinaison offre_id et candidat_id existe déjà
     $exists = Candidature::where('offre_id', $request->offre_id)
     ->where('candidat_id', $request->candidat_id)
@@ -172,13 +181,15 @@ public function getcandidatstore(Request $request)
     if ($exists) {
     return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà sélectionné pour cette offre.']);
     }
-
+    $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+    $inter = Interlocuteurese::where('user_id', $auth->id)->first();
 // Créer la candidature
     Candidature::create([
         'offre_id' => $request->offre_id,
         'candidat_id' => $request->candidat_id,
         'selection' => 1,
         'reponese' => "En Cours",
+        'interlocuteurese_id' => $inter->id,
        
     ]);
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
@@ -233,6 +244,9 @@ public function propositionstoreshow(Request $request)
 //ajout dans la table proposition depuis la page show de l'offre pour le cabinet
 public function propositionstore(Request $request)
 {
+    $auth = Auth::user();
+        $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
+        $cabinet = $inter->cabinet;
 
     $request->validate([
         'offre_id' => 'required|exists:offres,id',
@@ -251,12 +265,12 @@ public function propositionstore(Request $request)
         'candidat_id' => $request->candidat_id,
         'selectionproposition' => 1,
         'reponseseproposition' => "En Cours",
-
+        'interlocuteurcbt_id' => $inter->id,
     ]);
     $proposition->candidat->cabinet->increment('view_count'); //le nombre de fois que le cabinet propose
 
 
-    $admin = User::where('role', 'Admin')->first();
+    $admin = User::where('role', 'Admin')->get();
     $admin->notify(new AdminCandidatureNotification($admin));
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
@@ -269,6 +283,10 @@ public function updatecandidature(Request $request, $id)
     ], [
         'heurecandidature.after' => 'La date du rendez-vous doit être postérieure à la date d\'aujourd\'hui.',
     ]);
+    $user = Auth::user();
+    $inter = Interlocuteurese::where('user_id', $user->id)->first();
+    $entreprise = $inter->entreprise;
+    
     $candidature = Candidature::findOrFail($id);
     $candidature->heurecandidature = $request->input('heurecandidature');
     $candidature->confirmerv = 0;
@@ -276,13 +294,19 @@ public function updatecandidature(Request $request, $id)
     $candidature->commentaireese = null;
     $candidature->reponese = "En Cours";
     $candidature->save();
-    
-    $candidature->candidat->user->notify(new SelectionCandidatureNotification($candidature->candidat->user));
-    $admin = User::where('role', 'Admin')->get();
-    Notification::send($admin, new AdminCandidatureNotification());
 
-    return redirect()->back()->with('success', 'le status a été modifié avec succes');
+    $date= $candidature->heurecandidature;
+    $offre = $candidature->offre;
+    $candidat = $candidature->candidat;
+    Mail::to($candidature->candidat->user)->send(new HeureRvSelection($entreprise, $offre, $date));
+
+    $admin = User::where('role', 'Admin')->get();
+    Mail::to($admin)->send(new HeureRvSelectionAdmin($entreprise, $offre, $date, $candidat));
+
+    return redirect()->back()->with('success', 'le rendez-vous a été fixé  et enoyé au candidat avec succès');
     //return response()->json(['message' => ' le rendez-vous a été fixé avec succès']);
+    //$candidature->candidat->user->notify(new SelectionCandidatureNotification($candidature->candidat->user));
+    //Notification::send($admin, new AdminCandidatureNotification());
 
 }
 //ajout ou modifier un lieu de rendez-vous pour la candidature : entreprise
@@ -304,14 +328,15 @@ public function updateproposition(Request $request, $id)
     $proposition->heureproposition = $request->input('heureproposition');
     $proposition->save();
 
-    $proposition->candidat->cabinet->user->notify(new SelectionCandidatureNotification($proposition->candidat->cabinet->user));
-    $admin = User::where('role', 'Admin')->first();
+    $inter = $proposition->candidat->cabinet->interlocuteurcbts->first();
+    $inter->user->notify(new SelectionCandidatureNotification($inter->user));
+    $admin = User::where('role', 'Admin')->get();
     $admin->notify(new AdminCandidatureNotification($admin));
     
     return redirect()->back()->with('success', 'le rendez-vous  a été calé avec succes');
 
 }
-//ajout ou modifier un lieu de rendez-vous pour la proposition  :entreprise
+//ajout ou modifier un lieu de rendez-vous pour la proposition :entreprise
 public function updatepropositionlieu(Request $request, $id)
 {
     $proposition = Proposition::findOrFail($id);
@@ -326,8 +351,10 @@ public function updatepropositioncrute(Request $request, $id)
     $proposition = Proposition::findOrFail($id);
     $proposition->reponseseproposition = $request->reponseseproposition;
     $proposition->save();
-    $proposition->candidat->cabinet->user->notify(new RecruteCandidatureNotification($proposition->candidat->cabinet->user));
-    $admin = User::where('role', 'Admin')->first();
+
+    $inter =  $proposition->candidat->cabinet->interlocuteurcbts->first();
+    $inter->user->notify(new RecruteCandidatureNotification($inter->user));
+    $admin = User::where('role', 'Admin')->get();
     $admin->notify(new AdminCandidatureNotification($admin));
     
     return redirect()->back()->with('success', 'le status a été modifié avec succes');
@@ -423,7 +450,7 @@ public function search(Request $request, $id)
      $candidature->save();
 
      $candidature->candidat->user->notify(new RecruteCandidatureNotification($candidature->candidat->user));
-     $admin = User::where('role', 'Admin')->first();
+     $admin = User::where('role', 'Admin')->get();
      $admin->notify(new AdminCandidatureNotification($admin));
      return redirect()->back()->with('success', 'le status a été modifié avec succes');
      
@@ -435,12 +462,13 @@ public function offreencoursentreprise()
     $inter = Interlocuteurese::where('user_id', $auth->id)->first();
 
     $entreprise = $inter->entreprise; 
-   $encours = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->latest()->paginate(10);
-    $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
+    $encours = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->latest()->paginate(10);
+    $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->count();
     $offrecount = $entreprise->offres()->count(); 
-    $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
+    $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->count();
+    $standbycount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->count();
 
-    return view('entreprises.offreencours', compact('encours', 'encourscount', 'offrecount', 'expirescount'));
+    return view('entreprises.offreencours', compact('encours','standbycount', 'encourscount', 'offrecount', 'expirescount'));
 }
 // voir les offres expirée pour le entreprise
 public function offreexpireentreprise()
@@ -450,12 +478,29 @@ public function offreexpireentreprise()
     $inter = Interlocuteurese::where('user_id', $auth->id)->first();
 
     $entreprise = $inter->entreprise; 
-    $expires = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->latest()->paginate(10);
+    $expires = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->latest()->paginate(10);
     $offrecount = $entreprise->offres()->count(); 
-    $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 0)->count();
-    $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('statusoffre', 1)->count();
+    $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->count();
+    $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->count();
+    $standbycount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->count();
 
-    return view('entreprises.offreexpire', compact('expires', 'expirescount', 'encourscount', 'offrecount'));
+    return view('entreprises.offreexpire', compact('expires', 'standbycount', 'expirescount', 'encourscount', 'offrecount'));
+}
+// voir les offres Standby pour le entreprise
+public function offrestandbyentreprise()
+{
+   
+    $auth = Auth::user(); // Récupérer l'interlocuteur connecté
+    $inter = Interlocuteurese::where('user_id', $auth->id)->first();
+
+    $entreprise = $inter->entreprise; 
+    $standby = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->latest()->paginate(10);
+    $offrecount = $entreprise->offres()->count(); 
+    $encourscount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "En Cours")->count();
+    $expirescount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "Cloturée")->count();
+    $standbycount = Offre::where('entreprise_id', $entreprise->id)->where('offrestatu', "StandBy")->count();
+
+    return view('entreprises.offrestandby', compact('standby', 'standbycount', 'expirescount', 'encourscount', 'offrecount'));
 }
     //liste des offres pour le cabinets
     public function indexcabinet()
@@ -463,10 +508,11 @@ public function offreexpireentreprise()
         
         $offres = Offre::with('entreprise.user')->where('statuscabinet', 1)->latest()->paginate(6);
         $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
-        $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();
-        $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
-   
-        return view('cabinets.offre', compact('offres', 'offrescount', 'offresencours', 'offresexpire'));
+        $offresencours = Offre::where('offrestatu', "En Cours")->where('statuscabinet', 1)->count();
+        $offresexpire = Offre::where('offrestatu', "Cloturée")->where('statuscabinet', 1)->count();
+        $offresstandby = Offre::where('offrestatu', "StandBy")->where('statuscabinet', 1)->count();
+
+        return view('cabinets.offre', compact('offres', 'offresstandby', 'offrescount', 'offresencours', 'offresexpire'));
     }
     
     //show un offre pour le cabinet
@@ -478,7 +524,7 @@ public function offreexpireentreprise()
         $offre = Offre::findOrFail($id);
         $candidatscount = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->count();
         $candidats = Candidat::with('user', 'competences', 'experiences', 'formations', 'langues')->where('cabinet_id',  $cabinet->id)->latest()->paginate(10);
-        $propositions = Proposition::with('candidat.user')->where('offre_id', $offre->id)->latest()->paginate(5);
+        $propositions = Proposition::with('candidat.user', 'interlocuteurcbt')->where('offre_id', $offre->id)->latest()->paginate(5);
         $propositionscount = Proposition::with('candidat.user')->where('offre_id', $offre->id)->count();
 
         return view('cabinets.candidatoffre', compact('candidatscount','offre', 'candidats', 'propositions', 'propositionscount'));
@@ -547,7 +593,7 @@ public function offreexpireentreprise()
         ->where('candidat_id', $candidat->id)
         ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
         ->whereHas('offre', function ($query) {
-                $query->where('statusoffre', 0);
+                $query->where('offrestatu', "En Cours");
                 })->count();
                 $recrutescount = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
@@ -579,7 +625,7 @@ $recrutescount = Candidature::with('offre.entreprise.user')
         ->where('candidat_id', $candidat->id)
         ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
         ->whereHas('offre', function ($query) {
-                $query->where('statusoffre', 0);
+                $query->where('offrestatu', "En Cours");
                 })->count();
                 $recrutescount = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
@@ -591,7 +637,7 @@ $recrutescount = Candidature::with('offre.entreprise.user')
     ->where('candidat_id', $candidat->id)
     ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
-            $query->where('statusoffre', 0);
+            $query->where('offrestatu', "En Cours");
             })->latest()->paginate(10);
 
         return view('candidatvip.offreencours', compact('encours', 'candidaturescount', 'encourscount', 'declinescount', 'recrutescount'));
@@ -607,7 +653,7 @@ public function offredecline()
     ->where('candidat_id', $candidat->id)
     ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
-            $query->where('statusoffre', 0);
+            $query->where('offrestatu', "En Cours");
             })->count();
             $recrutescount = Candidature::with('offre.entreprise.user')
 ->where('candidat_id', $candidat->id)
@@ -640,7 +686,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
     ->where('candidat_id', $candidat->id)
     ->where('reponese', "En Cours")->whereNotNull('heurecandidature')
     ->whereHas('offre', function ($query) {
-            $query->where('statusoffre', 0);
+            $query->where('offrestatu', "En Cours");
             })->count();
     return view('candidatvip.offrerecrute', compact('recrutes', 'candidaturescount', 'declinescount', 'encourscount', 'recrutescount'));
 }
@@ -754,27 +800,38 @@ $encourscount = Candidature::with('offre.entreprise.user')
         return redirect()->route('$candidature')->with('success', 'Le candi$candidature a été supprimé');
     }
     
-    public function updateStatus($id)
+    public function updateStatus(Request $request, $id)
     {
         $offre = Offre::findOrFail($id);
-        $offre->statusoffre = !$offre->statusoffre;
+
+        $offre->offrestatu = $request->input('offrestatu');
+        
         $offre->save();
+        //$offre->statusoffre = !$offre->statusoffre;
         return redirect()->back()->with('success', 'le status a été modifié avec succes');
 
     }
     public function updateStatuscabinet($id)
     {
+        $user = Auth::user();
+        $inter = Interlocuteurese::where('user_id', $user->id)->first();
+        $entreprise = $inter->entreprise;
         $offre = Offre::findOrFail($id);
         $offre->statuscabinet = 1;
         $offre->save();
-        
-        $cabinet = Cabinet::first();
-        $cabinet->user->notify(new AppelCandidatureNotification($cabinet->user));
-     $admin = User::where('role', 'Admin')->first();
-     $admin->notify(new AppelCandidatureNotification($admin));
-     return redirect()->back()->with('success', 'le status a été modifié avec succes');
-     
-        return redirect()->back()->with('success', 'le status a été modifié avec succes');
+
+        $cabinets = Cabinet::all();
+        foreach ($cabinets as $cabinet) {
+            $interlocuteur = $cabinet->interlocuteurcbts->first();
+            Mail::to($interlocuteur->user)->send(new AppelCabinet($entreprise, $offre));
+
+        }
+        $admin = User::where('role', 'Admin')->get();
+        Mail::to($admin)->send(new AppelCabinet($entreprise, $offre));
+
+        return redirect()->back()->with('success', 'les cabinets ont recu lappel ');
+        //$interlocuteur->user->notify(new AppelCandidatureNotification($interlocuteur->user));
+        //$admin->notify(new AppelCandidatureNotification($admin));
 
     }
     /**
@@ -803,7 +860,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
     public function duplicate(Offre $offre)
     {
         $newoffre = $offre->replicate();
-        $newoffre->statusoffre = 0;
+        $newoffre->offrestatu = "En Cours";
         $newoffre->statuscabinet = 0;
         $newoffre->save();
 
@@ -969,10 +1026,11 @@ public function showoffrerefusepropadmin(string $id)
 public function offreencoursadmin()
 {
    
-    $offres = Offre::where('statusoffre', 0)->latest()->paginate(10);
+    $offres = Offre::where('offrestatu', "En Cours")->latest()->paginate(10);
     $offrescount= Offre::with('entreprise.user')->count();
-    $encours = Offre::where('statusoffre', 0)->count();
-    $expire = Offre::where('statusoffre', 1)->count();
+    $encours = Offre::where('offrestatu', "En Cours")->count();
+    $expire = Offre::where('offrestatu', "Cloturée")->count();
+    $standby = Offre::where('offrestatu', "StandBy")->count();
 
     return view('admin.offreencours', compact('offres','encours','expire', 'offrescount'));
 }
@@ -980,32 +1038,33 @@ public function offreencoursadmin()
 public function offreexpireadmin()
 {
 
-    $offres = Offre::where('statusoffre', 1)->latest()->paginate(10);
+    $offres = Offre::where('offrestatu', "Cloturée")->latest()->paginate(10);
     $offrescount= Offre::with('entreprise.user')->count();
-    $encours = Offre::where('statusoffre', 0)->count();
-    $expire = Offre::where('statusoffre', 1)->count();
+    $encours = Offre::where('offrestatu', "En Cours")->count();
+    $expire = Offre::where('offrestatu', "Cloturée")->count();
+    $standBy = Offre::where('offrestatu', "StandBy")->count();
 
-    return view('admin.offreexpire', compact('offres', 'encours','expire', 'offrescount'));
+    return view('admin.offreexpire', compact('offres', 'standBy', 'encours','expire', 'offrescount'));
 }
  // voir les offres encours pour le cabinet
  public function offreencourscabinet()
  {
     
-     $offres = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->latest()->paginate(6);
+     $offres = Offre::where('offrestatu', "En Cours")->where('statuscabinet', 1)->orderBy('updated_at', 'desc')->paginate(6);
      $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
-     $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();
-     $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
+     $offresencours = Offre::where('offrestatu', "En Cours")->where('statuscabinet', 1)->count();
+     $offresexpire = Offre::where('offrestatu', "Cloturée")->where('statuscabinet', 1)->count();
 
      return view('cabinets.offreencours', compact('offres', 'offrescount', 'offresencours', 'offresexpire'));
  }
- // voir les offres expirée pour l' cabinet
+ // voir les offres expirée pour le cabinet
  public function offreexpirecabinet()
  {
  
-     $offres = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->latest()->paginate(6);
+     $offres = Offre::where('offrestatu', "Cloturée")->where('statuscabinet', 1)->latest()->paginate(6);
      $offrescount = Offre::with('entreprise.user')->where('statuscabinet', 1)->count();
-     $offresexpire = Offre::where('statusoffre', 1)->where('statuscabinet', 1)->count();
-     $offresencours = Offre::where('statusoffre', 0)->where('statuscabinet', 1)->count();
+     $offresexpire = Offre::where('offrestatu', "Cloturée")->where('statuscabinet', 1)->count();
+     $offresencours = Offre::where('offrestatu', "En Cours")->where('statuscabinet', 1)->count();
 
      return view('cabinets.offreexpire', compact('offres', 'offrescount', 'offresexpire', 'offresencours'));
  }

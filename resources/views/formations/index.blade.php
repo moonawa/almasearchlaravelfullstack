@@ -8,7 +8,7 @@
       <div class=" p-4">
       <ul class="nav nav-tabs">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('formations') }}" style="color:#325fa6;">Formations</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('formations') }}" style="color:#035874;">Formations</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('experiences') }}" style="color:black;">Expériences</a>
@@ -23,10 +23,10 @@
     <a class="nav-link " href="{{ route('langues') }}" style="color:black;" >Langues</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#ef882b; " >CV Complet</a>
+    <a class="nav-link " href="{{ route('cvdetaillecandidat', auth()->user()->candidat->id) }}" style="color:#7ac9e8; " >CV Complet</a>
   </li>
   <li class="nav-item">
-  <button class=" nav-link " style="background-color: #325FA6; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Formation</button> 
+  <button class=" nav-link " style="background-color: #035874; color:white;" data-toggle="modal" data-target="#exampleModal">Ajouter une Formation</button> 
 
   </li>
   
@@ -81,7 +81,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-              <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter </button>
+              <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter </button>
             </div>
             </form>
           </div>
@@ -184,13 +184,13 @@
                               </div>
 
                               <!-- <div class="card-footer ">
-                <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Ajouter</button>
+                <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Ajouter</button>
             </div> -->
 
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary btn-round" data-dismiss="modal">Fermer</button>
-                            <button type="submit" class="btn btn-info btn-round" style="background-color: #325fa6;">Modifier </button>
+                            <button type="submit" class="btn btn-info btn-round" style="background-color: #035874;">Modifier </button>
                           </div>
                           </form>
                         </div>

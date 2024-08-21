@@ -9,7 +9,7 @@
     <div class="col-md-10">
     <ul class="nav nav-tabs ">
   <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="{{ route('offres') }}" style="color:#325fa6;">Toutes les Offres ({{$offrecount}})</a>
+    <a class="nav-link active" aria-current="page" href="{{ route('offres') }}" style="color:#035874;">Toutes les Offres ({{$offrecount}})</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('offreencoursentreprise') }}" style="color:black;">Offres En Cours ({{$encourscount}})</a>
@@ -17,10 +17,13 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route('offreexpireentreprise') }}" style="color:black;">Offres Expirées ({{$expirescount}})</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('offrestandbyentreprise') }}" style="color:black;">Offres En StandBy ({{$standbycount}})</a>
+  </li>
 </ul>
     </div>
   <div class="col-md-2">
-    <button class="btn btn-round" style="background-color: #325fa6;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
+    <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
   </div>
   </div>
   
@@ -149,7 +152,7 @@
                     </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-round"   data-dismiss="modal">Fermer</button>
-        <button id="submitButton" type="submit" class="btn btn-round" style="background-color: #325fa6;">Ajouter </button>
+        <button id="submitButton" type="submit" class="btn btn-round" style="background-color: #035874;">Ajouter </button>
       </div>
       </form>
     </div>
@@ -213,14 +216,17 @@
                           @csrf
 
                           @method('PUT')
-                          @if($rs->statusoffre)
-                          <p style="color:red;">Expirée</p>
+                          @if($rs->offrestatu == "Cloturée")
+                          <p style="color:red;">Clôturée</p>
+                          @elseif($rs->offrestatu == "StandBy")
+                          <p style="color:blue;">StandBy</p>
                           @else
                           <div  class="form-group">
-                     <select name="statusoffre" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
-
-                      <option   id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->statusoffre}}" {{ $rs->statusoffre == 0  ? 'selected' : '' }} >En cours</option>
-                      <option id="flexSwitchCheck{{$rs->id}}" value="1" {{ $rs->statusoffre == 1  ? 'selected' : '' }}>Expirée</option>
+                     <select name="offrestatu" class="status-checkbox form-control" data-offre-id="{{ $rs->id }}">
+                  
+                      <option id="flexSwitchCheck{{$rs->id}}" value="{{ $rs->offrestatu}}" {{ $rs->offrestatu == "En Cours"  ? 'selected' : '' }} >En Cours</option>
+                      <option id="flexSwitchCheck{{$rs->id}}" value="Cloturée" {{ $rs->offrestatu == "Cloturée"  ? 'selected' : '' }}>Clôturée</option>
+                      <option id="flexSwitchCheck{{$rs->id}}" value="StandBy" {{ $rs->offrestatu == "StandBy"  ? 'selected' : '' }}>StandBy</option>
 
                       @endif
                      </select>
@@ -229,9 +235,9 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #ef882b; text-decoration:none;">Détails</a>
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #7ac9e8; text-decoration:none;">Détails</a>
                         &nbsp;|
-                                <a href="{{ route('offres.edit', $rs->id)}}" ><button style="background: white; border:none;  color:#325fa6;">Éditer</button></a>
+                                <a href="{{ route('offres.edit', $rs->id)}}" ><button style="background: white; border:none;  color:#035874;">Éditer</button></a>
                              <!--   <form action="{{ route('offres.destroy', $rs->id) }}" method="POST" type="button"  onsubmit="return confirm('Delete?')">
                                     @csrf
                                     @method('DELETE')
