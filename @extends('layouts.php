@@ -292,3 +292,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 </script>
 @endsection
+
+@if(auth()->user()->interlocuteurcbt->cabinet->logocbt)
+            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurcbt->cabinet->logocbt }}" width="50px" style="border-radius: 50%; width: 50px; height:50px;">
+            @endif
+
+ @if(auth()->user()->interlocuteurese->entreprise->logo)
+            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurese->entreprise->logo }}"  style="border-radius: 50%; width: 50px; height:50px;" >
+            @endif

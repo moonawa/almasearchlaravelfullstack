@@ -10,36 +10,36 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li >
+          <li>
             <a href="{{ route( 'dashboardcandidatvip') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p style="font-weight: bold ;">Tableau de bord</p>
+              <i class="nc-icon nc-bank"  style="color: #035874;" ></i>
+              <p style="font-weight: bold ; color: #035874; ">Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->candidat)
             <a href="{{ route('candidatvip.show', auth()->user()->candidat->id) }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p  style="font-weight: bold ;"> Profil</p>
+              <i class="nc-icon nc-single-02" style="color: #035874;" ></i>
+              <p  style="font-weight: bold ; color: #035874;"> Profil</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'formations') }}" style=" line-height: 1rem; " >
-              <i class="nc-icon nc-user-run"></i>
-              <p style="font-weight: bold;"> CV Détaillé</p>
+              <i class="nc-icon nc-user-run" style="color: #035874;" ></i>
+              <p style="font-weight: bold; color: #035874;" > CV Détaillé</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'motCles') }}" style=" line-height: 1rem; " >
-              <i class="nc-icon nc-lock-circle-open"></i>
-              <p style="font-weight: bold;"> Mots Clés</p>
+              <i class="nc-icon nc-lock-circle-open" style="color: #035874;" ></i>
+              <p style="font-weight: bold; color: #035874;" > Mots Clés</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencourscandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;"> Offres </p>
+              <i class="nc-icon nc-refresh-69" style="color: #035874;" ></i>
+              <p style="font-weight: bold; color: #035874;" > Offres </p>
             </a>
           </li>
        

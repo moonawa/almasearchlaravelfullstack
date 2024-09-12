@@ -62,6 +62,7 @@
                         {{ $rs->user->name }}
                         </td>
                         <td>
+                       
                         {{ $rs->user->telephone }} <br>  
                         {{ $rs->user->email }}
                         </td>

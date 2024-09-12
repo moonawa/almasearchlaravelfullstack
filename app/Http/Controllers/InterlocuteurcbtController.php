@@ -23,7 +23,7 @@ class InterlocuteurcbtController extends Controller
         $cabinet = $inter->cabinet; 
         
         $user = new User();
-        $user->name = $request->name;
+        $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
         $user->role = 'Cabinet';
         $user->telephone = $request->telephone;

@@ -57,9 +57,7 @@
                         Cabinets 
                       </th>
                      
-                      <th style="color:black">
-                        Tel/Email 
-                      </th>
+                 
                       <th style="color:black">
                       Description 
                       </th>
@@ -97,10 +95,7 @@
                         {{ $rs->nomcabinet }}
                         </td>
                       
-                        <td>
-                        {{ $rs->telcbt }} <br>
-                        {{ $rs->emailcbt }}
-                        </td>
+                     
                         <td>
                         <button type="button" style="border: none; background:white; color:#7ac9e8" data-toggle="modal" data-target="#cabinetDescription{{$rs->id}}">
                        Voir

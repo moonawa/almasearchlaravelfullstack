@@ -52,7 +52,7 @@ class InterlocuteureseController extends Controller
         $ese = $inter->entreprise; 
         
         $user = new User();
-        $user->name = $request->name;
+        $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
         $user->role = 'Entreprise';
         $user->telephone = $request->telephone;

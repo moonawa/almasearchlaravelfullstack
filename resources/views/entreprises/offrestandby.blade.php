@@ -100,14 +100,16 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #7ac9e8; text-decoration:none;">Détails</a>
+                        <button type="button" class="btn btn-primary btn-sm">
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #fff; text-decoration:none ">Détails</a>
+
+                        </button>
+
                         &nbsp;|
-                                <a href="{{ route('offres.edit', $rs->id)}}" ><button style="background: white; border:none;  color:#035874;">Éditer</button></a>
-                             <!--   <form action="{{ route('offres.destroy', $rs->id) }}" method="POST" type="button"  onsubmit="return confirm('Delete?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="" style="margin:5px; background: white; border:none;"><i class="fa fa-trash" style="color: red; "></i></button>
-                                </form> -->
+                        <button type="button" class="btn btn-info btn-sm">
+                        <a href="{{ route('offres.edit', $rs->id)}}" style="color:#fff;   text-decoration:none">Editer</a>
+
+                        </button>
                             </div>
                         </td>
                       </tr>

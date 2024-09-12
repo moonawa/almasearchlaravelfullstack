@@ -4,9 +4,7 @@
           <div class=" ">
             <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
       
-            @if(auth()->user()->interlocuteurese->entreprise->logo)
-            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurese->entreprise->logo }}"  style="border-radius: 50%; width: 50px; height:50px;" >
-            @endif
+           
      
           </div>
          
@@ -17,37 +15,37 @@
         <ul class="nav">
           <li>
             <a href="{{ route( 'dashboard') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p  style="font-weight: bold;">Tableau de bord</p>
+              <i class="nc-icon nc-bank"  style="color: #035874;"></i>
+              <p  style="font-weight: bold; color: #035874;">Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->interlocuteurese)
 
 <a href="{{ route('entreprises.inter', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
-  <i class="nc-icon nc-diamond"></i>
-  <p  style="font-weight: bold;">Profil</p>
+  <i class="nc-icon nc-diamond"  style="color: #035874;"></i>
+  <p  style="font-weight: bold; color: #035874;">Profil</p>
 </a>
 @endif
           @if (auth()->user()->interlocuteurese)
 
             <a href="{{ route('entreprises.show', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-diamond"></i>
-              <p  style="font-weight: bold;">Infos Entreprise</p>
+              <i class="nc-icon nc-diamond"  style="color: #035874;"></i>
+              <p  style="font-weight: bold; color: #035874;">Infos Entreprise</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'indexinter') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p style="font-weight: bold;"> Interlocuteurs</p>
+              <i class="nc-icon nc-single-02"  style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;"> Interlocuteurs</p>
             </a>
           </li>
         
      <li>
             <a href="{{ route( 'offreencoursentreprise') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;">Offres </p>
+              <i class="nc-icon nc-refresh-69"  style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Offres </p>
             </a>
           </li>
           

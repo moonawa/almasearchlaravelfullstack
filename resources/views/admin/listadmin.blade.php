@@ -18,7 +18,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" >Liste des Membres ({{$admincount}})</a>
+            <a class="navbar-brand" style="color: #035874;" >Liste des Admins ({{$admincount}})</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -118,7 +118,7 @@
                          Status
                       </th>
                       <th style="color:black">
-                         Dernière Connexion
+                          Connexion
                       </th>
                    
                     </thead>

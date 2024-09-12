@@ -53,9 +53,7 @@
               <th style="color:black">
                 Entreprises
               </th>
-              <th style="color:black">
-                Tel/Email
-              </th>
+           
               <th style="color:black">
                 Description
               </th>
@@ -89,10 +87,7 @@
                   @endif
                   {{ $rs->nomentreprise }}
                 </td>
-                <td>
-                  {{ $rs->tel }} <br>
-                  {{ $rs->emailese }}
-                </td>
+              
                 <td>
                   <button type="button" style="border: none; background:white; color: #7ac9e8;" data-toggle="modal" data-target="#entrepriseDescription{{$rs->id}}">
                     Voir

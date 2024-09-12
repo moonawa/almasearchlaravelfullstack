@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top " style="background: #035874;">
+        <div class="container-fluid" style="background: #035874;">
           <div class="navbar-wrapper">
             <div class="navbar-toggle">
               <button type="button" class="navbar-toggler">
@@ -8,7 +8,7 @@
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="javascript:;">Tableau de bord</a>
+            <a class="navbar-brand" href="javascript:;" style="color: #fff;">Tableau de bord</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>

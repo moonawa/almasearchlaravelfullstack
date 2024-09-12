@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\AppelCabinet;
 use App\Mail\HeureRvSelection;
 use App\Mail\HeureRvSelectionAdmin;
+use App\Mail\PropositionMail;
 use App\Models\Cabinet;
 use App\Models\Candidat;
 use App\Models\Candidature;
@@ -231,13 +232,25 @@ public function propositionstoreshow(Request $request)
     //    'candidat_id' => 'required|exists:candidats,id',
    // ]);
 
-    Proposition::create([
+   $proposition =  Proposition::create([
         'offre_id' => $request->offre_id,
         'candidat_id' => $candidat->id,
         'selectionproposition' => 1,
         'reponseseproposition' => "En Cours",
 
     ]);
+    $inter = $proposition->offre->entreprise->interlocuteureses->all();
+    $cabinet = $proposition->candidat->cabinet;
+    $offre = $proposition->offre;
+    foreach ($inter as $in){
+        Mail::to($in->user)->send(new PropositionMail($cabinet, $offre));
+    }
+   
+
+    $admin = User::where('role', 'Admin')->all();
+    foreach ($admin as $ad){
+        Mail::to($ad)->send(new PropositionMail($cabinet, $offre));
+    }
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 }
@@ -268,10 +281,19 @@ public function propositionstore(Request $request)
         'interlocuteurcbt_id' => $inter->id,
     ]);
     $proposition->candidat->cabinet->increment('view_count'); //le nombre de fois que le cabinet propose
+    $inter = $proposition->offre->entreprise->interlocuteureses->all();
+    $cabinet = $proposition->candidat->cabinet;
+    $offre = $proposition->offre;
+    foreach ($inter as $in){
+        Mail::to($in->user)->send(new PropositionMail($cabinet, $offre));
+    }
+   
 
+    $admin = User::where('role', 'Admin')->all();
+    foreach ($admin as $ad){
+        Mail::to($ad)->send(new PropositionMail($cabinet, $offre));
+    }
 
-    $admin = User::where('role', 'Admin')->get();
-    $admin->notify(new AdminCandidatureNotification($admin));
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 }

@@ -23,7 +23,7 @@
             <div class="row justify-content-center">
 
             <div class="col-md-10 col-lg-6 col-xl-5 mt-4 align-items-center order-2 order-lg-1">
-              <p class="text-center h3 fw-bold " style="color: #325fa6;">Vous êtes une entreprise? Inscrivez Vous</p>
+              <p class="text-center h3 fw-bold " style="color: #035874;">Vous êtes une entreprise? Inscrivez Vous</p>
 
               <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
 
@@ -95,13 +95,13 @@
                   <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline ">
-                        <label for="rc">Régistre de Commerce <span style="color:red;">*</span></label>
+                        <label for="rc">Régistre de Commerce  (max 2mo) <span style="color:red;">*</span></label>
                         <input type="file" required class="form-control" name="rc" id="rc" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
                     <div class="form-outline  ">
-                    <label for="">NINEA <span style="color:red;">*</span> </label>
+                    <label for="">NINEA  (max 2mo)<span style="color:red;">*</span> </label>
                     <input type="file"  required class="form-control" name="ninea"  id="ninea" />
                  
                   </div>

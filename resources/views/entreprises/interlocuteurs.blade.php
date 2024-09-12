@@ -11,7 +11,7 @@
                 
               <div class="row">
                 <div class="col-md-10">
-                <h5 class="card-title">Liste des Interlocuteurs ({{$interlocuteurcount}})</h5>
+                <h5 class="card-title" style="color: #035874;">Liste des Interlocuteurs ({{$interlocuteurcount}})</h5>
                 </div>
                 <div class="col-md-2">
                <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModal">Ajouter</button>
@@ -30,10 +30,21 @@
             <div class="modal-body">
               <form method="POST" action="{{ route('registerInterlo') }}">
                 @csrf
-                <label>Nom <span style="color:red;">*</span></label>
+                <div class="row">
+                  <div class="col-md-6">
+                  <label>Nom <span style="color:red;">*</span></label>
                 <div class="form-group">
-                  <input type="text" required class="form-control" name="name" placeholder="Nom" >
+                  <input type="text" required class="form-control" name="last_name" placeholder="Nom" >
                 </div>
+                  </div>
+                  <div class="col-md-6">
+                  <label>Prénom <span style="color:red;">*</span></label>
+                <div class="form-group">
+                  <input type="text" required class="form-control" name="first_name" placeholder="Prénom" >
+                </div>
+                  </div>
+                </div>
+               
                 <label>Téléphone <span style="color:red;">*</span></label>
                 <div class="form-group">
                   <input type="text" required class="form-control" name="telephone" placeholder="Téléphone ">

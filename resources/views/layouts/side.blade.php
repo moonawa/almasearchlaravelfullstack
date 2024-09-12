@@ -18,37 +18,37 @@
         <ul class="nav">
           <li>
             <a href="{{ route( 'dashboard') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p  style="font-weight: bold;">Tableau de bord</p>
+              <i class="nc-icon nc-bank" style="color: #035874;"></i>
+              <p  style="font-weight: bold; color: #035874;">Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->interlocuteurese)
 
             <a href="{{ route('entreprises.show', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-diamond"></i>
-              <p  style="font-weight: bold;">Profil</p>
+              <i class="nc-icon nc-diamond" style="color: #035874;"></i>
+              <p  style="font-weight: bold; color: #035874;">Profil</p>
             </a>
             @endif
             @if (auth()->user()->interlocuteurese)
 
             <a href="{{ route('entreprises.show', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-diamond"></i>
-              <p  style="font-weight: bold;">Infos Entreprise</p>
+              <i class="nc-icon nc-diamond" style="color: #035874;"></i>
+              <p  style="font-weight: bold; color: #035874;">Infos Entreprise</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'indexinter') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p style="font-weight: bold;"> Interlocuteurs</p>
+              <i class="nc-icon nc-single-02" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;"> Interlocuteurs</p>
             </a>
           </li>
         
      <li>
             <a href="{{ route( 'offreencoursentreprise') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;">Offres </p>
+              <i class="nc-icon nc-refresh-69" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Offres </p>
             </a>
           </li>
            
@@ -73,8 +73,8 @@
           <li >
 
               <a href="{{ route('dashboardadmin') }}" style=" line-height: 1rem; ">
-                <i class="nc-icon nc-compass-05" ></i>
-                <strong > Tableau de bord</strong>
+                <i class="nc-icon nc-compass-05" style="color: #035874;" ></i>
+                <strong style="color: #035874;" > Tableau de bord</strong>
               </a>
 
             </a>
@@ -83,46 +83,46 @@
           <li >
           @if (auth()->user())
             <a href="{{ route('admin.show', auth()->user()) }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-diamond"></i>
-              <strong >Profil</strong>
+              <i class="nc-icon nc-diamond" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Profil</strong>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'admin.admin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-favourite-28"></i>
-              <strong >Membres </strong>
+              <i class="nc-icon nc-favourite-28" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Admins </strong>
             </a>
           </li>
           <li>
             <a href="{{ route( 'admin.listentrepriseadmin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-briefcase-24"></i>
-              <strong >Entreprises </strong>
+              <i class="nc-icon nc-briefcase-24" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Entreprises </strong>
             </a>
           </li>
           <li>
             <a href="{{ route( 'admin.listcabinetadmin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-badge"></i>
-              <strong >Cabinets </strong>
+              <i class="nc-icon nc-badge" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Cabinets </strong>
             </a>
           </li>
           <li>
             <a href="{{ route( 'admin.listcandidatadmin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-circle-10"></i>
-              <strong >Candidats  </strong>
+              <i class="nc-icon nc-circle-10" style="color: #035874;"></i>
+              <strong style="color: #035874;" >Candidats  </strong>
             </a>
           </li>
           
           <li>
             <a href="{{ route( 'admin.listcandidatnonadmin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-circle-10"></i>
-              <strong >Viviers </strong>
+              <i class="nc-icon nc-circle-10" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Viviers </strong>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencoursadmin') }}" style="line-height: 1rem; ">
-              <i class="nc-icon nc-paper"></i>
-              <strong >Offres </strong>
+              <i class="nc-icon nc-paper" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Offres </strong>
             </a>
           </li>
         </ul>
@@ -145,16 +145,16 @@
         <ul class="nav">
           <li >
             <a href="{{ route( 'dashboardcabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p style="font-weight: bold;">Tableau de bord</p>
+              <i class="nc-icon nc-bank" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->interlocuteurcbt)
             <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
-              <i class="nc-icon nc-diamond"></i>
-              <p style="font-weight: bold;">Profil</p>
+              <i class="nc-icon nc-diamond" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Profil</p>
             </a>
             @endif
           </li>
@@ -162,27 +162,27 @@
           @if (auth()->user()->interlocuteurcbt)
             <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
-              <i class="nc-icon nc-diamond"></i>
-              <p style="font-weight: bold;">Infos Cabinet</p>
+              <i class="nc-icon nc-diamond" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Infos Cabinet</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'indexintercbt') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p style="font-weight: bold;">Interlocuteurs </p>
+              <i class="nc-icon nc-single-02" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Interlocuteurs </p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'candidatcabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-circle-10"></i>
-              <p style="font-weight: bold;">Viviers </p>
+              <i class="nc-icon nc-circle-10" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Viviers </p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencourscabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-tile-56"></i>
-              <p style="font-weight: bold;">Offres </p>
+              <i class="nc-icon nc-tile-56" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Offres </p>
             </a>
           </li>
      
@@ -205,34 +205,34 @@
         <ul class="nav">
           <li >
             <a href="{{ route( 'dashboardcandidatvip') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p style="font-weight: bold ;">Tableau de bord</p>
+              <i class="nc-icon nc-bank" style="color: #035874;"></i>
+              <p style="font-weight: bold ; color: #035874;">Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->candidat)
             <a href="{{ route('candidatvip.show', auth()->user()->candidat->id) }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p  style="font-weight: bold ;"> Profil</p>
+              <i class="nc-icon nc-single-02" style="color: #035874;"></i>
+              <p  style="font-weight: bold ; color: #035874;"> Profil</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'formations') }}" style=" line-height: 1rem; " >
-              <i class="nc-icon nc-user-run"></i>
-              <p style="font-weight: bold;"> CV Détaillé</p>
+              <i class="nc-icon nc-user-run" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;"> CV Détaillé</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'motCles') }}" style=" line-height: 1rem; " >
-              <i class="nc-icon nc-lock-circle-open"></i>
-              <p style="font-weight: bold;"> Mots Clés</p>
+              <i class="nc-icon nc-lock-circle-open" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;"> Mots Clés</p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencourscandidat') }}" style=" line-height: 1rem; ">
-              <i class="nc-icon nc-refresh-69"></i>
-              <p style="font-weight: bold;"> Offres </p>
+              <i class="nc-icon nc-refresh-69" style="color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;"> Offres </p>
             </a>
           </li>
         

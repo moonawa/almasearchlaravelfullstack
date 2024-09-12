@@ -47,7 +47,7 @@
                     @csrf
                     <label>Nom de la langue </label>
                     <div class="form-group">
-                        <select name="language" id="language" required class="form-control" name="nomlangue">
+                        <select id="language" required class="form-control" name="nomlangue">
     <option value="">Sélectionner une langue</option>
     <option value="Afrikaans">Afrikaans</option>
     <option value="Albanais">Albanais</option>

@@ -80,7 +80,12 @@
   <div class="card card-user">
       <div class="card-header row p-4">
       <div class="col-md-9">  <h5 class="card-title">Liste des candidats Proposés ({{$propositionscount}})</h5>   </div>
-        <div class="col-md-3">
+      @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif 
+      <div class="col-md-3">
         <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModalr">Ajouter</button>
 
         </div>

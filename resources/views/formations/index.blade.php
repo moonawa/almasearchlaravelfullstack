@@ -69,6 +69,8 @@
                     <option value="BFEM">BFEM</option>
                     <option value="BAC">BAC</option>
                     <option value="Certification">Certification</option>
+                    <option value="BFEM">BTS</option>
+                    <option value="BAC">DUT</option>
                     <option value="Licence">Licence</option>
                     <option value="Master">Master</option>
                     <option value="Doctorat">Doctorat</option>

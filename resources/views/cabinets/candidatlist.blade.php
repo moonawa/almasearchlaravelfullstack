@@ -44,9 +44,22 @@
             <div class="modal-body">
               <form method="POST" action="{{ route('cabinets.candidat') }}"  enctype="multipart/form-data">
                 @csrf
-                <label>Nom <span style="color:red;">*</span></label>
+               
+                    <div class="row">
+                <div class="col-md-6 pr-1">
+                    <label>Prénom <span style="color:red;">*</span></label>
                     <div class="form-group">
-                        <input type="text" class="form-control" required name="name" placeholder="Nom">
+                    <input type="text" class="form-control" required name="first_name" placeholder="Prénom">
+
+                    </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                    <label>Nom <span style="color:red;">*</span> </label>
+                    <div class="form-group">
+                    <input type="text" class="form-control" required name="last_name" placeholder="Nom">
+                       
+                      </div>
+                    </div>
                     </div>
                     <div class="row">
                 <div class="col-md-6 pr-1">

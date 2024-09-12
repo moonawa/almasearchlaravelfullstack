@@ -115,7 +115,7 @@ class CabinetController extends Controller
         $cabinet = $inter->cabinet;
 
         $user = User::create([
-            'name' => $request->name,
+            'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
             'role' => 'Candidat',
             'telephone' => $request->telephone,

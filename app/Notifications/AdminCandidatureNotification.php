@@ -35,9 +35,9 @@ class AdminCandidatureNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-        ->subject('Pré-selection à une Offre')
+        ->subject('Proposition à une Offre')
         ->greeting(__('Bonjour!'))
-                    ->line('Un candidat vient d\'etre convoqué à un rendez vous.')
+                    ->line('Un candidat vient d\'etre proposé à un offre.')
                     ->salutation('Cordialement');
 
                 }

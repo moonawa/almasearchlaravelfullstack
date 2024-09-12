@@ -36,12 +36,10 @@
                         Tel/Email 
                       </th>
                       
-                      <th style="color:black">
-                     Age
-                      </th>
+                    
                       
                       <th style="color:black">
-                        Fonction 
+                      Age/ Fonction 
                       </th>
                     
                       <th style="color:black">
@@ -53,7 +51,7 @@
                       <th class="text-right" style="color:black">
                         VIP
                       </th>
-                      <th class="text-right" style="color:black">Dernière Connexion</th>
+                      <th class="text-right" style="color:black"> Connexion</th>
                     </thead>
                     <tbody>
                     @if($candidats->count() > 0)
@@ -79,15 +77,19 @@
                         {{ $rs->user->email }}
                         </td>
                        
-                        <td>
+                      
+                        <td >
                         @php
                 $birthday = $rs->birthday;
                 $age = $birthday ? \Carbon\Carbon::parse($birthday)->age : null;
                 @endphp
                 {{ $age  }} ans
-                        </td>
-                        <td>
+                <br>
+                          @if($rs->fonction)
                         {{ $rs->fonction  }}
+                        @else
+                --
+                @endif
                         </td>
                       
                       
@@ -119,13 +121,13 @@
                           </form>
                    
                       </td>
-                      <td>
+                      <td class="text-right">
         @if( $rs->user->last_login_at)
         @php
                 $date = date('Y-m-d', strtotime($rs->user->last_login_at));
                 $heure = date('H:i', strtotime($rs->user->last_login_at));
                 @endphp
-                {{ $date }} à  {{ $heure }}
+                {{ $date }} <br> à  {{ $heure }}
                 @else
               <span style="color:red"> Jamais </span> 
                 @endif

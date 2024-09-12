@@ -44,7 +44,7 @@ Coded by www.creative-tim.com
     @include('layouts.sidebaradmin')
     <!-- End of Sidebar -->
 
-    <div class="main-panel">
+    <div class="main-panel" >
  
 
       <!-- Topbar -->
@@ -52,7 +52,7 @@ Coded by www.creative-tim.com
         <!-- End of Topbar -->
 
 
-        <div class="content">
+        <div class="content" >
 
         @yield('contents')
 

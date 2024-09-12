@@ -2,7 +2,7 @@
 
 
 @section('contents')
-<div class="row">
+<div class="row" >
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">
@@ -234,7 +234,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Top 10 des Cabinets </h4>
+        <h4 class="card-title" style="color: #035874;">Top 10 des Cabinets </h4>
       </div>
       <div class="card-body">
         <ul class="list-unstyled team-members">
@@ -277,7 +277,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">Top 10 des Entreprises</h4>
+        <h4 class="card-title" style="color: #035874;">Top 10 des Entreprises</h4>
       </div>
       <div class="card-body">
         <ul class="list-unstyled team-members">
@@ -319,7 +319,7 @@
   <div class="col-md-4">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">VIP Members</h4>
+        <h4 class="card-title" style="color: #035874;">Candidats VIP </h4>
       </div>
       <div class="card-body">
         <ul class="list-unstyled team-members">

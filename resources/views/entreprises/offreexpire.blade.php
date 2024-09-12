@@ -72,12 +72,18 @@
                       </td>
                         <td class="text-right">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #7ac9e8; text-decoration:none;">Détails</a>
-                        &nbsp;|
-                                <form action="{{ route('offres.duplicate', $rs->id) }}" method="post">
-                @csrf
-                <button type="submit"  style="background-color: #FFF; color:#035874; border:none;">Dupliquer</button>
-            </form>
+                        <button type="button" class="btn btn-primary btn-sm">
+                        <a href="{{ route('offres.show', $rs->id)}}" style="color: #fff; text-decoration:none ">Détails</a>
+
+                        </button>
+
+                        &nbsp;
+                        <form action="{{ route('offres.duplicate', $rs->id) }}" method="post">
+                        <button type="button" class="btn btn-danger btn-sm">
+                      Dupliquer
+                        </button>
+                        </form>
+                       
                             </div>
                         </td>
                       </tr>

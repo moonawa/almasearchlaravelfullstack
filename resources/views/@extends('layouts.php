@@ -384,3 +384,31 @@ MoonAlma19962004
     });
 </script>
 @endsection
+
+
+
+
+<div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Fichiers</h4>
+              </div>
+              <div class="card-body">
+                <form action="{{ route('cabinets.ninea') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <label for="nineacabinet"> NINEA (max 2mo)</label>
+                    <input id="nineacabinet" type="file" class="form-control @error('nineacabinet') is-invalid @enderror" name="nineacabinet"   autocomplete="nineacabinet">
+                  
+                    <label for="rccabinet" class="mt-3">Régistre de Commerce (max 2mo)</label>
+                    <input id="rccabinet" type="file" class="form-control @error('rccabinet') is-invalid @enderror" name="rccabinet"   autocomplete="rccabinet">
+                  
+                    <button type="submit" class="btn  btn-round" style="background-color: #035874;">
+                                    {{ __('Télécharger') }}
+                                </button>
+                  </form>
+              </div>
+            </div>

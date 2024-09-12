@@ -139,6 +139,7 @@
                         <option value="Couverture médicale">Couverture médicale</option>
                         <option value="Primes annuelles">Primes annuelles</option>
                         <option value="Véhicule + carburant">Véhicule + carburant</option>
+                        <option value="Aucun">Aucun</option>
                         <option value="Autres ">Autres </option>
                       </select>
                     </div>

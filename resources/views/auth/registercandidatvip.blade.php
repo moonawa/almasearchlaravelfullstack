@@ -159,7 +159,7 @@
                   </div>
                   <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill mb-0">
-                        <label for="cv">CV</label>
+                        <label for="cv">CV  (max 2mo)</label>
                       <input type="file"  class="form-control" name="cv" id="cv"   autocomplete="cv"/>
                     </div>
                   </div>
@@ -175,7 +175,7 @@
 
               </div>
               <div class="col-md-10 col-lg-6 col-xl-5 mt-4 align-items-center order-2 order-lg-1">
-              <p class="text-center h3 fw-bold " style="color: #325fa6;">Vous êtes à la recherche d'emploi? Inscrivez Vous</p>
+              <p class="text-center h3 fw-bold " style="color: #035874;">Vous êtes à la recherche d'emploi? Inscrivez Vous</p>
 
               <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
 

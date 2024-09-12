@@ -4,9 +4,7 @@
           <div class=" ">
             <img src="{{ asset('admin/img/logo.jpeg') }}" width="100px" >
       
-          @if(auth()->user()->interlocuteurcbt->cabinet->logocbt)
-            <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurcbt->cabinet->logocbt }}" width="50px" style="border-radius: 50%; width: 50px; height:50px;">
-            @endif
+         
         </a>
         </div>
       </div>
@@ -14,16 +12,16 @@
         <ul class="nav">
           <li >
             <a href="{{ route( 'dashboardcabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-bank"></i>
-              <p style="font-weight: bold;">Tableau de bord</p>
+              <i class="nc-icon nc-bank" style=" color: #035874;"></i>
+              <p style="font-weight: bold;  color: #035874;" >Tableau de bord</p>
             </a>
           </li>
           <li>
           @if (auth()->user()->interlocuteurcbt)
             <a href="{{ route('cabinets.intercbt', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
-              <i class="nc-icon nc-diamond"></i>
-              <p style="font-weight: bold;">Profil</p>
+              <i class="nc-icon nc-diamond" style=" color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Profil</p>
             </a>
             @endif
           </li>
@@ -31,27 +29,27 @@
           @if (auth()->user()->interlocuteurcbt)
             <a href="{{ route('cabinets.show', auth()->user()->interlocuteurcbt->id) }}"  style=" line-height: 1rem; ">
            
-              <i class="nc-icon nc-diamond"></i>
-              <p style="font-weight: bold;">Infos Cabinet</p>
+              <i class="nc-icon nc-diamond" style=" color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Infos Cabinet</p>
             </a>
             @endif
           </li>
           <li>
             <a href="{{ route( 'indexintercbt') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-single-02"></i>
-              <p style="font-weight: bold;">Interlocuteurs </p>
+              <i class="nc-icon nc-single-02" style=" color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Interlocuteurs </p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'candidatcabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-circle-10"></i>
-              <p style="font-weight: bold;">Viviers </p>
+              <i class="nc-icon nc-circle-10" style=" color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Viviers </p>
             </a>
           </li>
           <li>
             <a href="{{ route( 'offreencourscabinet') }}"  style=" line-height: 1rem; ">
-              <i class="nc-icon nc-tile-56"></i>
-              <p style="font-weight: bold;">Offres </p>
+              <i class="nc-icon nc-tile-56" style=" color: #035874;"></i>
+              <p style="font-weight: bold; color: #035874;">Offres </p>
             </a>
           </li>
      

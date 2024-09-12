@@ -54,7 +54,7 @@
                       <th class="text-right" style="color:black">
                         VIP
                       </th>
-                      <th class="text-right" style="color:black">Dernière Connexion</th>
+                      <th class="text-right" style="color:black"> Connexion</th>
                     </thead>
                     <tbody>
                     @if($candidats->count() > 0)

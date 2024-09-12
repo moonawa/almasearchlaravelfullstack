@@ -216,6 +216,8 @@ class AdminController extends Controller
             $user->status = !$user->status ;
             $user->save();
         $user->notify(new StatusNotification());
+        Mail::to($user)->send(new WelcomeEmail($user, $password));
+
 
             return back()->with('success', 'Le statut du cabinet a été mis à jour.');
         } else {
