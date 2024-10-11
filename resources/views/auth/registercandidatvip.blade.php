@@ -36,6 +36,10 @@
         </ul>
     </div>
 @endif
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
                 <form class="mx-1 mx-md-4" method="POST"   action="{{ route('registercandidat.save') }}"  class="user" enctype="multipart/form-data">
                 @csrf
                 @if(session('success'))

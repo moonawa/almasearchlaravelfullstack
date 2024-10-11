@@ -113,7 +113,14 @@
                         @else ( $rs->user->avatar)
                         <img class="avatar border-gray" width="75px" src="/avatars/{{ $rs->user->avatar }}">
                         @endif
+
+                        @if (auth()->user()->interlocuteurese->id == $rs->id)
+                        <a href="{{ route('entreprises.inter', auth()->user()->interlocuteurese->id) }}" style=" line-height: 1rem; ">
                         {{ $rs->user->name }}
+                        </a>
+                        @else
+                        {{ $rs->user->name }}
+                        @endif
                         </td>
                       
                         <td>

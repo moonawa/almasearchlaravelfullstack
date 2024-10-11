@@ -6,7 +6,7 @@
   <div class="col-md-4">
     <div class="card card-user">
       <div class="image">
-        <img src="{{ asset('admin/img/bg5.jpg') }}" alt="...">
+        <img src="{{ asset('admin/img/almafond3.jpg') }}" alt="...">
       </div>
       <div class="card-body">
         <div class="author">
@@ -25,7 +25,6 @@
             </div>
             @endif
             <input id="avatar" type="file" class="form-control @error('avatar') is-invalid @enderror" name="avatar" required autocomplete="avatar">
-
 
             <button type="submit" class="btn  btn-round" style="background-color: #035874;">
               {{ __('Photo de Profil') }}

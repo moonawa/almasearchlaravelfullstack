@@ -9,6 +9,8 @@ use App\Models\Interlocuteur;
 use App\Models\Interlocuteurcbt;
 use App\Models\Interlocuteurese;
 use App\Models\User;
+use App\Notifications\InscriptionCabinet;
+use App\Notifications\InscriptionEntreprise;
 use App\Notifications\NotificationMail;
 use App\Notifications\RegisteredNotification;
 use Exception;
@@ -106,9 +108,12 @@ class AuthController extends Controller
 
 
         // envoi mail a l'admin
-        $admin = User::where('role', 'Admin')->first();
+        $admin = User::where('role', 'Admin')->get();
+        foreach ($admin as $ad) {
+            $ad->notify(new InscriptionEntreprise($ese));
+            $ad->notify(new NotificationMail($admin));
+        }
        
-        $admin->notify(new NotificationMail($admin));
            
         return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous serez avertit par mail des que votre compte sera validé .');
    // $details = [
@@ -121,6 +126,18 @@ class AuthController extends Controller
            //     $message->subject('Création de compte');
            // });
        // return redirect()->route('login');
+    }
+    /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public function markAsRead(Request $request, $id)
+    {
+        $notification = auth()->user()->unreadNotifications->find($id);
+        $notification->markAsRead();
+
+        return back()->with('success', 'Marqué comme lu.');
     }
 public function unauthorized(){
     return view('auth.unauthorized');
@@ -138,6 +155,20 @@ public function unauthorized(){
         [
             'birthday.before_or_equal' => 'Vous devez avoir au moins 18 ans pour vous inscrire.',
         ]); 
+         // Vérification si un utilisateur avec cet email ou ce numéro de téléphone existe déjà
+    $userExistant = User::where('email', $request->email)
+    ->orWhere('telephone', $request->telephone)
+    ->first();
+
+if ($userExistant) {
+    // Vérifier si cet utilisateur est déjà associé à un autre cabinet (via la table candidats)
+    $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
+
+    if ($candidatExistant) {
+        return redirect()->back()->withErrors(['error' => 'Vous avez deja été inscrit dans la plateforme (soit par un cabinet soit par vous même).']);
+    }
+}
+else{
         $user = new User();
         $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
@@ -162,8 +193,7 @@ public function unauthorized(){
         $candidat->cv = $cvName;
         $candidat->save();
         return redirect()->route('login')->with('success', 'Votre inscription a été bien enregistré vous pouvez vous connecter sur votre profile .');   
-
-        return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous pouvez vous connecter sur votre profile .');
+    }
 
     }
 
@@ -210,12 +240,18 @@ public function unauthorized(){
                
             ]);
             $intercbt->user->notify(new RegisteredNotification());
-            $admin = User::where('role', 'Admin')->first();
+
+            $admin = User::where('role', 'Admin')->get();
+            foreach ($admin as $ad) {
+                $ad->notify(new InscriptionCabinet($cabinet));
+                $ad->notify(new NotificationMail($ad));
+
+            }
+
             $details = [
                 'title' => 'Nouvelle inscription entreprise',
                 'body' => 'Une nouvelle entreprise s\'est inscrite sur la plateforme.'
             ];
-            $admin->notify(new NotificationMail($admin));
             
             return redirect()->back()->with('success', 'Votre inscription a été bien enregistré vous serez avertit par mail des que votre compte sera validé .');
 

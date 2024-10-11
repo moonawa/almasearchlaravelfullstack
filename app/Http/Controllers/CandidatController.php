@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\CandidatsImport;
 use App\Models\Candidat;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CandidatController extends Controller
 {
@@ -160,6 +162,20 @@ public function generatePDF($id)
         return $pdf->download('cv.pdf');
     }
 
+    public function showImportForm()
+    {
+        return view('admin.listcandidatvip');
+    }
 
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx,csv',
+        ]);
+        $can = Excel::import(new CandidatsImport , $request->file('file'));
+
+   
+        return back()->with('success', 'Candidats importés avec succès.');
+    }
 
 }

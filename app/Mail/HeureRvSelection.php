@@ -15,6 +15,7 @@ class HeureRvSelection extends Mailable
     public $entreprise;
     public $date;
     public $offre;
+    public $lieu;
     /**
      * Create a new message instance.
      */
@@ -23,6 +24,8 @@ class HeureRvSelection extends Mailable
         $this->entreprise = $entreprise;
         $this->date = $date;
         $this->offre = $offre;
+        $this->lieu = $offre->lieu;
+
         
     }
     public function build()
@@ -32,6 +35,7 @@ class HeureRvSelection extends Mailable
                     ->with([
                         'entreprise' => $this->entreprise,
                         'date' => $this->date,
+                        'lieu' => $this->lieu,
                         'offre' => $this->offre    
                     ])
                     ;

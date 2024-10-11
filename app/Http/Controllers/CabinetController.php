@@ -110,6 +110,22 @@ class CabinetController extends Controller
                 'birthday.before_or_equal' => 'Le candidat doit  au moins avoir 18 ans pour etre inscrit.',
          
         ]); 
+        // Vérification si un utilisateur avec cet email ou ce numéro de téléphone existe déjà
+    $userExistant = User::where('email', $request->email)
+    ->orWhere('telephone', $request->telephone)
+    ->first();
+
+if ($userExistant) {
+    // Vérifier si cet utilisateur est déjà associé à un autre cabinet (via la table candidats)
+    $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
+
+    if ($candidatExistant) {
+        return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà enregistré par un autre cabinet.']);
+    }
+}
+else {
+    
+
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet;
@@ -140,6 +156,7 @@ class CabinetController extends Controller
         ]);
   
         return redirect()->route('candidatcabinet');
+    }
     }
 
     public function show(string $id)

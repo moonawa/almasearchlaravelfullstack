@@ -6,6 +6,9 @@
   <div class="col-md-12">
   <div class="card">
   <div class=" p-4" >
+  @if(session('success'))
+        <p style="color: green;">{{ session('success') }}</p>
+    @endif
   <ul class="nav nav-tabs">
   <li class="nav-item">
     <a class="nav-link active" aria-current="page" href="{{ route('admin.listcandidatadmin') }}" style="color: #035874;">Tous les Candidats ({{$candidatscount }})</a>
@@ -16,7 +19,16 @@
   <li class="nav-item">
     <a class="nav-link" href="{{ route('admin.listnonvipadmin') }}" style="color:black;">Candidats Simples ({{$nonvipcount }})</a>
   </li>
- 
+  <li class="nav-item">
+  <form action="{{ route('candidats.import.post') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+    
+            <input type="file" name="file" id="file" required>
+     
+       
+        <button type="submit">Imp</button>
+    </form>
+  </li>
 </ul>
    
 </div>

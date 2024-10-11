@@ -98,38 +98,30 @@ class CompetenceController extends Controller
     {
         if($request->ajax()){
  
-            $data=User::where('name','like','%'.$request->nomcompetence.'%')->get();
+            $data = User::where('name','like','%'.$request->nomcompetence.'%')->get();
             $output='';
             if(count($data)>0){
                 $output ='
-                     <table class="table">
+                    <table class="table">
                     <thead>
                     <tr>
-                       
                         <th scope="col"></th>
-                      
                     </tr>
                     </thead>
                     <tbody>';
                         foreach($data as $row){
                             $output .='
-                         
                            <tr>
-                            
                             <td>'.$row->name.'</td>
-                           
                             </tr>
-                           
-                          
                             ';
                         }
                 $output .= '
-                   
                    </tbody>
                     </table>';
             }
             else{
-                $output .='Pas de résultas';
+                $output .='Pas de Résultas';
             }
             return $output;
         }

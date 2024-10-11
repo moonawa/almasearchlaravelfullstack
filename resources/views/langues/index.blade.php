@@ -153,10 +153,10 @@
                     <label>Niveau de la langue</label>
                     <div class="form-group">
                         <select name="niveaulangue" id="niveaulangue" class="form-control">
-                            <option value="Bon">Bon</option>
-                            <option value="Maitrisé"> Maitrisé</option>
-                            <option value="Moyen">Moyen</option>
-                            <option value="Academique"> Academique</option>
+                            <option value="Débutant">Débutant</option>
+                            <option value="Intermédiaire"> Intermédiaire</option>
+                            <option value="Courant">Courant</option>
+                            <option value="Avancé"> Avancé</option>
                         </select>
                     </div>
       </div>
@@ -228,10 +228,10 @@
                               <div class="form-group">
                                 <select name="niveaulangue" class="form-control" value="{{ $rs->niveaulangue }}">
                                   <option value="{{ $rs->niveaulangue }}">{{ $rs->niveaulangue }}</option>
-                                  <option value="Bon">Bon</option>
-                                  <option value="Maitrisé">Maitrisé</option>
-                                  <option value="Moyen">Moyen</option>
-                                  <option value="Académique">Académique</option>
+                                  <option value="Débutant">Débutant</option>
+                                  <option value="Intermédiaire">Intermédiaire</option>
+                                  <option value="Courant">Courant</option>
+                                  <option value="Avancé">Avancé</option>
                    
                                 </select>
                               </div>

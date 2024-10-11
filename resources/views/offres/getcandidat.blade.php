@@ -66,7 +66,7 @@
           @if ($offre->statuscabinet)
 <p>Vous avez fait appel aux cabinets</p>
 @else
-<p>Si vous faites appel aux cabinets vous ne pourrez pas pas sélectionner de candidats pour cette offre</p>
+<p>Si vous faites appel aux cabinets vous ne pourrez plus  sélectionner de candidats pour cette offre</p>
           @endif
        
           
@@ -119,11 +119,9 @@
                 CV 
               </th>
               <th style="color:black">
-                Rendez-vous
+               Date et Adresse du RV 
               </th>
-              <th style="color:black">
-              Adresse du RV 
-              </th>
+            
               <th style="color:black">
               Processus
               </th>
@@ -149,22 +147,84 @@
 
                 </td>
                 <td>
-                <form class="dateForm" method="post" action="{{ route('updateDateprop', $prop->id) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <input type="datetime-local" class="form-control datePicker" name="heureproposition" value="{{ $prop->heureproposition }}">
-                    </div>
-                  </form>
-                </td>
-                <td>
-                <form class="lieuForm" method="post" action="{{ route('updateLieuprop', $prop->id) }}">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <input type="text"  class="form-control datePicker" name="lieuproposition" value="{{ $prop->lieuproposition }}">
-                    </div>
-                  </form>
+                @if($prop->heureproposition && $prop->lieuproposition)
+                {{ $prop->heureproposition }} à {{ $prop->lieuproposition }}
+           <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModall{{$prop->id}}">
+ Modifier
+</button>
+<div class="modal fade" id="exampleModall{{$prop->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModall{{$prop->id}}Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModall{{$prop->id}}Label">Modifier le rendez-vous </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form class="lieuForm" method="post" action="{{ route('updatePropRvLieu', $prop->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                  <label for="">Date et Heure</label>
+                <input type="datetime-local" class="form-control  " required name="heureproposition" value="{{ $prop->heureproposition }}">
+                </div>
+                <div class="form-group">
+                  <label for="">Lieu ou Lien(meet, teams, zoom ...) </label>
+                  <input type="text" class="form-control  " required name="lieuproposition" value="{{ $prop->lieuproposition }}" >
+                  </div>
+
+             
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary"> Enregistrer</button>
+      </div>
+      </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+@else
+            <!-- Button trigger modal -->
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong{{$prop->id}}">
+  Ajouter une date et un lieu
+</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong{{$prop->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLong{{$prop->id}}Title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLong{{$prop->id}}Title">  Ajouter une date et un lieu </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form class="lieuForm" method="post" action="{{ route('updatePropRvLieu', $prop->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                  <label for="">Date et Heure</label>
+                <input type="datetime-local" class="form-control  " required name="heureproposition">
+                </div>
+                <div class="form-group">
+                  <label for="">Lieu ou Lien(meet, teams, zoom ...)</label>
+                  <input type="text" class="form-control  " required name="lieuproposition"  >
+                  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary"> Enregistrer</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+@endif
+                
+                 
                 </td>
                 <td>
                 <form class="statusForm" method="post" action="{{ route('updateRecruteprop', ['id' => $prop->id]) }}">

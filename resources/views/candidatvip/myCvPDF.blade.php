@@ -6,10 +6,11 @@
 
 
   <title>
-    Paper Dashboard 2 by Creative Tim
+  Alma Search
   </title>
   <!--     Fonts and icons     -->
   <!-- CSS Files -->
+  <link rel="icon" type="image/png" href="{{ asset('admin/img/logoicon.png') }}" sizes="50x50">
     <link href="{{ public_path('admin/css/bootstrap.min.css') }}" rel="stylesheet"  type="text/css">
     <link href="{{ public_path('admin/css/paper-dashboard.css?v=2.0.1') }}" rel="stylesheet"  type="text/css">
     <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -36,7 +37,7 @@
           <img class="avatar border-gray" src=" {{ public_path('admin/img/default-avatar.png') }}" alt="...">
 
           @else ( $can->user->avatar)
-          <img class="avatar border-gray" src=" /avatars/{{$can->user->avatar}}">
+          <img  src="{{ storage_path('app/avatars/WCVBvlXw1CtCXpOQAMm2yeYD7Dr9hqlv9hI6l4Wj.jpg')}}" style="width: 200px; height: 200px">
           @endif
 
           

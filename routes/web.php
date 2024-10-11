@@ -47,6 +47,7 @@ Artisan::call('storage:link');
 Route::get('/', function () {
     return view('moonawahome');
 });
+Route::get('/notifications/{id}/mark-as-read', [AuthController::class, 'markAsRead'])->name('notifications.mark.as.read');
 
 Route::get('pass', function () {
     return view('layouts.password');
@@ -76,6 +77,12 @@ Route::get('dashboardSuperadmin', [AuthController::class, 'dashboardSuperadmin']
 
 //admin
 Route::group(['middleware' => ['role:Admin']], function () {
+
+Route::get('candidats/import', [CandidatController::class, 'showImportForm'])->name('candidats.import');
+Route::post('candidats/import', [CandidatController::class, 'import'])->name('candidats.import.post');
+
+
+
 Route::get('registeradmin', [AuthController::class, 'registeradmin'])->name('registeradmin');
 Route::post('registeradmin', [AuthController::class, 'registerSaveadmin'])->name('registeradmin.save'); 
 Route::get('dashboardadmin', [AuthController::class, 'dashboardadmin'])->name('dashboardadmin');
@@ -120,6 +127,8 @@ Route::group(['middleware' => ['role:Entreprise']], function () {
     Route::put('updateprop-lieu/{id}', [OffreController::class, 'updatepropositionlieu'])->name('updateLieuprop');
     Route::put('updateprop-date/{id}', [OffreController::class, 'updateproposition'])->name('updateDateprop');
     Route::get('candidats/{id}',[OffreController::class, 'search'])->name('search');
+    Route::put('updatePropositionRvLieu/{id}', [OffreController::class, 'updatePropositionRvLieu'])->name('updatePropRvLieu');
+    Route::put('rv-lieu/{id}', [OffreController::class, 'updateCandidatureRendezvousLieu'])->name('updateRvLieu');
     Route::put('update-date/{id}', [OffreController::class, 'updatecandidature'])->name('updateDate');
     Route::put('update-lieu/{id}', [OffreController::class, 'updatecandidaturelieu'])->name('updateLieu');
     Route::put('update-recrute/{id}', [OffreController::class, 'updatecandidaturecrute'])->name('updateRecrute');
@@ -252,7 +261,7 @@ Route::group(['middleware' => ['role:CandidatVIP']], function () {
 
     });
 });
-Route::get("search",[CompetenceController::class,'search'])->name('search');
+Route::get("search",[CompetenceController::class,'search'])->name('competences.search');
 Route::get("suggestions",[CompetenceController::class,'suggestions'])->name('suggestions');
 
 //cabinet

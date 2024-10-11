@@ -9,6 +9,16 @@
       <input class="form-control mr-sm-2" type="search" placeholder="Recherche par fonction" aria-label="Search" value="{{ request('search') }}" id="search" name="search">
       <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" style="border: none;"><i class="nc-icon nc-zoom-split"></i></button>
     </form>
+    @if(session('success'))
+                  <div class="alert alert-success">
+                      {{ session('success') }}
+                  </div>
+              @endif
+              @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
    <div class=" p-4">
    <ul class="nav nav-tabs">
   <li class="nav-item">

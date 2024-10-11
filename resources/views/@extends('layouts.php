@@ -412,3 +412,44 @@ MoonAlma19962004
                   </form>
               </div>
             </div>
+
+
+
+
+            <form class="dateForm" method="post" action="{{ route('updateDateprop', $prop->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <input type="datetime-local" class="form-control datePicker" name="heureproposition" value="{{ $prop->heureproposition }}">
+                    </div>
+                  </form>
+                </td>
+                <td>
+                <form class="lieuForm" method="post" action="{{ route('updateLieuprop', $prop->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <input type="text"  class="form-control datePicker" name="lieuproposition" value="{{ $prop->lieuproposition }}">
+                    </div>
+                  </form>
+                </td>
+                <td>
+                <form class="statusForm" method="post" action="{{ route('updateRecruteprop', ['id' => $prop->id]) }}">
+                          @csrf
+
+                          @method('PUT')
+                          @if($prop->reponseseproposition == "Recruté")
+                          <p style="color:green;">Recruté</p>
+                          @elseif($prop->reponseseproposition == "Refusé")
+                          <p style="color:red;">Refusé</p>
+                          @else
+                          <div class="form-group ">
+                  <select name="reponseseproposition" class="status-checkbox form-control" id="status-select" data-offre-id="{{ $prop->id }}">
+                    <option id="flexSwitchCheck{{$prop->id}}" value="{{ $prop->reponseseproposition}}" {{ $prop->reponseseproposition == "En Cours"  ? 'selected' : '' }}>En cours</option>
+                    <option id="flexSwitchCheck{{$prop->id}}" value="Recruté" {{ $prop->reponseseproposition == "Recruté"  ? 'selected' : '' }}>Recruté</option>
+                    <option id="flexSwitchCheck{{$prop->id}}" value="Refusé" {{ $prop->reponseseproposition == "Refusé"  ? 'selected' : '' }}>Refusé</option>
+                  </select>
+                </div>
+                         
+                          @endif
+                          </form>

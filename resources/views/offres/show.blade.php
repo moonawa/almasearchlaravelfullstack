@@ -65,7 +65,7 @@
           @if ($offre->statuscabinet)
           <p>Vous avez fait appel aux cabinets, </p>
           @else
-          <p>Si vous faites appel aux cabinets vous ne pourrez pas pas sélectionner de candidats pour cette offre .</p>
+          <p>Si vous faites appel aux cabinets vous ne pourrez plus sélectionner de candidats pour cette offre .</p>
           @endif
 
 
@@ -127,12 +127,11 @@
           <th style="color:black">
             CV
           </th>
+         
           <th style="color:black">
-            Date du RV
+            Date et Adresse du RV
           </th>
-          <th style="color:black">
-            Adresse du RV
-          </th>
+        
           <th style="color:black">
             Processus
           </th>
@@ -158,31 +157,89 @@
 
               <a href="/uploads/{{ $candidature->candidat->cv }}"><i class="fa fa-eye" style="color: #035874;"></i></a>
             </td>
+        
             <td>
-              <form class="dateForm" method="post" action="{{ route('updateDate', $candidature->id) }}">
+            @if($candidature->heurecandidature && $candidature->lieu)
+            {{ $candidature->heurecandidature }} à {{ $candidature->lieu }}
+           <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModall{{$candidature->id}}">
+ Modifier
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModall{{$candidature->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModall{{$candidature->id}}Label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModall{{$candidature->id}}Label">Modifier le rendez-vous </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form class="lieuForm" method="post" action="{{ route('updateRvLieu', $candidature->id) }}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <input type="datetime-local" class="form-control datePicker " name="heurecandidature" value="{{ $candidature->heurecandidature }}">
+                  <label for="">Date et Heure</label>
+                <input type="datetime-local" class="form-control  " required name="heurecandidature" value="{{ $candidature->heurecandidature }}">
                 </div>
-                 <div class="spinner-border" role="status" id="loadingSpinner" style="display: none;">
-        <span class="sr-only">Loading...</span>
+                <div class="form-group">
+                  <label for="">Lieu ou Lien(meet, teams, zoom ...) </label>
+                  <input type="text" class="form-control  " required name="lieu" value="{{ $candidature->lieu }}" >
+                  </div>
+
+             
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary"> Enregistrer</button>
+      </div>
+      </form>
+      </div>
+      
     </div>
-              </form>
-            </td>
-            <td>
-              <form class="lieuForm" method="post" action="{{ route('updateLieu', $candidature->id) }}">
+  </div>
+</div>
+     
+            @else
+            <!-- Button trigger modal -->
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalLong">
+  Ajouter une date et un lieu
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">  Ajouter une date et un lieu </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <form class="lieuForm" method="post" action="{{ route('updateRvLieu', $candidature->id) }}">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <input type="text" class="form-control datePicker " name="lieu" value="{{ $candidature->lieu }}" >
-                
-                <div class="spinner-border" role="status" id="loadingSpinner" style="display: none;">
-        <span class="sr-only">Loading...</span>
+                  <label for="">Date et Heure</label>
+                <input type="datetime-local" class="form-control  " required name="heurecandidature" value="{{ $candidature->heurecandidature }}">
+                </div>
+                <div class="form-group">
+                  <label for="">Lieu ou Lien(meet, teams, zoom ...)</label>
+                  <input type="text" class="form-control  " required name="lieu" value="{{ $candidature->lieu }}" >
+                  </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="submit" class="btn btn-primary"> Enregistrer</button>
+      </div>
+      </form>
     </div>
-    </div>
-              </form>
-            </td>
+  </div>
+</div>
+@endif
+</td>
             <td>
               <form class="statusForm" method="post" action="{{ route('updateRecrute', ['id' => $candidature->id]) }}">
                 @csrf

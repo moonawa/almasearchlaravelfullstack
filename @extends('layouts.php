@@ -300,3 +300,15 @@ document.addEventListener('DOMContentLoaded', function() {
  @if(auth()->user()->interlocuteurese->entreprise->logo)
             <img class="avatar" src="/uploads/{{ auth()->user()->interlocuteurese->entreprise->logo }}"  style="border-radius: 50%; width: 50px; height:50px;" >
             @endif
+
+
+            @if(auth()->user()->role == 'Admin')
+                  @foreach(auth()->user()->unreadNotifications as $notification)
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <span><i class="fa fa-circle-check"></i>  [{{ $notification->created_at }}] {{ $notification->data['message'] }}</span>
+                            <a href="{{ route('notifications.mark.as.read', $notification->id) }}" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true"><strong><i class="fa fa-book-open"></i> Marqué comme lu </strong></span>
+                            </a>
+                        </div>
+                    @endforeach
+                    @endif

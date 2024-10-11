@@ -17,9 +17,18 @@ use App\Models\Offre;
 use App\Models\Proposition;
 use App\Models\User;
 use App\Notifications\AdminCandidatureNotification;
+use App\Notifications\AppelCabinet as NotificationsAppelCabinet;
 use App\Notifications\AppelCandidatureNotification;
+use App\Notifications\AppelEntrepriseCabinet;
+use App\Notifications\PropositionCabinet;
+use App\Notifications\PropositionCabinetAdmin;
 use App\Notifications\PropositionCandidatureNotification;
 use App\Notifications\RecruteCandidatureNotification;
+use App\Notifications\RendezVousAdmin;
+use App\Notifications\RendezVousCandidat;
+use App\Notifications\ReponseEseVip;
+use App\Notifications\ReponseEseVipAdmin;
+use App\Notifications\RvPropositionCabinet;
 use App\Notifications\SelectionCandidatureNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -132,7 +141,7 @@ class OffreController extends Controller
     /**
      * Display the specified resource.
     */
-    // afficher un offre pour une entreprise et selectionner des candidats
+    // afficher un offre  et selectionner des candidats pour une entreprise
     public function show(string $id)
     {
         $auth = Auth::user(); // Récupérer l'interlocuteur connecté
@@ -202,7 +211,19 @@ public function propositionstoreshow(Request $request)
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet;
-
+        
+        $userExistant = User::where('email', $request->email)
+        ->orWhere('telephone', $request->telephone)
+        ->first();
+        if ($userExistant) {
+            // Vérifier si cet utilisateur est déjà associé à un autre cabinet (via la table candidats)
+            $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
+        
+            if ($candidatExistant) {
+                return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà enregistré par un autre cabinet.']);
+            }
+        }
+        else {
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -242,17 +263,22 @@ public function propositionstoreshow(Request $request)
     $inter = $proposition->offre->entreprise->interlocuteureses->all();
     $cabinet = $proposition->candidat->cabinet;
     $offre = $proposition->offre;
+    $entreprise = $proposition->offre->entreprise;
+
     foreach ($inter as $in){
+        $in->user->notify(new PropositionCabinet($proposition, $offre, $cabinet, $entreprise));
+
         Mail::to($in->user)->send(new PropositionMail($cabinet, $offre));
     }
-   
-
     $admin = User::where('role', 'Admin')->all();
     foreach ($admin as $ad){
+        $ad->notify(new PropositionCabinetAdmin($proposition, $offre, $cabinet));
+
         Mail::to($ad)->send(new PropositionMail($cabinet, $offre));
     }
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
+}
 }
 //ajout dans la table proposition depuis la page show de l'offre pour le cabinet
 public function propositionstore(Request $request)
@@ -284,18 +310,60 @@ public function propositionstore(Request $request)
     $inter = $proposition->offre->entreprise->interlocuteureses->all();
     $cabinet = $proposition->candidat->cabinet;
     $offre = $proposition->offre;
+    $entreprise = $proposition->offre->entreprise;
     foreach ($inter as $in){
+        $in->user->notify(new PropositionCabinet($proposition, $offre, $cabinet));
         Mail::to($in->user)->send(new PropositionMail($cabinet, $offre));
+
     }
    
 
-    $admin = User::where('role', 'Admin')->all();
+    $admin = User::where('role', 'Admin')->get();
     foreach ($admin as $ad){
+        $ad->notify(new PropositionCabinetAdmin($proposition, $offre, $cabinet, $entreprise));
+
         Mail::to($ad)->send(new PropositionMail($cabinet, $offre));
     }
 
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
+}
+public function updateCandidatureRendezvousLieu(Request $request, $id)
+{
+    $request->validate([
+        'heurecandidature' => 'nullable|date|after:tomorrow',
+    ], [
+        'heurecandidature.after' => 'La date du rendez-vous doit être postérieure à la date d\'aujourd\'hui.',
+    ]);
+    $user = Auth::user();
+    $inter = Interlocuteurese::where('user_id', $user->id)->first();
+    $entreprise = $inter->entreprise;
+    
+    $candidature = Candidature::findOrFail($id);
+    $candidature->heurecandidature = $request->input('heurecandidature');
+    $candidature->lieu = $request->input('lieu');
+    $candidature->confirmerv = 0;
+    $candidature->commentaireviprv = null;
+    $candidature->commentaireese = null;
+    $candidature->reponese = "En Cours";
+    $candidature->save();
+    
+    $date= $candidature->heurecandidature;
+    $lieu= $candidature->lieu;
+    $offre = $candidature->offre;
+    $candidat = $candidature->candidat;
+    $candidat->user->notify(new RendezVousCandidat($candidature, $offre, $date, $lieu));
+
+    Mail::to($candidature->candidat->user)->send(new HeureRvSelection($entreprise, $offre, $date, $lieu));
+
+    $admin = User::where('role', 'Admin')->get();
+    foreach ($admin as $ad){
+    $ad->notify(new RendezVousAdmin($candidature, $entreprise, $offre, $date, $lieu));
+    Mail::to($ad)->send(new HeureRvSelectionAdmin($entreprise, $offre, $date, $candidat));
+
+}
+
+    return redirect()->back()->with('success', 'La date et le lieu de rendez-vous ont été modifiées avec succès');    
 }
 //ajout ou modifier une date de rendez-vous pour la candidature : entreprise
 public function updatecandidature(Request $request, $id)
@@ -341,6 +409,34 @@ public function updatecandidaturelieu(Request $request, $id)
     
     return redirect()->back()->with('success', 'le status a été modifié avec succes');
     //return response()->json(['message' => ' le rendez-vous a été fixé avec succès']);
+
+}
+public function updatepropositionRvLieu(Request $request, $id){
+    $request->validate([
+        'heureproposition' => 'nullable|date|after:tomorrow',
+    ], [
+        'heureproposition.after' => 'La date du rendez-vous doit être postérieure à la date d\'aujourd\'hui.',
+    ]);
+    $proposition = Proposition::findOrFail($id);
+    $proposition->heureproposition = $request->input('heureproposition');
+    $proposition->lieuproposition = $request->input('lieuproposition');
+    $proposition->save();
+    $offre = $proposition->offre;
+    $entreprise = $proposition->offre->entreprise;
+    $inter = $proposition->candidat->cabinet->interlocuteurcbts->all();
+    foreach ($inter as $i){
+        $i->user->notify(new RvPropositionCabinet($proposition, $entreprise, $offre));
+        $i->user->notify(new SelectionCandidatureNotification($i->user));
+
+    }
+    $admin = User::where('role', 'Admin')->get();
+    foreach ($admin as $ad){
+        $ad->notify(new RvPropositionCabinet($proposition, $entreprise, $offre));
+        $ad->notify(new AdminCandidatureNotification($ad));
+    
+    }
+    
+    return redirect()->back()->with('success', 'le rendez-vous  a été calé avec succes');
 
 }
 //ajout ou modifier une date de rendez-vous pour la proposition  :entreprise
@@ -399,45 +495,54 @@ public function search(Request $request, $id)
     $formation = $request->input('formations');
 
     // Construire la requête de recherche avec les jointures nécessaires
-    $query = Candidat::with(['latestFormation','competences', 'langues', 'formations', 'experiences'])
+   
+
+    $query = Candidat::with(['latestFormation', 'competences', 'langues', 'formations', 'experiences'])
     ->where('cabinet_id', null)
-        ->when($disponibilite, function ($query, $disponibilite) {
-            return $query->where('disponibilite' , 'like', '%' .$disponibilite . '%');
-        })
-        ->when($fonction, function ($query, $fonction) {
-            return $query->where('fonction', 'like', '%' .$fonction . '%');
-        })
-        ->when($genre, function ($query, $genre) {
-            return $query->where('genre', $genre);
-        })
-        ->when($competence, function ($query, $competence) {
-            return $query->whereHas('competences', function ($subQuery) use ($competence) {
-                $subQuery->where('nomcompetence', 'like', '%' . $competence . '%');
-            });
-        })
-        ->when($mot_cle, function ($query, $mot_cle) {
-            return $query->whereHas('mot_cles', function ($subQuery) use ($mot_cle) {
-                $subQuery->where('mot', 'like', '%' . $mot_cle . '%');
-            });
-        })
-        ->when($langue, function ($query, $langue) {
-            return $query->whereHas('langues', function ($subQuery) use ($langue) {
-                $subQuery->where('nomlangue', 'like', '%' . $langue . '%');
-            });
-        })
-      
-        ->when($formation, function ($query, $formation) {
-            return $query->whereHas('formations', function ($subQuery) use ($formation) {
-                $subQuery->where('niveauformation', 'like', '%' . $formation . '%');
-            });
+    ->when($disponibilite, function ($query, $disponibilite) {
+        return $query->where('disponibilite', 'like', '%' . $disponibilite . '%');
+    })
+    ->when($fonction, function ($query, $fonction) {
+        return $query->where('fonction', 'like', '%' . $fonction . '%');
+    })
+    ->when($genre, function ($query, $genre) {
+        return $query->where('genre', $genre);
+    })
+    ->when($competence, function ($query, $competence) {
+        return $query->whereHas('competences', function ($subQuery) use ($competence) {
+            $subQuery->where('nomcompetence', 'like', '%' . $competence . '%');
         });
-    
+    })
+    ->when($mot_cle, function ($query, $mot_cle) {
+        return $query->whereHas('mot_cles', function ($subQuery) use ($mot_cle) {
+            $subQuery->where('mot', 'like', '%' . $mot_cle . '%');
+        });
+    })
+    ->when($langue, function ($query, $langue) {
+                      
+
+        return $query->whereHas('langues', function ($subQuery) use ($langue) {
+            $subQuery->where('nomlangue', 'like', '%' . $langue . '%');
+        });
+    })
+    ->when($formation, function ($query, $formation) {
+        return $query->whereHas('formations', function ($subQuery) use ($formation) {
+            $subQuery->where('niveauformation', 'like', '%' . $formation . '%');
+        });
+    });
+
     $candidats = $query->latest()->paginate(10);
+    
+    
+    // Vérifier les données retournées pour le débogage
+    
+    
+   
     $candidaturescount = Candidature::with('candidat.user')->where('offre_id', $offre->id)->count();
     $propositionscount = Proposition::with('candidat.cabinet')->where('offre_id', $offre->id)->count();
     $candidatrecrutecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Recruté")->count();
     $candidatrefusecount = Candidature::with('offre.entreprise.user')->where('offre_id', $offre->id)->where('reponese', "Refusé")->count();
-    
+  
     //return $candidats;
     //return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
 
@@ -471,8 +576,18 @@ public function search(Request $request, $id)
      $candidature->commentaireviprv = null;
      $candidature->save();
 
+     $offre = $candidature->offre;
+     $ese = $candidature->offre->entreprise;
+     $candidat = $candidature->candidat;
+     $reponese = $candidature->reponse;
+     $candidat->user->notify(new ReponseEseVip($candidature, $offre, $reponese, $ese));
+
      $candidature->candidat->user->notify(new RecruteCandidatureNotification($candidature->candidat->user));
      $admin = User::where('role', 'Admin')->get();
+     foreach ($admin as $ad){
+        $ad->notify(new ReponseEseVipAdmin($candidature, $offre, $reponese, $ese));
+
+     }
      $admin->notify(new AdminCandidatureNotification($admin));
      return redirect()->back()->with('success', 'le status a été modifié avec succes');
      
@@ -819,7 +934,7 @@ $encourscount = Candidature::with('offre.entreprise.user')
   
         $candidature->delete();
   
-        return redirect()->route('$candidature')->with('success', 'Le candi$candidature a été supprimé');
+        return redirect()->route('$candidature')->with('success', 'Le candidat  a été supprimé');
     }
     
     public function updateStatus(Request $request, $id)
@@ -843,13 +958,21 @@ $encourscount = Candidature::with('offre.entreprise.user')
         $offre->save();
 
         $cabinets = Cabinet::all();
-        foreach ($cabinets as $cabinet) {
-            $interlocuteur = $cabinet->interlocuteurcbts->first();
-            Mail::to($interlocuteur->user)->send(new AppelCabinet($entreprise, $offre));
-
+        foreach ($cabinets as $cabinet) { // Itère sur chaque cabinet
+            foreach ($cabinet->interlocuteurcbts as $in) { // Itère sur chaque interlocuteur du cabinet
+                // Envoyer la notification à l'interlocuteur
+                $in->user->notify(new AppelEntrepriseCabinet($offre, $entreprise));
+        
+                // Envoyer un mail à l'interlocuteur
+                Mail::to($in->user)->send(new AppelCabinet($entreprise, $offre));
+            }
         }
         $admin = User::where('role', 'Admin')->get();
-        Mail::to($admin)->send(new AppelCabinet($entreprise, $offre));
+        foreach ($admin as $ad){
+            $ad->notify(new AppelEntrepriseCabinet($offre, $entreprise,));
+            Mail::to($admin)->send(new AppelCabinet($entreprise, $offre));
+
+        }
 
         return redirect()->back()->with('success', 'les cabinets ont recu lappel ');
         //$interlocuteur->user->notify(new AppelCandidatureNotification($interlocuteur->user));
