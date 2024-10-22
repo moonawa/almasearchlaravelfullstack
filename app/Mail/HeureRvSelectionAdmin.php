@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class HeureRvSelectionAdmin extends Mailable
+class HeureRvSelectionAdmin extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $entreprise;
@@ -28,6 +28,7 @@ class HeureRvSelectionAdmin extends Mailable
     }
     public function build()
     {
+        sleep(2);
         return $this->subject('Date fixée pour un rendez-vous')
                     ->view('email.heurervselectionadmin')
                     ->with([

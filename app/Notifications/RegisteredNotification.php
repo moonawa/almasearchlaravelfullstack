@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RegisteredNotification extends Notification
+class RegisteredNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -34,7 +34,7 @@ class RegisteredNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-
+sleep(2);
         return (new MailMessage)
         ->subject('Inscription ')
         ->greeting(__('Bonjour!'))

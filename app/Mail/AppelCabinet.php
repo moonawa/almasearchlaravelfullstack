@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class AppelCabinet extends Mailable
+class AppelCabinet extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $entreprise;
@@ -24,6 +24,7 @@ class AppelCabinet extends Mailable
     }
     public function build()
     {
+        sleep(2);
         return $this->subject('Appel aux Cabinets')
                     ->view('email.appelcabinet')
                     ->with([

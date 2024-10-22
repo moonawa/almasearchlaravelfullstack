@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PropositionMail extends Mailable
+class PropositionMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -26,6 +26,7 @@ class PropositionMail extends Mailable
     }
     public function build()
     {
+        sleep(2);
         return $this->subject('Proposition d\'un candidat à l\' offre: '.$this->offre->nomposte)
                     ->view('email.propositionmail')
                     ->with([

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeEmail extends Mailable
+class WelcomeEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
     public $user;
@@ -24,6 +24,7 @@ class WelcomeEmail extends Mailable
     }
     public function build()
     {
+        sleep(2);
         return $this->subject('Bienvenue dans notre plateforme')
                     ->view('email.activationcompte')
                     ->with([

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppelCandidatureNotification extends Notification
+class AppelCandidatureNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -34,6 +34,7 @@ class AppelCandidatureNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        sleep(2);
         return (new MailMessage)
         ->subject('Appel aux Cabinets')
         ->greeting(__('Bonjour!'))

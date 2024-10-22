@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppelEntrepriseCabinet extends Notification
+class AppelEntrepriseCabinet extends Notification 
 {
     use Queueable;
     public $offre;
