@@ -72,13 +72,17 @@ class User extends Authenticatable
     }
     // Ajoutez ces méthodes au modèle User
     public function getFirstNameAttribute()
-    {
-        return explode(' ', $this->name)[0];
-    }
+{
+    // Récupère tous les mots sauf le dernier pour former le prénom complet
+    $parts = explode(' ', $this->name);
+    array_pop($parts); // Supprime le dernier élément (nom de famille)
+    return implode(' ', $parts); // Joint les prénoms en une chaîne
+}
 
-    public function getLastNameAttribute()
-    {
-        $nameParts = explode(' ', $this->name);
-        return isset($nameParts[1]) ? $nameParts[1] : '';
-    }
+public function getLastNameAttribute()
+{
+    // Récupère le dernier mot pour le nom de famille
+    $parts = explode(' ', $this->name);
+    return end($parts);
+}
 }

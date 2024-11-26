@@ -91,4 +91,16 @@ class LangueController extends Controller
   
         return redirect()->route('langues')->with('success', 'langue supprimé ');
     }
+    public function csmcandidat()
+    {
+        return view('layouts.candidat');
+    }
+    public function csmcabinet()
+    {
+        return view('layouts.cabinet');
+    }
+    public function csmentreprise()
+    {
+        return view('layouts.entreprise');
+    }
 }

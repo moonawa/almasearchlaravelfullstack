@@ -64,6 +64,12 @@
               <strong  style="color: #035874;">Offres </strong>
             </a>
           </li>
+          <li>
+            <a href="{{ route( 'events') }}" style="line-height: 1rem; ">
+              <i class="nc-icon nc-calendar-60" style="color: #035874;"></i>
+              <strong  style="color: #035874;">Evennements </strong>
+            </a>
+          </li>
         </ul>
       </div>
     </div>

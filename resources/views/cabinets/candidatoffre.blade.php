@@ -85,6 +85,15 @@
                       {{ session('success') }}
                   </div>
               @endif 
+              @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
       <div class="col-md-3">
         <button class="btn btn-round" style="background-color: #035874;" data-toggle="modal" data-target="#exampleModalr">Ajouter</button>
 

@@ -30,6 +30,13 @@ class AuthController extends Controller
      }
     public function registerSaveadmin(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
+        ], [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
+        ]);
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -69,6 +76,13 @@ class AuthController extends Controller
     }
     public function registerSave(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
+        ], [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
+        ]);
         $user = new User();
         $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
@@ -149,26 +163,32 @@ public function unauthorized(){
     }
     public function registerSavecandidatvip(Request $request)
     {
+       
         $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
             'birthday' => 'required|date|before_or_equal:' . \Carbon\Carbon::now()->subYears(18)->format('Y-m-d'),
         ],
         [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
             'birthday.before_or_equal' => 'Vous devez avoir au moins 18 ans pour vous inscrire.',
         ]); 
+        
          // Vérification si un utilisateur avec cet email ou ce numéro de téléphone existe déjà
-    $userExistant = User::where('email', $request->email)
-    ->orWhere('telephone', $request->telephone)
-    ->first();
+    //$userExistant = User::where('email', $request->email)
+    //->orWhere('telephone', $request->telephone)
+    //->first();
 
-if ($userExistant) {
+//if ($userExistant) {
     // Vérifier si cet utilisateur est déjà associé à un autre cabinet (via la table candidats)
-    $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
+   // $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
 
-    if ($candidatExistant) {
-        return redirect()->back()->withErrors(['error' => 'Vous avez deja été inscrit dans la plateforme (soit par un cabinet soit par vous même).']);
-    }
-}
-else{
+   // if ($candidatExistant) {
+      //  return redirect()->back()->withErrors(['error' => 'Vous avez deja été inscrit dans la plateforme (soit par un cabinet soit par vous même).']);
+   // }
+//}
+//else{
         $user = new User();
         $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;
@@ -193,7 +213,7 @@ else{
         $candidat->cv = $cvName;
         $candidat->save();
         return redirect()->route('login')->with('success', 'Votre inscription a été bien enregistré vous pouvez vous connecter sur votre profile .');   
-    }
+   // }
 
     }
 
@@ -204,7 +224,13 @@ else{
     }
     public function registerSavecabinet(Request $request)
     {
-        
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
+        ], [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
+        ]);
             $user = User::create([
                 'name' => $request->first_name . ' ' . $request->last_name,
                 'email' => $request->email,

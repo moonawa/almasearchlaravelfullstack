@@ -5,7 +5,15 @@
 <div class="row">
   <div class="col-md-12">
   <div class="card">
-  
+  @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
            
               <div class="card-header">
               <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent" style="border:none">

@@ -3,32 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<style>
-    .divider:after,
-.divider:before {
-content: "";
-flex: 1;
-height: 1px;
-background: #eee;
-}
-.h-custom {
-height: calc(100% - 73px);
-}
-@media (max-width: 450px) {
-.h-custom {
-height: 100%;
-}
+    <title>Alma Search</title>
+    <link rel="icon" type="image/png" href="{{ asset('admin/img/logoicon.png') }}" sizes="50x50">
 
-}
-.toggle-password {
-    cursor: pointer;
-    margin-left: 10px;
-    color: blue;
-    text-decoration: underline;
-  }
-</style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+    .divider:after,
+    .divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+    }
+    .h-custom {
+    height: calc(100% - 73px);
+    }
+    @media (max-width: 450px) {
+    .h-custom {
+    height: 100%;
+    }
+
+    }
+    .toggle-password {
+      cursor: pointer;
+      margin-left: 10px;
+      color: blue;
+      text-decoration: underline;
+    }
+    </style>
 </head>
 <body>
 <section class="vh-100">
@@ -36,7 +38,7 @@ height: 100%;
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
        
-          <img src="{{ asset('admin/img/loginmoonawalogin.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
+          <img src="{{ asset('admin/img/photo4presentation.jpg') }}" alt="login"  class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form  action="{{ route('login.action') }}" method="POST" class="user">
@@ -51,7 +53,7 @@ height: 100%;
                       </div>
                     @endif
           <div class="d-flex flex-row align-items-center justify-content-center">
-            <p class="">Se connecter </p>
+            <p class="">Se Connecter </p>
             
           </div>
         
@@ -94,7 +96,7 @@ height: 100%;
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" class="btn  btn-round" style="background-color: #035874; color:white;"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Se connecter</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Vous n'avez pas de compte? <a href="#services "
+            <p class="small fw-bold mt-2 pt-1 mb-0">Vous n'avez pas de compte? <a href="https://alma-search.com/#services"
                 class="link-danger">S' inscrire</a></p>
           </div>
 

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Alma Search</title>
+    <link rel="icon" type="image/png" href="{{ asset('admin/img/logoicon.png') }}" sizes="50x50">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <!-- CSS Files -->
@@ -11,6 +13,7 @@
     <link href="{{ asset('admin/css/paper-dashboard.css?v=2.0.1') }}" rel="stylesheet">
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link href="{{ asset('admin/demo/demo.css') }}" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.7.0/build/css/intlTelInput.css">
 
 </head>
 <body>
@@ -25,7 +28,7 @@
             <div class="col-md-10 col-lg-6 col-xl-5 mt-4 align-items-center order-2 order-lg-1">
               <p class="text-center h3 fw-bold " style="color: #035874;">Vous êtes un Cabinet? Inscrivez Vous</p>
 
-              <img src="{{ asset('admin/img/registermoonawa.jpeg') }}" alt="login"  class="img-fluid" alt="Sample image">
+              <img src="{{ asset('admin/img/photo3recruteur.jpg') }}" alt="login"  class="img-fluid" alt="Sample image">
 
              
 
@@ -111,11 +114,6 @@
                   </div><br>
                   <p class="text-left h6 fw-bold  ">Information sur l'interlocuteur</p>
 
-                   
-
-                 
-
-
                   <div class="row">
                   <div class="col-md-6  pr-1">
                       <div class="form-outline flex-fill mb-2">
@@ -136,7 +134,7 @@
                   <div class="col-md-6  pr-1">
                       <div class="form-outline flex-fill mb-2">
                         <label for="">Téléphone <span style="color:red;">*</span></label>
-                        <input type="text" required class="form-control" name="telephone" placeholder="Votre Téléphone" />
+                        <input type="tel" id="phone" required class="form-control" name="telephone" placeholder="771301409" />
                       </div>
                     </div>
                     <div class="col-md-6  px-1">
@@ -189,7 +187,17 @@
       <script src="{{ asset('admin/js/plugins/bootstrap-notify.js') }}"></script>
       <script src="{{ asset('admin/js/paper-dashboard.min.js?v=2.0.1') }}" type="text/javascript" ></script>
       <script src="{{ asset('admin/demo/demo.js') }}"></script>
- 
+      <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.7.0/build/js/intlTelInput.min.js"></script>
+<script>
+  const input = document.querySelector("#phone");
+
+
+  window.intlTelInput(input, {
+    initialCountry: "sn",
+
+    loadUtilsOnInit: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.7.0/build/js/utils.js",
+  });
+</script>
   <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/assets-for-demo/js/demo.js

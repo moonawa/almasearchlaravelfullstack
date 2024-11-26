@@ -6,6 +6,7 @@ use App\Http\Controllers\CabinetController;
 use App\Http\Controllers\CandidatController;
 use App\Http\Controllers\CompetenceController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\EvennementController;
 use App\Http\Controllers\ExperienceController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\FormationController;
@@ -43,10 +44,24 @@ Artisan::call('storage:link');
     return "storage is linked";
 
 });
+Route::get('csmcandidat',  [LangueController::class, 'csmcandidat'])->name('csmcandidat');
+Route::get('csmcabinet',  [LangueController::class, 'csmcabinet'])->name('csmcabinet');
+Route::get('csmentreprise',  [LangueController::class, 'csmentreprise'])->name('csmentreprise');
+
+
+
+Route::get('/maintenance', function () {
+    return view('maintenance');
+});
 
 Route::get('/', function () {
     return view('moonawahome');
 });
+Route::get('/',  [EvennementController::class, 'index'])->name('moonawahome');
+Route::get('showpublic/{id}',  [EvennementController::class, 'showpublic'])->name('showpublic');
+Route::get('indexpublic',  [EvennementController::class, 'indexpublic'])->name('indexpublic');
+
+
 Route::get('/notifications/{id}/mark-as-read', [AuthController::class, 'markAsRead'])->name('notifications.mark.as.read');
 
 Route::get('pass', function () {
@@ -102,6 +117,14 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
     Route::get('listinterentrepriseadmin/{id}', 'listinterentrepriseadmin')->name('admin.listinterentrepriseadmin');
     Route::get('listintercabinetadmin/{id}', 'listintercabinetadmin')->name('admin.listintercabinetadmin');
     Route::put('updatevip/{id}',  'updatevip')->name('admin.updatevip');
+});
+Route::controller(EvennementController::class)->prefix('events')->group(function () {
+    Route::get('', 'indexadmin')->name('events');
+    Route::post('store', 'store')->name('events.store');
+    Route::get('show/{id}', 'show')->name('events.show');
+    Route::put('edit/{id}', 'update')->name('events.update');
+    Route::delete('destroy/{id}', 'destroy')->name('events.destroy');
+
 });
 Route::put('updateStatusentreprise/{id}', [AdminController::class, 'updateStatusEntreprise'])->name('updateStatusentreprise');
 Route::put('updateStatusCabinet/{id}', [AdminController::class, 'updateStatusCabinet'])->name('updateStatusCabinet');

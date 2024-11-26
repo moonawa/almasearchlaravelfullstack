@@ -28,7 +28,7 @@
 
 
             <button type="submit" class="btn  btn-round" style="background-color: #035874;">
-              {{ __('Photo de Profil') }}
+              {{ __('Télécharger la  Photo') }}
             </button>
           </form>
 
@@ -49,6 +49,7 @@
       </div>
       <div class="card-footer">
         <hr>
+        @if($can->cv)
         <div class="button-container">
           <div class="row">
             <div class="col-lg-6 col-md-6 col-6 ml-auto">
@@ -60,6 +61,7 @@
 
           </div>
         </div>
+        @endif
       </div>
     </div>
     <div class="card">

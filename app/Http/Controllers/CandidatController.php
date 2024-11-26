@@ -173,7 +173,6 @@ public function generatePDF($id)
             'file' => 'required|mimes:xls,xlsx,csv',
         ]);
         $can = Excel::import(new CandidatsImport , $request->file('file'));
-
    
         return back()->with('success', 'Candidats importés avec succès.');
     }

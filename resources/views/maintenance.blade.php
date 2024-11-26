@@ -15,10 +15,10 @@
     <div class="col-md-6" style="color:white">
         <img src="../../admin/img/logo-removebg.png" alt="" width="250px">
         <h1>Alma Search</h1>
-        <p>Votre plateforme pour le recrutement</p>
+     <h3>  L’aventure démarre le   <span style="color: #035874;">08/11/2024</span> </h3>
         <br><hr style="width: 25%; height:2px; border-width:0; color:white; background-color:white;"><br>
-        <h4>Mode Maintenance activé</h4>
-        <p>Le site est en construction veuillez nous contacter au <a href="mailto:contact@alma-search.com">contact@alma-search.com</a>  pour plus d'informations </p>
+        <h4>La plateforme sera bientôt disponible</h4>
+        <p>Pour plus d'informations veuillez nous contacter au <a href="mailto:contact@alma-search.com" style="color: #7ac9e8;">contact@alma-search.com</a>   </p>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

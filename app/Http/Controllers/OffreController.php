@@ -207,23 +207,19 @@ public function getcandidatstore(Request $request)
 //ajout en meme temps  dans la table proposition et candidat pour cabinet
 public function propositionstoreshow(Request $request)
 {
+    $request->validate([
+        'email' => 'required|email|unique:users,email',
+        'telephone' => 'required|unique:users,telephone',
+    ], [
+        'email.unique' => 'Ce candidat existe déjà sur la plateforme.',
+        'telephone.unique' => 'Ce candidat existe déjà sur la plateforme. ',
+    ]);
     
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet;
         
-        $userExistant = User::where('email', $request->email)
-        ->orWhere('telephone', $request->telephone)
-        ->first();
-        if ($userExistant) {
-            // Vérifier si cet utilisateur est déjà associé à un autre cabinet (via la table candidats)
-            $candidatExistant = Candidat::where('user_id', $userExistant->id)->first();
-        
-            if ($candidatExistant) {
-                return redirect()->back()->withErrors(['error' => 'Ce candidat est déjà enregistré par un autre cabinet.']);
-            }
-        }
-        else {
+       
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -278,7 +274,7 @@ public function propositionstoreshow(Request $request)
     }
 
     return redirect()->back()->with('success', 'le candidat a été ajouté avec succès');
-}
+
 }
 //ajout dans la table proposition depuis la page show de l'offre pour le cabinet
 public function propositionstore(Request $request)

@@ -18,6 +18,13 @@ class InterlocuteurcbtController extends Controller
      }
     public function registerInterlocbt(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
+        ], [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
+        ]);
         $auth = Auth::user();
         $inter = Interlocuteurcbt::where('user_id', $auth->id)->first();
         $cabinet = $inter->cabinet; 

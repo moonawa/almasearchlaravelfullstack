@@ -47,10 +47,18 @@ class InterlocuteureseController extends Controller
      }
     public function registerInterlo(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required|unique:users,telephone',
+        ], [
+            'email.unique' => 'Cet email est déjà utilisé. Veuillez en choisir un autre.',
+            'telephone.unique' => 'Ce numéro de téléphone est déjà enregistré. Veuillez en utiliser un autre.',
+        ]);
         $auth = Auth::user(); // Récupérer l'interlocuteur connecté
         $inter = Interlocuteurese::where('user_id', $auth->id)->first();
         $ese = $inter->entreprise; 
         
+
         $user = new User();
         $user->name = $request->first_name . ' ' . $request->last_name;
         $user->email = $request->email;

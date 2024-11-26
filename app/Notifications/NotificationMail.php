@@ -2,7 +2,6 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -11,14 +10,14 @@ use Illuminate\Notifications\Notification;
 class NotificationMail extends Notification implements ShouldQueue
 {
     use Queueable;
-    protected $user;
+
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+     
         //
     }
 
@@ -57,11 +56,5 @@ sleep(2);
             //
         ];
     }
-    public function toDatabase($notifiable)
-{
-    return [
-        'message' => 'Un nouvel utilisateur a été créé : ' . $this->user->name,
-        'user_id' => $this->user->id, // Vous pouvez utiliser ces détails pour afficher des informations supplémentaires dans le tableau de bord de l'administrateur
-    ];
-}
+   
 }
