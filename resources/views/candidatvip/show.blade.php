@@ -52,12 +52,10 @@
         @if($can->cv)
         <div class="button-container">
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-6 ml-auto">
+            <div class="col-lg-6 col-md-6 col-6">
               <h5>CV<br> <a href="/uploads/{{ $can->cv }}"><i class="fa fa-eye" style="color: #7ac9e8"></i></a></h5>
             </div>
-            <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
-              <h5>Fichier<br><a href="/uploads/{{ $can->motivation }}"><i class="fa fa-eye" style="color: #7ac9e8"></i></a></h5>
-            </div>
+           
 
           </div>
         </div>

@@ -75,9 +75,16 @@
                 <div class="form-group">
                   <input type="email" required class="form-control" name="email" placeholder="Email">
                 </div>
-                <label>Fonction</label>
+               
+                <label>Role</label>
                 <div class="form-group">
-                  <input type="text" required class="form-control" name="posteuser" placeholder="Consutant">
+                  <select name="role" id="" class="form-control">
+                  <option value="Admin">Admin</option>
+                    <option value="GestionCabinet">Gestionnaire de Cabinet</option>
+                    <option value="GestionEntreprise">Gestionnaire d'Entreprise</option>
+                    <option value="CollecteurFactures">Collecteur de Factures</option>
+
+                  </select>
                 </div>
                 <label>Mot de passe</label>
                 <div class="form-group">
@@ -120,7 +127,7 @@
                   
                       
                       <th style="color:black">
-                        Fonction 
+                        Role 
                       </th>
                       <th style="color:black">
                          Status
@@ -155,7 +162,7 @@
                        
                         <td>
                        
-                        {{ $rs->posteuser  }}
+                        {{ $rs->role  }}
                       
                         </td>
                       

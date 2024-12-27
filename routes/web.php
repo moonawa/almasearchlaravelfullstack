@@ -13,6 +13,7 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InterlocuteurcbtController;
 use App\Http\Controllers\InterlocuteureseController;
 use App\Http\Controllers\LangueController;
+use App\Http\Controllers\LicenceController;
 use App\Http\Controllers\MotCleController;
 use App\Http\Controllers\OffreController;
 use App\Http\Controllers\ReferenceController;
@@ -89,13 +90,21 @@ Route::post('show', [CandidatController::class, 'storeavatar'])->name('candidatv
 Route::get('registerSuperadmin', [AuthController::class, 'registerSuperadmin'])->name('registerSuperadmin');
 Route::post('registerSuperadmin', [AuthController::class, 'registerSaveSuperadmin'])->name('registerSuperadmin.save'); 
 Route::get('dashboardSuperadmin', [AuthController::class, 'dashboardSuperadmin'])->name('dashboardSuperadmin');
+//GestionCabinet
+Route::group(['middleware' => ['role:GestionCabinet']], function () {
+    Route::get('dashboardGestionCabinet', [AuthController::class, 'dashboardGestionCabinet'])->name('dashboardGestionCabinet');
 
+});
+//GestionEntreprise
+Route::group(['middleware' => ['role:GestionEntreprise']], function () {
+    Route::get('dashboardGestionEntreprise', [AuthController::class, 'dashboardGestionEntreprise'])->name('dashboardGestionEntreprise');
+
+});
 //admin
 Route::group(['middleware' => ['role:Admin']], function () {
 
 Route::get('candidats/import', [CandidatController::class, 'showImportForm'])->name('candidats.import');
 Route::post('candidats/import', [CandidatController::class, 'import'])->name('candidats.import.post');
-
 
 
 Route::get('registeradmin', [AuthController::class, 'registeradmin'])->name('registeradmin');
@@ -107,6 +116,9 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
     Route::get('listoffreadmin', 'listoffreadmin')->name('admin.listoffreadmin');
     Route::get('listentrepriseadmin', 'listentrepriseadmin')->name('admin.listentrepriseadmin');
     Route::get('listcabinetadmin', 'listcabinetadmin')->name('admin.listcabinetadmin');
+    Route::get('listintercabinetadmin/{id}', 'listintercabinetadmin')->name('admin.listintercabinetadmin');
+
+
     Route::get('listcandidatadmin', 'listcandidatadmin')->name('admin.listcandidatadmin');
     Route::get('listvipadmin', 'listvipadmin')->name('admin.listvipadmin');
     Route::get('listnonvipadmin', 'listnonvipadmin')->name('admin.listnonvipadmin');
@@ -115,7 +127,6 @@ Route::controller(AdminController::class)->prefix('admin')->group(function () {
     Route::put('updateUser/{id}', 'updateUser')->name('admin.updateUser');
     Route::get('admin', 'admin')->name('admin.admin');
     Route::get('listinterentrepriseadmin/{id}', 'listinterentrepriseadmin')->name('admin.listinterentrepriseadmin');
-    Route::get('listintercabinetadmin/{id}', 'listintercabinetadmin')->name('admin.listintercabinetadmin');
     Route::put('updatevip/{id}',  'updatevip')->name('admin.updatevip');
 });
 Route::controller(EvennementController::class)->prefix('events')->group(function () {
@@ -244,6 +255,31 @@ Route::group(['middleware' => ['role:CandidatVIP']], function () {
         Route::get('edit/{id}', 'edit')->name('langues.edit');
         Route::put('edit/{id}', 'update')->name('langues.update');
         Route::delete('destroy/{id}', 'destroy')->name('langues.destroy');
+
+    });
+    Route::controller(LicenceController::class)->group(function () {
+        Route::get('cni', 'indexCNI')->name('cni');
+        Route::get('documents', 'indexLicence')->name('documents');
+        Route::get('masters', 'indexMaster')->name('masters');
+        Route::get('doctorats', 'indexDoctorat')->name('doctorats');
+        Route::get('certificats', 'indexCertificat')->name('certificats');
+        Route::get('autres', 'indexAutre')->name('autres');
+        Route::get('attestations', 'indexAttestation')->name('attestations');
+        Route::post('storeCNI', 'storeCNI')->name('storeCNI');
+        Route::post('storePasseport', 'storePasseport')->name('storePasseport');
+        Route::post('storeCasier', 'storeCasier')->name('storeCasier');
+        Route::post('storeLicence', 'storeLicence')->name('storeLicence');
+        Route::post('storeMaster', 'storeMaster')->name('storeMaster');
+        Route::post('storeDoctorat', 'storeDoctorat')->name('storeDoctorat');
+        Route::post('storeAttestation', 'storeAttestation')->name('storeAttestation');
+        Route::post('storeAutre', 'storeAutre')->name('storeAutre');
+        Route::post('storeCertificat', 'storeCertificat')->name('storeCertificat');
+        Route::delete('destroyLicence/{id}', 'destroyLicence')->name('destroyLicence');
+        Route::delete('destroyMaster/{id}', 'destroyMaster')->name('destroyMaster');
+        Route::delete('destroyDoctorat/{id}', 'destroyDoctorat')->name('destroyDoctorat');
+        Route::delete('destroyAttestation/{id}', 'destroyAttestation')->name('destroyAttestation');
+        Route::delete('destroyAutre/{id}', 'destroyAutre')->name('destroyAutre');
+        Route::delete('destroyCertificat/{id}', 'destroyCertificat')->name('destroyCertificat');
 
     });
     Route::controller(ExperienceController::class)->prefix('experiences')->group(function () {

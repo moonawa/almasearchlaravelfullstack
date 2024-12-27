@@ -40,7 +40,7 @@ class AuthController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->role = 'Admin';
+        $user->role = $request->role;
         $user->telephone = $request->telephone;
         $user->alma = 1;
         $user->status = 1;
@@ -318,6 +318,16 @@ switch ($user->role) {
         $user->save();
         return redirect()->route('dashboardadmin');
         break;
+    case 'GestionCabinet': 
+        $user->last_login_at = now();
+        $user->save();
+        return redirect()->route('dashboardGestionCabinet');
+            break;
+    case 'GestionEntreprise':
+        $user->last_login_at = now();
+        $user->save();
+        return redirect()->route('dashboardGestionEntreprise');
+        break;
     case 'SuperAdmin':
         $user->last_login_at = now();
         $user->save();
@@ -360,10 +370,19 @@ switch ($user->role) {
         return view('profile');
     }
 
+
     public function dashboard()
     {
         
         return view('entreprises/dashboard');
+    }
+    public function dashboardGestionCabinet()
+    {
+        return view('gestionnaire/dashboardGestionCabinet');
+    }
+    public function dashboardGestionEntreprise()
+    {
+        return view('gestionnaire/dashboardGestionEntreprise');
     }
     public function dashboardadmin()
     {
@@ -375,8 +394,6 @@ switch ($user->role) {
     }
     public function dashboardcandidatvip()
     {
-       
-       
         return view('candidatvip/dashboard',);
     }
     public function dashboardcabinet()

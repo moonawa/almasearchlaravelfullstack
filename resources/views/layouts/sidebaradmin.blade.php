@@ -1,3 +1,4 @@
+
 <div class="sidebar"  data-color="white" data-active-color="danger" >
       <div class="logo" >
         <a href="#" class="simple-text ">
@@ -18,7 +19,8 @@
 
             </a>
           </li>
-          
+   
+         
           <li >
           @if (auth()->user())
             <a href="{{ route('admin.show', auth()->user()) }}" style="line-height: 1rem; ">
@@ -27,10 +29,11 @@
             </a>
             @endif
           </li>
+   
           <li>
             <a href="{{ route( 'admin.admin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-favourite-28" style="color: #035874;"></i>
-              <strong  style="color: #035874;" style="color: #035874;">Admins </strong>
+              <strong  style="color: #035874;" style="color: #035874;">Membres </strong>
             </a>
           </li>
           <li>
@@ -39,25 +42,28 @@
               <strong  style="color: #035874;" style="color: #035874;">Entreprises </strong>
             </a>
           </li>
+   
+
           <li>
             <a href="{{ route( 'admin.listcabinetadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-badge" style="color: #035874;"></i>
               <strong  style="color: #035874;">Cabinets </strong>
             </a>
           </li>
+     
           <li>
             <a href="{{ route( 'admin.listcandidatadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-circle-10" style="color: #035874;"></i>
               <strong  style="color: #035874;">Candidats  </strong>
             </a>
           </li>
-          
           <li>
             <a href="{{ route( 'admin.listcandidatnonadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-circle-10" style="color: #035874;"></i>
               <strong  style="color: #035874;">Viviers </strong>
             </a>
           </li>
+     
           <li>
             <a href="{{ route( 'offreencoursadmin') }}" style="line-height: 1rem; ">
               <i class="nc-icon nc-paper" style="color: #035874;"></i>

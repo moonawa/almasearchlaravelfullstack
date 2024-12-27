@@ -31,6 +31,12 @@
             </a>
           </li>
           <li>
+            <a href="{{ route( 'cni') }}" style=" line-height: 1rem; " >
+              <i class="nc-icon nc-paper" style="color: #035874;" ></i>
+              <p style="font-weight: bold; color: #035874;" > Documents</p>
+            </a>
+          </li>
+          <li>
             <a href="{{ route( 'motCles') }}" style=" line-height: 1rem; " >
               <i class="nc-icon nc-lock-circle-open" style="color: #035874;" ></i>
               <p style="font-weight: bold; color: #035874;" > Mots Clés</p>

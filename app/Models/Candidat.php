@@ -29,7 +29,12 @@ class Candidat extends Model
         'trancheanneeexpeience',
         'tranchesalariale',
         'vip',
-        'motcle'
+        'motcle',
+
+        'cni',
+        'passeport',
+        'casier',
+        
     ];
 
     public function user() {
@@ -89,5 +94,30 @@ class Candidat extends Model
         }
 
         return true;
+    }
+
+    public function licences()
+    {
+        return $this->hasMany(Licence::class);
+    }
+    public function masters()
+    {
+        return $this->hasMany(Master::class);
+    }
+    public function doctorats()
+    {
+        return $this->hasMany(Doctorat::class);
+    }
+    public function attestionbacs()
+    {
+        return $this->hasMany(AttestionBac::class);
+    }
+    public function autresdiplomes()
+    {
+        return $this->hasMany(AutresDiplomes::class);
+    }
+    public function certificats()
+    {
+        return $this->hasMany(Certificat::class);
     }
 }
